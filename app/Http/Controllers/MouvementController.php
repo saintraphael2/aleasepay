@@ -1,0 +1,146 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\DataTables\MouvementDataTable;
+use App\Http\Requests\CreateMouvementRequest;
+use App\Http\Requests\UpdateMouvementRequest;
+use App\Http\Controllers\AppBaseController;
+use App\Repositories\MouvementRepository;
+use Illuminate\Http\Request;
+use Flash;
+use Auth;
+use App\Models\CptClient;
+use App\Models\Mouvement;
+use PDF;
+use Illuminate\Support\Carbon;
+
+class MouvementController extends AppBaseController
+{
+    /** @var MouvementRepository $mouvementRepository*/
+    private $mouvementRepository;
+
+    public function __construct(MouvementRepository $mouvementRepo)
+    {
+        $this->mouvementRepository = $mouvementRepo;
+    }
+
+    /**
+     * Display a listing of the Mouvement.
+     */
+    public function index(Request $request)
+    {
+        $mail=Auth::user()->email;
+        $cptClient=CptClient::where('email',$mail)->first();
+        if($request->deb == null){
+             $fin= Carbon::now();
+             $deb=$fin->copy()->startOfMonth();
+
+           
+        }else{
+            $fin= $request->fin;
+            $deb=$request->deb;
+        }
+        
+        $mouvements=Mouvement::where('ECRCPT_NUMCPTE',$cptClient->compte)->whereBetween('LOT_DATE', [$deb,$fin])->get();
+       // dd($mouvements);
+        return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin]);
+    }
+
+
+    /**
+     * Show the form for creating a new Mouvement.
+     */
+    public function create()
+    {
+        return view('mouvements.create');
+    }
+
+    /**
+     * Store a newly created Mouvement in storage.
+     */
+    public function store(CreateMouvementRequest $request)
+    {
+        $input = $request->all();
+
+        $mouvement = $this->mouvementRepository->create($input);
+
+        Flash::success('Mouvement saved successfully.');
+
+        return redirect(route('mouvements.index'));
+    }
+
+    /**
+     * Display the specified Mouvement.
+     */
+    public function show($id)
+    {
+        $mouvement = $this->mouvementRepository->find($id);
+
+        if (empty($mouvement)) {
+            Flash::error('Mouvement not found');
+
+            return redirect(route('mouvements.index'));
+        }
+
+        return view('mouvements.show')->with('mouvement', $mouvement);
+    }
+
+    /**
+     * Show the form for editing the specified Mouvement.
+     */
+    public function edit($id)
+    {
+        $mouvement = $this->mouvementRepository->find($id);
+
+        if (empty($mouvement)) {
+            Flash::error('Mouvement not found');
+
+            return redirect(route('mouvements.index'));
+        }
+
+        return view('mouvements.edit')->with('mouvement', $mouvement);
+    }
+
+    /**
+     * Update the specified Mouvement in storage.
+     */
+    public function update($id, UpdateMouvementRequest $request)
+    {
+        $mouvement = $this->mouvementRepository->find($id);
+
+        if (empty($mouvement)) {
+            Flash::error('Mouvement not found');
+
+            return redirect(route('mouvements.index'));
+        }
+
+        $mouvement = $this->mouvementRepository->update($request->all(), $id);
+
+        Flash::success('Mouvement updated successfully.');
+
+        return redirect(route('mouvements.index'));
+    }
+
+    /**
+     * Remove the specified Mouvement from storage.
+     *
+     * @throws \Exception
+     */
+    public function destroy($id)
+    {
+        $mouvement = $this->mouvementRepository->find($id);
+
+        if (empty($mouvement)) {
+            Flash::error('Mouvement not found');
+
+            return redirect(route('mouvements.index'));
+        }
+
+        $this->mouvementRepository->delete($id);
+
+        Flash::success('Mouvement deleted successfully.');
+
+        return redirect(route('mouvements.index'));
+    }
+}

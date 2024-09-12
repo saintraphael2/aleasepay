@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Ichtrojan\Otp\Otp;
 
+use App\Models\CptClient;
 class HomeController extends Controller
 {
     /**
@@ -25,7 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $mail=Auth::user()->email;
+        $cptClient=CptClient::where('email',$mail)->first();
+        return view('home')->with('cptClient',$cptClient);
     }
     public function otp()
     {

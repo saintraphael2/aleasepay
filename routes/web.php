@@ -23,3 +23,4 @@ Route::get('/rib', [App\Http\Controllers\CptClientController::class, 'rib'])->na
 //Route::get('/attestation/{$id}', [App\Http\Controllers\CptClientController::class, 'attestation']);
 Route::resource('cptClients', App\Http\Controllers\CptClientController::class);
 Route::get('attestation/{id}',['as'=>'attestation','uses' => 'App\Http\Controllers\CptClientController@attestation'] );
+Route::resource('mouvements', App\Http\Controllers\MouvementController::class);

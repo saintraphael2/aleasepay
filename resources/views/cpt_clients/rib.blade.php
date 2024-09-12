@@ -12,7 +12,7 @@
              
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('attestation',1) }}">
+                       href="{{ route('attestation',$cptClient->id) }}">
                                                    Exporter PDF
                                             </a>
                 </div>

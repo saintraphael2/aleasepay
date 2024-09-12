@@ -10,7 +10,7 @@
           crossorigin="anonymous"/>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/UIjs/themes/base/jquery-ui.css') }}">
     @stack('third_party_stylesheets')
 
     @stack('page_css')
@@ -78,9 +78,11 @@
         reserved.
     </footer>
 </div>
-
+<script src="{{asset('/vendor/jquery/jquery.min.js') }}" crossorigin="anonymous"></script>
 <script src="{{ asset('js/app.js') }}"></script>
-
+<script type="text/javascript" src="{{asset('/vendor/UIjs/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{asset('/vendor/UIjs/jquery.ui.datepicker-fr.js') }}"></script>                 
+     
 @stack('third_party_scripts')
 
 @stack('page_scripts')
