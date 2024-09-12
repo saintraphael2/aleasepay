@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/*!
+ *   Facture template v1.0.0
+ *   Author: Hodabalo B.
+ *   Website: site.com <https://site.com>
+ *   License: Open source - MIT <https://opensource.org/licenses/MIT>
+ */
+
+ .facture {
+	width: 900px;
+	margin: 0 auto;
+	border: 1px solid #ccc;
+	padding: 20px;
+	font-family: Arial, sans-serif;
+  }
+  .facture h2 {
+	margin-top: 0;
+	text-align: center;
+  }
+  .facture table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+  }
+  .facture th, .facture td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+  }
+  .facture .total {
+	text-align: right;
+	font-weight: bold;
+  }
+  .facture table tr td {
+	line-height: unset !important;
+  }
+
+  .facture .border-unset {
+	border-bottom : unset
+  }
+
+  .facture .text-bold {
+	font-weight: bold;
+  }
+
+  .facture .border-right {
+	border-right: 1px solid #ddd;
+  }
+
+  .facture .text-right {
+	text-align : right
+  }

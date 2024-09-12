@@ -1,0 +1,65 @@
+@charset "UTF-8";
+/*!
+ *   Form steps template v1.0.0
+ *   Author: Hodabalo B.
+ *   Website: site.com <https://site.com>
+ *   License: Open source - MIT <https://opensource.org/licenses/MIT>
+ */
+
+.form-step /*.form-step-action*/ {
+    display: none;
+}
+.form-step.active /*.form-step-action.active*/ {
+    display: block;
+}
+
+/*progressbar*/
+#progressbar {
+	margin-bottom: 30px;
+	overflow: hidden;
+	/*CSS counters to number the steps*/
+	counter-reset: step;
+}
+#progressbar li {
+	list-style-type: none;
+	color: black;
+	text-transform: uppercase;
+	font-size: 18px;
+	width: 33.33%;
+	float: left;
+	text-align:center;
+	position: relative;
+}
+#progressbar li:before {
+	content: counter(step);
+	counter-increment: step;
+	width: 50px;
+	line-height: 50px;
+	display: block;
+	font-size: 18px;
+	color: #333;
+	background: white;
+	border-radius: 3px;
+	margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+	content: '';
+	width: 95%;
+	height: 6px;
+	background: white;
+	position: absolute;
+	left: -46%;
+	top: 20px;
+	/*z-index: -1;*/ /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+	/*connector not needed before the first step*/
+	content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,  #progressbar li.active:after{
+	background: #27AE60;
+	color: white;
+}
