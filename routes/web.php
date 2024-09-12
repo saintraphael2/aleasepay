@@ -20,4 +20,6 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::post('/validationOtp', [App\Http\Controllers\HomeController::class, 'validationOtp'])->name('validationOtp');
 Route::get('/otp', [App\Http\Controllers\HomeController::class, 'otp'])->name('otp');
 Route::get('/rib', [App\Http\Controllers\CptClientController::class, 'rib'])->name('rib');
+//Route::get('/attestation/{$id}', [App\Http\Controllers\CptClientController::class, 'attestation']);
 Route::resource('cptClients', App\Http\Controllers\CptClientController::class);
+Route::get('attestation/{id}',['as'=>'attestation','uses' => 'App\Http\Controllers\CptClientController@attestation'] );

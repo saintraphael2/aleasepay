@@ -16,7 +16,8 @@ class CptClient extends Model
         'intitule',
         'email',
         'devise_code',
-        'devise_libelle'
+        'devise_libelle',
+        'cle'
     ];
 
     protected $casts = [
@@ -27,7 +28,8 @@ class CptClient extends Model
         'intitule' => 'string',
         'email' => 'string',
         'devise_code' => 'string',
-        'devise_libelle' => 'string'
+        'devise_libelle' => 'string',
+        'cle' => 'string'
     ];
 
     public static array $rules = [
@@ -39,6 +41,7 @@ class CptClient extends Model
         'email' => 'required|string|max:100',
         'devise_code' => 'required|string|max:100',
         'devise_libelle' => 'required|string|max:100',
+        'cle' => 'nullable|string|max:45',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'

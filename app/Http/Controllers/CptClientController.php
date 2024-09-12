@@ -10,6 +10,8 @@ use App\Repositories\CptClientRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Auth;
+use App\Models\CptClient;
+use PDF;
 
 class CptClientController extends AppBaseController
 {
@@ -69,7 +71,10 @@ class CptClientController extends AppBaseController
     }
     public function rib()
     {
-        $cptClient = $this->cptClientRepository->find($id);
+        $mail=Auth::user()->email;
+        $cptClient=CptClient::where('email',$mail)->first();
+
+        //$cptClient = $this->cptClientRepository->find($id);
 
         if (empty($cptClient)) {
             Flash::error('Cpt Client not found');
@@ -79,6 +84,15 @@ class CptClientController extends AppBaseController
 
         return view('cpt_clients.rib')->with('cptClient', $cptClient);
     }
+   
+    public function attestation($id){
+       
+        $cptClient=CptClient::find($id);
+        $data=['cptClient'=>$cptClient];
+        $pdf= PDF::loadView('cpt_clients.attestation',$data);
+        return $pdf->download('rib.pdf');
+    }   
+
     /**
      * Show the form for editing the specified CptClient.
      */
