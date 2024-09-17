@@ -8,12 +8,12 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-gradient-info">
                     <div class="inner">
-                        <h3>Compte </h3>
+                        <h3>Compte 1</h3>
                        
                         <p></p><br>
-                        Matricule: <b>{{$cptClient->racine}}</b> <br>
-                        Numéro de compte: <b>{{$cptClient->compte}}</b> <br>
-                        
+                        Intitulé: <b>{{$cptClients[0]->intitule}}</b> <br>
+                        Numéro de compte: <b>{{$cptClients[0]->compte}}</b> <br>
+                        Solde: <b>{{number_format($cptClients[0]->solde, 0,"", " ")}}</b> <br>
                   
                     </div>
                     <div class="icon">
@@ -27,14 +27,68 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-gradient-success">
                     <div class="inner">
-                    <h3> Solde</h3>
+                    <h3> Compte 2</h3>
                        
-                        <p></p><br>
-                        <br><b>{{number_format($cptClient->solde, 0,"", " ")}}</b><br>
+                    <p></p><br>
+                    @if(isset($cptClients[1]))
+                    Intitulé: <b>{{$cptClients[1]->intitule}}</b> <br>
+                        Numéro de compte: <b>{{$cptClients[1]->compte}}</b> <br>
+                        Solde: <b>{{number_format($cptClients[1]->solde, 0,"", " ")}}</b> <br>
+                        @else
+                    <br><br><br>
+                      @endif 
                         
                     </div>
                     <div class="icon">
-                        <i class="fas fa-motorcycle"></i>
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <a href="" class="small-box-footer">
+                             <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-gradient-warning">
+                    <div class="inner">
+                    <h3> Compte 3</h3>
+                       
+                    <p></p><br>
+                    @if(isset($cptClients[2]))
+                    Intitulé: <b>{{$cptClients[2]->intitule}}</b> <br>
+                        Numéro de compte: <b>{{$cptClients[2]->compte}}</b> <br>
+                        Solde: <b>{{number_format($cptClients[2]->solde, 0,"", " ")}}</b> <br>
+                        @else
+                    <br><br><br>
+                      @endif 
+                        
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <a href="" class="small-box-footer">
+                             <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-gradient-danger">
+                    <div class="inner">
+                    <h3> Compte 4</h3>
+                       
+                    <p></p><br>
+                    @if(isset($cptClients[3]))
+                    Intitulé: <b>{{$cptClients[3]->intitule}}</b> <br>
+                        Numéro de compte: <b>{{$cptClients[3]->compte}}</b> <br>
+                        Solde: <b>{{number_format($cptClients[3]->solde, 0,"", " ")}}</b> <br>
+                    @else
+                    <br><br><br>
+                      @endif 
+                        
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-user-plus"></i>
                     </div>
                     <a href="" class="small-box-footer">
                              <i class="fas fa-arrow-circle-right"></i>

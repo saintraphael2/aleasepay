@@ -27,21 +27,11 @@
 
     <div class="card" style="width:800px">
         <div class="card-body " >
-        @if ($errors->has('email'))
-                        <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
-                    @endif
+           
 
-                    @error('name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                    @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                <div id="formContainer" >
+          
+               
+        <div id="formContainer" >
         <!-- Étape 1 -->
         <div id="step1" class="step active">
             <h3>Étape 1: Veuillez saisir votre matricule et votre email</h3>
@@ -56,7 +46,7 @@
 
         <!-- Étape 2 -->
         <div id="step2" class="step">
-            <h3>Étape 2: Un code est envoyé à votre email, veuillez le saisir</h3>
+        <h3>Étape 2: Un code est envoyé à votre email, veuillez le saisir</h3>
             <div style='display:none; color:red' id='checkcode'>Le code saisi n'est pas valide.</div>
             <label for="code">Code de confirmation:</label>
             <input type="text" id="code" name="code" required>
@@ -80,9 +70,8 @@
             <button id="submitForm" type='submit'>Soumettre</button>
             </form>
         </div>
-        </div>
     </div>
-    
+    </div>
             <a href="{{ route('login') }}" class="text-center">{{ __('auth.registration.have_membership') }}</a>
         </div>
         <!-- /.form-box -->

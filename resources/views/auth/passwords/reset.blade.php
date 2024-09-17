@@ -47,6 +47,8 @@
                     @if ($errors->has('email'))
                         <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                     @endif
+
+
                 </div>
 
                 <div class="input-group mb-3">
@@ -89,6 +91,90 @@
 </div>
 
 <script src="{{ asset('js/app.js') }}"></script>
+<script>
+        $(document).ready(function() {
+            // Cache toutes les étapes sauf la première
+            $(".step").hide();
+            $("#step1").show();
 
+            // Bouton "Suivant"
+            $(".next").click(function() {
+                var currentStep = $(this).data("step");
+               
+                if(currentStep==1){
+                  
+                  $.ajaxSetup({
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+
+                  $.ajax({
+                        type:'GET',
+                        url:"{{ route('checkemail') }}",
+                        data:{email:$('#email').val(),matricule:$('#matricule').val()},
+                        success:function(data){
+                          if(data==1){
+                            $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                            $("#step" + (currentStep + 1)).show();  // Affiche l'étape suivante
+                          }else{
+                            $('#checkmail').css("display", "block");
+                          }
+                         
+                          
+                        }
+                      });
+                }else if(currentStep==2){
+                  
+                  $.ajaxSetup({
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+
+                  $.ajax({
+                        type:'GET',
+                        url:"{{ route('checkcode') }}",
+                        data:{email:$('#email').val(),code:$('#code').val()},
+                        success:function(data){
+                          if(data==1){
+                            $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                            $("#step" + (currentStep + 1)).show();  // Affiche l'étape suivante
+                          }else{
+                            $('#checkcode').css("display", "block");
+                          }
+                         
+                          
+                        }
+                      });
+                }else if(currentStep==3){
+                  
+                 
+                }
+               
+            });
+
+            // Bouton "Précédent"
+            $(".previous").click(function() {
+                var currentStep = $(this).data("step");
+                $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                $("#step" + (currentStep - 1)).show();  // Affiche l'étape précédente
+            });
+            $("#submitForm").click(function(e) {
+                      e.preventDefault();
+                     
+                      var password = $("#password").val();
+                      var password_confirmation = $("#password_confirmation").val();
+
+                      if (password !== password_confirmation) {
+                        $('#checkpassword').css("display", "block");
+                      } else{
+                        $("#form").submit();
+                      }
+                  });
+            // Validation lors de la soumission du formulaire
+            
+        });
+    </script>
 </body>
 </html>

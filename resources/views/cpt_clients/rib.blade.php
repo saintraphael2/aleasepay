@@ -10,12 +10,7 @@
                     </h1>
                 </div>
              
-                <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('attestation',$cptClient->id) }}">
-                                                   Exporter PDF
-                                            </a>
-                </div>
+                
             </div>
         </div>
     </section>
@@ -23,6 +18,13 @@
     <div class="content px-3">
         <div class="card">
             <div class="card-body">
+                @foreach($cptClients as $cptClient)
+                <div class="col-sm-6">
+                <a class="btn btn-primary float-right"
+                       href="{{ route('attestation',$cptClient->compte) }}">
+                                                   Exporter PDF
+                                            </a>
+                </div>
                 <div class="row">
                   <table style='width:1000px; text-align:center; border: 1px solid'>
                     <tr style='border: 1px solid'>
@@ -63,7 +65,8 @@
                         <td colspan='3' style="text-align:left;font-weight:bold">01.001 AFRICAN LEASE TOGO</td>
                     </tr>
                   </table>
-                </div>
+                </div><div><p style='background-color:green'></p></div>
+                @endforeach
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@ use Auth;
 use Ichtrojan\Otp\Otp;
 
 use App\Models\CptClient;
+use App\Models\Compte;
 class HomeController extends Controller
 {
     /**
@@ -26,9 +27,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $mail=Auth::user()->email;
-        $cptClient=CptClient::where('email',$mail)->first();
-        return view('home')->with('cptClient',$cptClient);
+        //if(Auth::user()!=null){
+            $mail=Auth::user()->email;
+            $cptClient=CptClient::where('email',$mail)->first();
+            $comptes=Compte::where('racine',$cptClient->racine)->get();
+            return view('home')->with('cptClients',$comptes);
+       /* }else{
+            return view('home');
+        }*/
+        
     }
     public function otp()
     {
@@ -47,5 +54,8 @@ class HomeController extends Controller
             return redirect('/login')->withErrors(['email' => 'Code Invalide ou expiré. Veuillez vous reconnecter!'])->with( ['message' => 'test code'] );
         }
       
+    }
+    public function creation(){
+        return view('creation');
     }
 }

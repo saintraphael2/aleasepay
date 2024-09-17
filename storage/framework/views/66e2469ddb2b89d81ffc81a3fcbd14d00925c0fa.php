@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }} | Registration Page</title>
+    <title><?php echo e(config('app.name')); ?> | Registration Page</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
    
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
 <style>
    .step { display: none; }
    .active { display: block; }
@@ -22,25 +22,39 @@
 <div class="register-box">
 
     <div class="register-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
+        <a href="<?php echo e(url('/home')); ?>"><b><?php echo e(config('app.name')); ?></b></a>
     </div>
 
     <div class="card" style="width:800px">
         <div class="card-body " >
-        @if ($errors->has('email'))
-                        <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
-                    @endif
+        <?php if($errors->has('email')): ?>
+                        <span class="error invalid-feedback"><?php echo e($errors->first('email')); ?></span>
+                    <?php endif; ?>
 
-                    @error('name')
+                    <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
+                        <strong><?php echo e($message); ?></strong>
                     </span>
-                    @enderror
-                    @error('password')
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
+                        <strong><?php echo e($message); ?></strong>
                     </span>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 <div id="formContainer" >
         <!-- Étape 1 -->
         <div id="step1" class="step active">
@@ -68,8 +82,8 @@
         <!-- Étape 3 -->
         <div id="step3" class="step">
         <button class="previous" data-step="3">Précédent</button>
-        <form method="post" action="{{ route('register') }}" id='form'>
-        @csrf
+        <form method="post" action="<?php echo e(route('register')); ?>" id='form'>
+        <?php echo csrf_field(); ?>
             <h3>Étape 3: Saisie des Mots de passe</h3>
             <div style='display:none; color:red' id='checkpassword'>Les mots de passe ne sont pas identiques.</div>
             <label for="password">Mot de passe :</label>
@@ -83,7 +97,7 @@
         </div>
     </div>
     
-            <a href="{{ route('login') }}" class="text-center">{{ __('auth.registration.have_membership') }}</a>
+            <a href="<?php echo e(route('login')); ?>" class="text-center"><?php echo e(__('auth.registration.have_membership')); ?></a>
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->
@@ -113,7 +127,7 @@
 
                   $.ajax({
                         type:'GET',
-                        url:"{{ route('checkemail') }}",
+                        url:"<?php echo e(route('checkemail')); ?>",
                         data:{email:$('#email').val(),matricule:$('#matricule').val()},
                         success:function(data){
                           if(data==1){
@@ -136,7 +150,7 @@
 
                   $.ajax({
                         type:'GET',
-                        url:"{{ route('checkcode') }}",
+                        url:"<?php echo e(route('checkcode')); ?>",
                         data:{email:$('#email').val(),code:$('#code').val()},
                         success:function(data){
                           if(data==1){
@@ -180,3 +194,4 @@
     </script>
 </body>
 </html>
+<?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/auth/passwords/email.blade.php ENDPATH**/ ?>
