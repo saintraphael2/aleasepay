@@ -16,7 +16,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body class="hold-transition login-page loginbodybackg" style="max-height: 580px !important;">
+<body class="hold-transition login-page loginbodybackg" style="max-height: 1000px !important;">
     <div class="row loginbodybackg">
         <div class=" logincustomize loginblockone" >
             <div class="">

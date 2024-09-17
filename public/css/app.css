@@ -50262,13 +50262,10 @@ a.text-muted:hover {
 .loginblockone {
     background-color: white;
     max-width: 430px !important;
-    /*
-    background-image: url(../images/logoalt.PNG);*/
-
 }
 
 .imgctz {
-    width: 400px !important;
+    width: 350px !important;
     height: 400px !important;
 }
 

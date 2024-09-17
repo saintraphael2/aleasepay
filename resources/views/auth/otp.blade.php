@@ -17,8 +17,8 @@
 
 </head>
 
-<body class="hold-transition login-page opqone">
-    <div class="login-box" style="width:700px !important">
+<body class="hold-transition login-page opqone" style="max-height: 1000px !important;">
+    <div class="login-box" >
         <!--div class="login-logo">
             <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
         </div-->
