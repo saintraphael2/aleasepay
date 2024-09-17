@@ -16,12 +16,11 @@
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
 </head>
 
-<body class="hold-transition login-page loginbodybackg" style="max-height: 580px !important;">
+<body class="hold-transition login-page loginbodybackg" style="max-height: 1000px !important;">
     <div class="row loginbodybackg">
-        <div class=" logincustomize loginblockone" >
+        <div class=" logincustomize loginblockone">
             <div class="">
                 <img class="imgctz" src="../images/logoalt.PNG" />
-
             </div>
         </div>
         <div class="logincustomize loginblocktwo" style="">
@@ -30,14 +29,13 @@
                     <a href="#"><b><?php echo e(config('app.name')); ?></b></a>
                 </div-->
                 <!-- /.login-logo -->
-
                 <!-- /.login-box-body -->
                 <div class="card logincardctz">
                     <div class="card-body login-card-body">
                         <!--p class="login-box-msg"><?php echo e(__('auth.login.title')); ?></p-->
-
                         <div class="iconlogin">
-                            <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur votre banque en ligne</h4>
+                            <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur votre banque en
+                                ligne</h4>
                             <i class="fas fa-user"></i>
                         </div>
 
@@ -94,9 +92,7 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-
                             </div>
-
                             <div class="row">
                                 <!--div class="col-8">
                                     <div class="icheck-primary">
@@ -104,34 +100,45 @@ unset($__errorArgs, $__bag); ?>
                                         <label for="remember"><?php echo e(__('auth.remember_me')); ?></label>
                                     </div>
                                 </div-->
-
                                 <div class="col-12">
                                     <button type="submit"
-                                        class="btn btn-primary btn-block submit-color"><?php echo e(__('auth.sign_in')); ?></button>
+                                        class="btn btn-primary btn-block submit-color">Connexion</button>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="<?php echo e(route('password.request')); ?>">
+                                        <div class="col-12 iconlogin">
+                                            <i class="fas fa fa-key"></i>
+                                        </div>
+                                        <div class="col-12">
+                                            <span style="font-size: 15px;">
+                                                Mot de passe oublié ? </span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="<?php echo e(route('register')); ?>" class="text-center">
+                                        <div class="col-12 iconlogin">
+                                            <i class="fas fa fa-plus-circle"></i>
+                                        </div>
+                                        <div class="col-12">
 
+                                            <span style="font-size: 15px;"> S'enregistrer
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </form>
-
-                        <p class="mb-1">
-                            <a href="<?php echo e(route('password.request')); ?>"><?php echo e(__('auth.login.forgot_password')); ?></a>
-                        </p>
-                        <p class="mb-0">
-                            <a href="<?php echo e(route('register')); ?>"
-                                class="text-center"><?php echo e(__('auth.login.register_membership')); ?></a>
-                        </p>
                     </div>
                     <!-- /.login-card-body -->
                 </div>
-
             </div>
         </div>
     </div>
-
     <!-- /.login-box -->
-
     <script src="<?php echo e(asset('js/app.js')); ?>"></script>
-
 </body>
 
-</html><?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/auth/login.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/auth/login.blade.php ENDPATH**/ ?>

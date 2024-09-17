@@ -18,7 +18,7 @@
 </head>
 
 <body class="hold-transition login-page opqone" style="max-height: 1000px !important;">
-    <div class="login-box" >
+    <div class="login-box" style="width:700px !important" >
         <!--div class="login-logo">
             <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
         </div-->
@@ -36,11 +36,9 @@
                         <div class="card-body">
                             <form method="POST" action="{{ route('validationOtp') }}">
                                 @csrf
-
                                 <div class="row">
                                     <div class="col-4" style="text-align: right;">
                                         <label for="email" class="text-md-end">CODE</label>
-
                                     </div>
                                     <div class="col-8">
                                         <input id="otp" type="text"
