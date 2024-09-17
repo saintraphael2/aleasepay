@@ -50280,19 +50280,11 @@ a.text-muted:hover {
 
 .loginbodybackg {
     background-image: url(../images/maquettealt.jpg);
-    /* Add the blur effect 
-  filter: blur(0px);
-  -webkit-filter: blur(0px);*/
-
-    /* Full height */
     height: 50% !important;
-
-    /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     margin: 150px;
-
 }
 
 .submit-color {
