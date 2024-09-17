@@ -11,136 +11,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
           integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
           crossorigin="anonymous"/>
-
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-<style>
-    #regForm {
-  background-color: #ffffff;
-  margin: 100px auto;
-  padding: 40px;
-  width: 70%;
-  min-width: 300px;
-}
-
-/* Style the input fields */
-input {
-  padding: 10px;
-  width: 100%;
-  font-size: 17px;
-  font-family: Raleway;
-  border: 1px solid #aaaaaa;
-}
-
-/* Mark input boxes that gets an error on validation: */
-input.invalid {
-  background-color: #ffdddd;
-}
-
-/* Hide all steps by default: */
-.tab {
-  display: none;
-}
-
-/* Make circles that indicate the steps of the form: */
-.step {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbbbbb;
-  border: none;
-  border-radius: 50%;
-  display: inline-block;
-  opacity: 0.5;
-}
-
-/* Mark the active step: */
-.step.active {
-  opacity: 1;
-}
-
-/* Mark the steps that are finished and valid: */
-.step.finish {
-  background-color: #04AA6D;
-}
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="{{ 'css/app.css' }}" rel="stylesheet">
+    <style>
+   .step { display: none; }
+   .active { display: block; }
 </style>
-
-
 </head>
-<script>
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
-
-function showTab(n) {
-  // This function will display the specified tab of the form ...
-  var x = document.getElementsByClassName("tab");
-  x[n].style.display = "block";
-  // ... and fix the Previous/Next buttons:
-  if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
-  } else {
-    document.getElementById("prevBtn").style.display = "inline";
-  }
-  if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
-  } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
-  }
-  // ... and run a function that displays the correct step indicator:
-  fixStepIndicator(n)
-}
-
-function nextPrev(n) {
-  // This function will figure out which tab to display
-  var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
-  if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form... :
-  if (currentTab >= x.length) {
-    //...the form gets submitted:
-    document.getElementById("regForm").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
-}
-
-function validateForm() {
-  // This function deals with validation of the form fields
-  var x, y, i, valid = true;
-  x = document.getElementsByClassName("tab");
-  y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
-  for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false:
-      valid = false;
-    }
-  }
-  // If the valid status is true, mark the step as finished and valid:
-  if (valid) {
-    document.getElementsByClassName("step")[currentTab].className += " finish";
-  }
-  return valid; // return the valid status
-}
-
-function fixStepIndicator(n) {
-  // This function removes the "active" class of all steps...
-  var i, x = document.getElementsByClassName("step");
-  for (i = 0; i < x.length; i++) {
-    x[i].className = x[i].className.replace(" active", "");
-  }
-  //... and adds the "active" class to the current step:
-  x[n].className += " active";
-}
-
-</script>
 <body class="hold-transition register-page">
 <div class="register-box">
     <div class="register-logo">
@@ -149,54 +26,112 @@ function fixStepIndicator(n) {
 
     <div class="card">
         <div class="card-body register-card-body">
-            <p class="login-box-msg">{{ __('auth.registration.title') }}</p>
+            <p class="login-box-msg">INSCRIVEZ-VOUS A ALEASEPAY</p>
+            <div id="formContainer">
+        <!-- Étape 1 -->
+        <div id="step1" class="step active">
+        <h3>Étape 1: Veuillez saisir votre matricule et votre email</h3>
+            <div style='display:none; color:red' id='checkmail'>Le mail saisi ne correspond pas au matricule.</div>
+            <label for="matricule">Matricule :</label>
+            <input type="text" id="matricule" name="matricule" required>
+            <label for="email_init">Email :</label>
+            <input type="email_init" id="email_init" name="email_init" required>
+            
+            <button class="next" data-step="1">Suivant</button>
+        </div>
 
+        <!-- Étape 2 -->
+        <div id="step2" class="step">
+        <h3>Étape 2: Un code est envoyé à votre email, veuillez le saisir</h3>
+            <div style='display:none; color:red' id='checkcode'>Le code saisi n'est pas valide.</div>
+            <label for="code">Code de confirmation:</label>
+            <input type="text" id="code" name="code" required>
+         
+            <button class="previous" data-step="2">Précédent</button>
+            <button class="next" data-step="2">Suivant</button>
+        </div>
+
+        <!-- Étape 3 -->
+        <div id="step3" class="step">
             <form method="post" action="{{ route('register') }}">
                 @csrf
 
-                <h1>Register:</h1>
+                <div class="input-group mb-3">
+                    <input type="text"
+                           name="name"
+                           id="name"
+                           class="form-control @error('name') is-invalid @enderror"
+                           value="{{ old('name') }}"
+                           placeholder="Full name" readonly>
+                    <div class="input-group-append" >
+                        <div class="input-group-text"><span class="fas fa-user"></span></div>
+                    </div>
+                    @error('name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
 
-<!-- One "tab" for each step in the form: -->
-<div class="tab">Name:
-  <p><input placeholder="First name..." oninput="this.className = ''"></p>
-  <p><input placeholder="Last name..." oninput="this.className = ''"></p>
-</div>
+                <div class="input-group mb-3">
+                    <input type="email"
+                           name="email" id="email"
+                           value="{{ old('email') }}"
+                           class="form-control @error('email') is-invalid @enderror"
+                           placeholder="Email" readonly>
+                    <div class="input-group-append">
+                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                    </div>
+                    @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
 
-<div class="tab">Contact Info:
-  <p><input placeholder="E-mail..." oninput="this.className = ''"></p>
-  <p><input placeholder="Phone..." oninput="this.className = ''"></p>
-</div>
+                <div class="input-group mb-3">
+                    <input type="password"
+                           name="password"
+                           class="form-control @error('password') is-invalid @enderror"
+                           placeholder="Mot de passe">
+                    <div class="input-group-append">
+                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                    </div>
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
 
-<div class="tab">Birthday:
-  <p><input placeholder="dd" oninput="this.className = ''"></p>
-  <p><input placeholder="mm" oninput="this.className = ''"></p>
-  <p><input placeholder="yyyy" oninput="this.className = ''"></p>
-</div>
+                <div class="input-group mb-3">
+                    <input type="password"
+                           name="password_confirmation"
+                           class="form-control"
+                           placeholder="Confirmation de Mot de passe">
+                    <div class="input-group-append">
+                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                    </div>
+                </div>
 
-<div class="tab">Login Info:
-  <p><input placeholder="Username..." oninput="this.className = ''"></p>
-  <p><input placeholder="Password..." oninput="this.className = ''"></p>
-</div>
-
-<div style="overflow:auto;">
-  <div style="float:right;">
-    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-  </div>
-</div>
-
-<!-- Circles which indicates the steps of the form: -->
-<div style="text-align:center;margin-top:40px;">
-  <span class="step"></span>
-  <span class="step"></span>
-  <span class="step"></span>
-  <span class="step"></span>
-</div> 
-
-
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                            <label for="agreeTerms">
+                                J'accepte les <a href="#">termes</a>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-5">
+                        <button type="submit" class="btn btn-primary btn-block">Enregistrer</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
             </form>
 
-            <a href="{{ route('login') }}" class="text-center">{{ __('auth.registration.have_membership') }}</a>
+           
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->
@@ -205,7 +140,120 @@ function fixStepIndicator(n) {
 </div>
 <!-- /.register-box -->
 
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ 'js/app.js' }}" defer></script>
+<script>
+        $(document).ready(function() {
+            // Cache toutes les étapes sauf la première
+            $(".step").hide();
+            $("#step1").show();
 
+            // Bouton "Suivant"
+            $(".next").click(function() {
+                var currentStep = $(this).data("step");
+               
+                if(currentStep==1){
+                  
+                  $.ajaxSetup({
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+
+                  $.ajax({
+                        type:'GET',
+                        url:"{{ route('checkemail') }}",
+                        data:{email:$('#email_init').val(),matricule:$('#matricule').val()},
+                        success:function(data){
+                          if(data.nb_elemnt==1){
+                            $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                            $("#step" + (currentStep + 1)).show();  // Affiche l'étape suivante
+                            $('#name').val(data.intitule);
+                          }else{
+                            $('#checkmail').css("display", "block");
+                          }
+                         
+                          
+                        }
+                      });
+                }else if(currentStep==2){
+                  
+                  $.ajaxSetup({
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+
+                  $.ajax({
+                        type:'GET',
+                        url:"{{ route('checkcode') }}",
+                        data:{email:$('#email_init').val(),code:$('#code').val()},
+                        success:function(data){
+                          if(data==1){
+                            $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                            $("#step" + (currentStep + 1)).show();  // Affiche l'étape suivante
+                            $('#email').val($('#email_init').val());
+                          }else{
+                            $('#checkcode').css("display", "block");
+                          }
+                         
+                          
+                        }
+                      });
+                }else if(currentStep==3){
+                  
+                 
+                }
+               
+            });
+
+            // Bouton "Précédent"
+            $(".previous").click(function() {
+                var currentStep = $(this).data("step");
+                $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                $("#step" + (currentStep - 1)).show();  // Affiche l'étape précédente
+            });
+            $("#submitForm").click(function(e) {
+                      e.preventDefault();
+                     
+                      var password = $("#password").val();
+                      var password_confirmation = $("#password_confirmation").val();
+
+                      if (password !== password_confirmation) {
+                        $('#checkpassword').css("display", "block");
+                      } else{
+                        $("#form").submit();
+                      }
+                  });
+            // Validation lors de la soumission du formulaire
+            
+        });
+    </script>
+ @error('password')
+  <script> 
+      $(document).ready(function() {
+       
+        $("#step1").hide();
+        $("#step3").show();
+      });
+  </script>  
+ @enderror
+
+ @error('email')
+      <script> 
+          $(document).ready(function() {
+            $("#step3").show();
+            $("#step1").hide();
+          });
+      </script>  
+ @enderror
+
+ @error('name')
+ <script>
+  $(document).ready(function() {
+      $("#step3").show();
+      $("#step1").hide();
+    });
+  </script>  
+ @enderror
 </body>
 </html>

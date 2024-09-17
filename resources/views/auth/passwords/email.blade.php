@@ -3,72 +3,180 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }}</title>
-
+    <title>{{ config('app.name') }} | Registration Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-          integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-          crossorigin="anonymous"/>
-
+   
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<style>
+   .step { display: none; }
+   .active { display: block; }
+</style>
+
 
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
+
+<body class="hold-transition register-page">
+<div class="register-box">
+
+    <div class="register-logo">
         <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
     </div>
 
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">{{ __('auth.forgot_password.title') }}</p>
-
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <form action="{{ route('password.email') }}" method="post">
-                @csrf
-
-                <div class="input-group mb-3">
-                    <input type="email"
-                           name="email"
-                           class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                           placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
-                    </div>
-                    @if ($errors->has('email'))
+    <div class="card" style="width:800px">
+        <div class="card-body " >
+        @if ($errors->has('email'))
                         <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                     @endif
-                </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">{{ __('auth.forgot_password.send_pwd_reset') }}</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-
-            <p class="mt-3 mb-1">
-                <a href="{{ route("login") }}">{{ __('auth.sign_in') }}</a>
-            </p>
-            <p class="mb-0">
-                <a href="{{ route("register") }}" class="text-center">{{ __('auth.registration.title') }}</a>
-            </p>
+                    @error('name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                <div id="formContainer" >
+        <!-- Étape 1 -->
+        <div id="step1" class="step active">
+            <h3>Étape 1: Veuillez saisir votre matricule et votre email</h3>
+            <div style='display:none; color:red' id='checkmail'>Le mail saisi ne correspond pas au matricule.</div>
+            <label for="matricule">Matricule :</label>
+            <input type="text" id="matricule" name="matricule" required>
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
+            
+            <button class="next" data-step="1">Suivant</button>
         </div>
-        <!-- /.login-card-body -->
+
+        <!-- Étape 2 -->
+        <div id="step2" class="step">
+            <h3>Étape 2: Un code est envoyé à votre email, veuillez le saisir</h3>
+            <div style='display:none; color:red' id='checkcode'>Le code saisi n'est pas valide.</div>
+            <label for="code">Code de confirmation:</label>
+            <input type="text" id="code" name="code" required>
+         
+            <button class="previous" data-step="2">Précédent</button>
+            <button class="next" data-step="2">Suivant</button>
+        </div>
+
+        <!-- Étape 3 -->
+        <div id="step3" class="step">
+        <button class="previous" data-step="3">Précédent</button>
+        <form method="post" action="{{ route('register') }}" id='form'>
+        @csrf
+            <h3>Étape 3: Saisie des Mots de passe</h3>
+            <div style='display:none; color:red' id='checkpassword'>Les mots de passe ne sont pas identiques.</div>
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+            <label for="password_confirmation">Confirmez le mot de passe :</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" required>
+           
+            <button id="submitForm" type='submit'>Soumettre</button>
+            </form>
+        </div>
+        </div>
     </div>
+    
+            <a href="{{ route('login') }}" class="text-center">{{ __('auth.registration.have_membership') }}</a>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+
+    <!-- /.form-box -->
 </div>
-<!-- /.login-box -->
+<!-- /.register-box -->
 
-<script src="{{ asset('js/app.js') }}"></script>
 
+<script>
+        $(document).ready(function() {
+            // Cache toutes les étapes sauf la première
+            $(".step").hide();
+            $("#step1").show();
+
+            // Bouton "Suivant"
+            $(".next").click(function() {
+                var currentStep = $(this).data("step");
+               
+                if(currentStep==1){
+                  
+                  $.ajaxSetup({
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+
+                  $.ajax({
+                        type:'GET',
+                        url:"{{ route('checkemail') }}",
+                        data:{email:$('#email').val(),matricule:$('#matricule').val()},
+                        success:function(data){
+                          if(data==1){
+                            $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                            $("#step" + (currentStep + 1)).show();  // Affiche l'étape suivante
+                          }else{
+                            $('#checkmail').css("display", "block");
+                          }
+                         
+                          
+                        }
+                      });
+                }else if(currentStep==2){
+                  
+                  $.ajaxSetup({
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+
+                  $.ajax({
+                        type:'GET',
+                        url:"{{ route('checkcode') }}",
+                        data:{email:$('#email').val(),code:$('#code').val()},
+                        success:function(data){
+                          if(data==1){
+                            $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                            $("#step" + (currentStep + 1)).show();  // Affiche l'étape suivante
+                          }else{
+                            $('#checkcode').css("display", "block");
+                          }
+                         
+                          
+                        }
+                      });
+                }else if(currentStep==3){
+                  
+                 
+                }
+               
+            });
+
+            // Bouton "Précédent"
+            $(".previous").click(function() {
+                var currentStep = $(this).data("step");
+                $("#step" + currentStep).hide();  // Cache l'étape actuelle
+                $("#step" + (currentStep - 1)).show();  // Affiche l'étape précédente
+            });
+            $("#submitForm").click(function(e) {
+                      e.preventDefault();
+                     
+                      var password = $("#password").val();
+                      var password_confirmation = $("#password_confirmation").val();
+
+                      if (password !== password_confirmation) {
+                        $('#checkpassword').css("display", "block");
+                      } else{
+                        $("#form").submit();
+                      }
+                  });
+            // Validation lors de la soumission du formulaire
+            
+        });
+    </script>
 </body>
 </html>

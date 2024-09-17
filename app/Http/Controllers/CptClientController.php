@@ -12,7 +12,10 @@ use Flash;
 use Auth;
 use App\Models\CptClient;
 use PDF;
-
+use App\Models\Compte;
+use Ichtrojan\Otp\Otp;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Contact;
 class CptClientController extends AppBaseController
 {
     /** @var CptClientRepository $cptClientRepository*/
@@ -73,7 +76,7 @@ class CptClientController extends AppBaseController
     {
         $mail=Auth::user()->email;
         $cptClient=CptClient::where('email',$mail)->first();
-
+        $comptes=Compte::where('racine',$cptClient->racine)->get();
         //$cptClient = $this->cptClientRepository->find($id);
 
         if (empty($cptClient)) {
@@ -82,17 +85,35 @@ class CptClientController extends AppBaseController
             return redirect(route('cptClients.index'));
         }
 
-        return view('cpt_clients.rib')->with('cptClient', $cptClient);
+        return view('cpt_clients.rib')->with('cptClients', $comptes);
     }
    
-    public function attestation($id){
+    public function attestation($compte){
        
-        $cptClient=CptClient::find($id);
+        $cptClient=Compte::where("compte",$compte)->first();
         $data=['cptClient'=>$cptClient];
         $pdf= PDF::loadView('cpt_clients.attestation',$data);
         return $pdf->download('rib.pdf');
     }   
-
+    public function checkemail(Request $request){
+        $cptClient=CptClient::where(["email"=>$request->email,"racine"=>$request->matricule])->get();
+        if(count($cptClient)==1){
+            $otp=(new Otp)->generate($request->email, 'numeric', 6, 15);
+            Mail::to($request->email)
+            ->send(new Contact([
+                'nom' => 'Durand',
+                'email' => $request->email,
+                'message' => $otp->token
+                ]));
+        }
+        //return count($cptClient);
+        return response()->json(['nb_elemnt' => count($cptClient), 'intitule' => count($cptClient)>0 ?$cptClient[0]->intitule:'']);
+    }
+    public function checkcode(Request $request){
+        $result=(new Otp)->validate($request->email, $request->code);
+        return ($result->status)?1:0;
+        //return redirect(route('register'));
+    }
     /**
      * Show the form for editing the specified CptClient.
      */

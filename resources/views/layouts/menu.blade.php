@@ -15,8 +15,8 @@
 
 
 <li class="nav-item">
-    <a href="{{ route('cptClients.index') }}" class="nav-link {{ Request::is('cptClients*') ? 'active' : '' }}">
+    <a href="{{ route('mouvements.index') }}" class="nav-link {{ Request::is('mouvements*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
-        <p>Relevés</p>
+        <p>Mouvements</p>
     </a>
 </li>

@@ -82,7 +82,6 @@
 
     <script src="{{ asset('js/app.js') }}"></script>
 
-
     @stack('third_party_scripts')
 
     @stack('page_scripts')
