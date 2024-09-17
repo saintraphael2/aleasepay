@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ config('app.name') }}</title>
+    <title><?php echo e(config('app.name')); ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
           integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
           crossorigin="anonymous"/>
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/UIjs/themes/base/jquery-ui.css') }}">
-    @stack('third_party_stylesheets')
+    <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<?php echo e(asset('vendor/UIjs/themes/base/jquery-ui.css')); ?>">
+    <?php echo $__env->yieldPushContent('third_party_stylesheets'); ?>
 
-    @stack('page_css')
+    <?php echo $__env->yieldPushContent('page_css'); ?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -30,19 +30,20 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    <img src="{{asset('images/logo.png')}}"
+                    <img src="<?php echo e(asset('images/logo.png')); ?>"
                          class="user-image img-circle elevation-2" alt="User Image">
-                    <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                    <span class="d-none d-md-inline"><?php echo e(Auth::user()->name); ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
                     <li class="user-header bg-primary">
-                        <img src="{{asset('images/logo.png')}}"
+                        <img src="<?php echo e(asset('images/logo.png')); ?>"
                              class="img-circle elevation-2"
                              alt="User Image">
                         <p>
-                            {{ Auth::user()->name }}
-                            <small>{{ __('app.member_since') }} {{ Auth::user()->created_at->format('M. Y') }}</small>
+                            <?php echo e(Auth::user()->name); ?>
+
+                            <small><?php echo e(__('app.member_since')); ?> <?php echo e(Auth::user()->created_at->format('M. Y')); ?></small>
                         </p>
                     </li>
                     <!-- Menu Footer-->
@@ -50,10 +51,11 @@
                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                         <a href="#" class="btn btn-default btn-flat float-right"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{ __('auth.sign_out') }}
+                            <?php echo e(__('auth.sign_out')); ?>
+
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
+                        <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                            <?php echo csrf_field(); ?>
                         </form>
                     </li>
                 </ul>
@@ -62,11 +64,11 @@
     </nav>
 
     <!-- Left side column. contains the logo and sidebar -->
-@include('layouts.sidebar')
+<?php echo $__env->make('layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </div>
 
     <!-- Main Footer -->
@@ -78,13 +80,14 @@
         reserved.
     </footer>
 </div>
-<script src="{{asset('/vendor/jquery/jquery.min.js') }}" crossorigin="anonymous"></script>
-<script src="{{ asset('js/app.js') }}"></script>
-<script type="text/javascript" src="{{asset('/vendor/UIjs/jquery-ui.min.js') }}"></script>
-<script type="text/javascript" src="{{asset('/vendor/UIjs/jquery.ui.datepicker-fr.js') }}"></script>                 
+<script src="<?php echo e(asset('/vendor/jquery/jquery.min.js')); ?>" crossorigin="anonymous"></script>
+<script src="<?php echo e(asset('js/app.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('/vendor/UIjs/jquery-ui.min.js')); ?>"></script>
+<script type="text/javascript" src="<?php echo e(asset('/vendor/UIjs/jquery.ui.datepicker-fr.js')); ?>"></script>                 
      
-@stack('third_party_scripts')
+<?php echo $__env->yieldPushContent('third_party_scripts'); ?>
 
-@stack('page_scripts')
+<?php echo $__env->yieldPushContent('page_scripts'); ?>
 </body>
 </html>
+<?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/layouts/app.blade.php ENDPATH**/ ?>

@@ -1,11 +1,9 @@
-
-
 <?php $__env->startSection('content'); ?>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Mouvements du <?php echo e($deb->format('d-m-Y')); ?> au <?php echo e($fin->format('d-m-Y')); ?></h1>
+                    <h4>Mouvements du compte <?php echo e($comptes[0]->compte); ?>  -- <?php echo e($deb->format('d-m-Y')); ?> au <?php echo e($fin->format('d-m-Y')); ?></h4>
                 </div>
                 
             </div>
@@ -20,7 +18,17 @@
      
         <div class="row input-daterange">
             
-       
+        <div class="form-group col-sm-3">
+                <?php echo Form::label('compte', 'Comptes :'); ?>
+
+                <select name="compte" id="compte" class = 'form-control'>
+                    <?php $__currentLoopData = $comptes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $compte): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($compte->id); ?>"><?php echo e($compte->compte); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+                
+                <span class="text-danger font-size-xsmall error_date_debut"></span>
+            </div>
   <!-- Date Signature Field -->
   <div class="form-group col-sm-3">
                 <?php echo Form::label('date_debut', 'Date début (jj-mm-aaaa) :'); ?>
@@ -51,22 +59,22 @@
             <tr>
             <th>Date</th>
                 <th>Désignation</th>
-                <th>Crédit</th>
                 <th>Débit</th>
+                <th>Crédit</th>
             </tr>
             <?php $__currentLoopData = $mouvements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mouvement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                 <td><?php echo e($mouvement->LOT_DATE->format('d-m-Y')); ?></td>
                     <td><?php echo e($mouvement->ECRCPT_LIBELLE); ?></td>
                     <td style="text-align:right">
-                        <?php if($mouvement->ECRCPT_SENS=='C'): ?>
+                        <?php if($mouvement->ECRCPT_SENS=='D'): ?>
                             <?php echo e(number_format($mouvement->ECRCPT_MONTANT, 0,"", " ")); ?>
 
                         <?php endif; ?>
                     </td>
                     <td style="text-align:right">
 
-                    <?php if($mouvement->ECRCPT_SENS=='D'): ?>
+                    <?php if($mouvement->ECRCPT_SENS=='C'): ?>
                     <?php echo e(number_format($mouvement->ECRCPT_MONTANT, 0,"", " ")); ?>
 
                         <?php endif; ?>
@@ -84,16 +92,11 @@
     $('#date_debut').datepicker()
     $('#date_fin').datepicker()
 
-        /*$('.input-daterange').datepicker({
-            todayBtn:'linked',
-            format:'yyyy-mm-dd',
-            autoclose:true
-        });*/
 
         $('#filter').click(function(){
             let fromDate = $('#date_debut').val()
             let toDate = $('#date_fin').val()
-            let redirect_url = "mouvements.index"
+            let redirect_url = "mouvements"
             
             if(fromDate != '' &&  toDate != ''){
                 
@@ -108,7 +111,7 @@
             showError(erreur, "")*/
             
             console.log("redirect Url : ", redirect_url)
-            showSuccess(redirect_url, null, null)
+            window.location.href =redirect_url
         });
 
         $('#refresh').click(function(){
@@ -137,4 +140,4 @@
 };
 </script>
 <?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/mouvements/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/mouvements/index.blade.php ENDPATH**/ ?>

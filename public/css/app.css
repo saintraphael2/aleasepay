@@ -2663,13 +2663,8 @@ fieldset:disabled a.btn {
 }
 
 .btn-primary {
-<<<<<<< HEAD
-    background-color: #007bff;
-    border-color: #007bff;
-=======
     background-color: #2e7518;
     border-color: #2e7518;
->>>>>>> bf0b4d9227a0ec80b5dc79f670455cb11e32b306
     box-shadow: none;
     color: #fff
 }
@@ -2677,58 +2672,35 @@ fieldset:disabled a.btn {
 .btn-primary.focus,
 .btn-primary:focus,
 .btn-primary:hover {
-<<<<<<< HEAD
-    background-color: #0069d9;
-    border-color: #0062cc;
-=======
     background-color: #2e7518;
     border-color: #2e7518;
->>>>>>> bf0b4d9227a0ec80b5dc79f670455cb11e32b306
     color: #fff
 }
 
 .btn-primary.focus,
 .btn-primary:focus {
-<<<<<<< HEAD
-    box-shadow: 0 0 0 0 rgba(38, 143, 255, .5)
-=======
     box-shadow: 0 0 0 0 #2e7518
->>>>>>> bf0b4d9227a0ec80b5dc79f670455cb11e32b306
 }
 
 .btn-primary.disabled,
 .btn-primary:disabled {
-<<<<<<< HEAD
-    background-color: #007bff;
-    border-color: #007bff;
-=======
     background-color: #2e7518;
     border-color: #2e7518;
->>>>>>> bf0b4d9227a0ec80b5dc79f670455cb11e32b306
     color: #fff
 }
 
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
 .show>.btn-primary.dropdown-toggle {
-<<<<<<< HEAD
-    background-color: #0062cc;
-    border-color: #005cbf;
-=======
     background-color: #2e7518;
     border-color: #2e7518;
->>>>>>> bf0b4d9227a0ec80b5dc79f670455cb11e32b306
     color: #fff
 }
 
 .btn-primary:not(:disabled):not(.disabled).active:focus,
 .btn-primary:not(:disabled):not(.disabled):active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-<<<<<<< HEAD
-    box-shadow: 0 0 0 0 rgba(38, 143, 255, .5)
-=======
     box-shadow: 0 0 0 0#2e7518(38, 143, 255, .5)
->>>>>>> bf0b4d9227a0ec80b5dc79f670455cb11e32b306
 }
 
 .btn-secondary {
@@ -50230,4 +50202,116 @@ a.text-muted:hover {
 .dark-mode .dark-mode.accent-gray-dark .page-item .page-link:focus,
 .dark-mode .dark-mode.accent-gray-dark .page-item .page-link:hover {
     color: #3f474e
+}
+
+.login-box,
+.register-box {
+    width: 450px;
+}
+
+
+.login-page,
+.register-page {
+    align-items: center;
+    /*background: #2e7518 !important;*/
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: #2e7518 !important;
+    border-color: #2e7518;
+    box-shadow: none;
+    color: #fff;
+}
+
+.btn-primary.focus,
+.btn-primary:focus,
+.btn-primary:hover {
+    background-color: #2e7518;
+    border-color: #fcd931 !important;
+}
+
+
+.login-logo a,
+.register-logo a {
+    color: black;
+    font-size: 45px !important;
+}
+
+.logincustomize {
+    float: left;
+    width: 450px;
+    padding: 10px;
+
+    height: 550px;
+    /* Should be removed. Only for demonstration */
+    text-align: center;
+    padding: 50px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.loginblockone {
+    background-color: white;
+    max-width: 430px !important;
+}
+
+.imgctz {
+    width: 350px !important;
+    height: 400px !important;
+}
+
+.loginblocktwo {
+    background-color: #2e7518;
+    max-width: 430px !important;
+    /*width: 450px;*/
+}
+
+.loginbodybackg {
+    background-image: url(../images/maquettealt.jpg);
+    height: 50% !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 150px;
+}
+
+.submit-color {
+    background-color: #fcd931 !important;
+}
+
+.logincardctz {
+    width: 300px;
+    margin: 15px;
+}
+
+.iconlogin {
+    font-size: 35px;
+    padding: 5px;
+    color: #fcd931 !important;
+}
+
+
+.opqone {
+    background-image: url(../images/maquettealt.jpg);
+    height: 50% !important;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 200px;
+}
+
+.layout-fixed .control-sidebar,
+.layout-fixed .main-sidebar {
+    /*background: #0a944c !important;*/
+    background: #2e7518 !important;
 }

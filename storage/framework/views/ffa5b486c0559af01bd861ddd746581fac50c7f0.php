@@ -28,4 +28,4 @@
 
 <?php echo e(session()->forget('flash_notification')); ?>
 
-<?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\vendor\laracasts\flash\src\Laracasts\Flash/../../views/message.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\Dev\internetBanking\aleasepay2.0\vendor\laracasts\flash\src\Laracasts\Flash/../../views/message.blade.php ENDPATH**/ ?>

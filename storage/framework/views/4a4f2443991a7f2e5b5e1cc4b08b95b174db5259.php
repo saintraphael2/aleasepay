@@ -5,9 +5,6 @@
     </a>
 
     <div class="sidebar">
-        <section id="loading">
-            <div id="loading-content"></div>
-        </section>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <?php echo $__env->make('layouts.menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -15,4 +12,4 @@
         </nav>
     </div>
 
-</aside><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/layouts/sidebar.blade.php ENDPATH**/ ?>
+</aside><?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/layouts/sidebar.blade.php ENDPATH**/ ?>
