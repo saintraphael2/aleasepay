@@ -51,8 +51,6 @@
                                             value="{{ $email }}" required>
                                     </div>
                                 </div>
-
-
                                 <div class="row" style="margin-top: 14px;margin-left: -8px;">
                                     <div class="col-4">
                                     </div>
@@ -62,10 +60,7 @@
                                         </button>
                                     </div>
                                     <div class="col-3">
-
-
                                     </div>
-
                                 </div>
                             </form>
                         </div>

@@ -5,9 +5,6 @@
     </a>
 
     <div class="sidebar">
-        <section id="loading">
-            <div id="loading-content"></div>
-        </section>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 @include('layouts.menu')

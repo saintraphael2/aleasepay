@@ -50313,9 +50313,7 @@ a.text-muted:hover {
 
 .opqone {
     background-image: url(../images/maquettealt.jpg);
-
     height: 50% !important;
-
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;

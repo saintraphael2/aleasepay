@@ -61,15 +61,12 @@
                 </li>
             </ul>
         </nav>
-
         <!-- Left side column. contains the logo and sidebar -->
         @include('layouts.sidebar')
-
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             @yield('content')
         </div>
-
         <!-- Main Footer -->
         <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
@@ -79,12 +76,9 @@
             reserved.
         </footer>
     </div>
-
     <script src="{{ asset('js/app.js') }}"></script>
 
     @stack('third_party_scripts')
-
     @stack('page_scripts')
 </body>
-
 </html>
