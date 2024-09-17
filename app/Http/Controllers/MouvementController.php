@@ -14,6 +14,7 @@ use App\Models\CptClient;
 use App\Models\Mouvement;
 use PDF;
 use Illuminate\Support\Carbon;
+use App\Models\Compte;
 
 class MouvementController extends AppBaseController
 {
@@ -32,19 +33,21 @@ class MouvementController extends AppBaseController
     {
         $mail=Auth::user()->email;
         $cptClient=CptClient::where('email',$mail)->first();
+        $comptes=Compte::where('racine',$cptClient->racine)->get();
+        //dd($comptes);
         if($request->deb == null){
              $fin= Carbon::now();
              $deb=$fin->copy()->startOfMonth();
 
            
         }else{
-            $fin= $request->fin;
-            $deb=$request->deb;
+            $fin= Carbon::parse($request->fin);
+            $deb=Carbon::parse($request->deb);
         }
-        
-        $mouvements=Mouvement::where('ECRCPT_NUMCPTE',$cptClient->compte)->whereBetween('LOT_DATE', [$deb,$fin])->get();
+        $compte=($request->compte !== null)?$request->compte:$comptes[1]->compte;
+        $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->get();
        // dd($mouvements);
-        return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin]);
+        return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes,'compte'=> $compte]);
     }
 
 
