@@ -14,6 +14,8 @@
     @stack('third_party_stylesheets')
 
     @stack('page_css')
+
+    <script src="{{asset('/vendor/jquery/jquery.min.js') }}" crossorigin="anonymous"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -78,7 +80,7 @@
         reserved.
     </footer>
 </div>
-<script src="{{asset('/vendor/jquery/jquery.min.js') }}" crossorigin="anonymous"></script>
+
 <script src="{{ asset('js/app.js') }}"></script>
 <script type="text/javascript" src="{{asset('/vendor/UIjs/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="{{asset('/vendor/UIjs/jquery.ui.datepicker-fr.js') }}"></script>                 

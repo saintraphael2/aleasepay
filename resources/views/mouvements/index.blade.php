@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Mouvements du {{$deb->format('d-m-Y')}} au {{$fin->format('d-m-Y')}}</h1>
+                    <h4>Mouvements du compte {{$comptes[0]->compte}}  -- {{$deb->format('d-m-Y')}} au {{$fin->format('d-m-Y')}}</h4>
                 </div>
                 
             </div>
@@ -20,7 +20,16 @@
      
         <div class="row input-daterange">
             
-       
+        <div class="form-group col-sm-3">
+                {!! Form::label('compte', 'Comptes :') !!}
+                <select name="compte" id="compte" class = 'form-control'>
+                    @foreach($comptes as $compte)
+                    <option value="{{$compte->id}}">{{$compte->compte}}</option>
+                    @endforeach
+                </select>
+                
+                <span class="text-danger font-size-xsmall error_date_debut"></span>
+            </div>
   <!-- Date Signature Field -->
   <div class="form-group col-sm-3">
                 {!! Form::label('date_debut', 'Date début (jj-mm-aaaa) :') !!}
@@ -47,21 +56,21 @@
             <tr>
             <th>Date</th>
                 <th>Désignation</th>
-                <th>Crédit</th>
                 <th>Débit</th>
+                <th>Crédit</th>
             </tr>
             @foreach($mouvements as $mouvement)
                 <tr>
                 <td>{{$mouvement->LOT_DATE->format('d-m-Y')}}</td>
                     <td>{{$mouvement->ECRCPT_LIBELLE}}</td>
                     <td style="text-align:right">
-                        @if($mouvement->ECRCPT_SENS=='C')
+                        @if($mouvement->ECRCPT_SENS=='D')
                             {{number_format($mouvement->ECRCPT_MONTANT, 0,"", " ") }}
                         @endif
                     </td>
                     <td style="text-align:right">
 
-                    @if($mouvement->ECRCPT_SENS=='D')
+                    @if($mouvement->ECRCPT_SENS=='C')
                     {{number_format($mouvement->ECRCPT_MONTANT, 0,"", " ") }}
                         @endif
                     </td>
@@ -78,16 +87,11 @@
     $('#date_debut').datepicker()
     $('#date_fin').datepicker()
 
-        /*$('.input-daterange').datepicker({
-            todayBtn:'linked',
-            format:'yyyy-mm-dd',
-            autoclose:true
-        });*/
 
         $('#filter').click(function(){
             let fromDate = $('#date_debut').val()
             let toDate = $('#date_fin').val()
-            let redirect_url = "mouvements.index"
+            let redirect_url = "mouvements"
             
             if(fromDate != '' &&  toDate != ''){
                 
@@ -102,7 +106,7 @@
             showError(erreur, "")*/
             
             console.log("redirect Url : ", redirect_url)
-            showSuccess(redirect_url, null, null)
+            window.location.href =redirect_url
         });
 
         $('#refresh').click(function(){
