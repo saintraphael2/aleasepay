@@ -43,16 +43,15 @@
                         <p>
                             <?php echo e(Auth::user()->name); ?>
 
-                            <small><?php echo e(__('app.member_since')); ?> <?php echo e(Auth::user()->created_at->format('M. Y')); ?></small>
+                            <small><?php echo e(Auth::user()->created_at->format('M. Y')); ?></small>
                         </p>
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                         <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
                         <a href="#" class="btn btn-default btn-flat float-right"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <?php echo e(__('auth.sign_out')); ?>
-
+                            Déconnexion
                         </a>
                         <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
                             <?php echo csrf_field(); ?>
@@ -76,8 +75,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.0.5
         </div>
-        <strong>Copyright &copy; 2014-2022 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-        reserved.
+        <strong>Copyright &copy; 2024 <a href="https://www.africanlease.com/">AFRICAN LEASE TOGO</a>.</strong> Tous droits reservés
     </footer>
 </div>
 <script src="<?php echo e(asset('/vendor/jquery/jquery.min.js')); ?>" crossorigin="anonymous"></script>

@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h4>Mouvements du compte {{$comptes[0]->compte}}  -- {{$deb->format('d-m-Y')}} au {{$fin->format('d-m-Y')}}</h4>
+                    <h4>Mouvements du compte {{$compte}}  -- {{$deb->format('d-m-Y')}} au {{$fin->format('d-m-Y')}}</h4>
                 </div>
                 
             </div>
@@ -91,11 +91,11 @@
         $('#filter').click(function(){
             let fromDate = $('#date_debut').val()
             let toDate = $('#date_fin').val()
-            let redirect_url = "mouvements"
+            let redirect_url = "mouvements?compte="+$('#compte option:selected').text()
             
             if(fromDate != '' &&  toDate != ''){
                 
-                redirect_url += "?deb="+fromDate+"&fin="+toDate
+                redirect_url += "&deb="+fromDate+"&fin="+toDate
             } 
             
             /*

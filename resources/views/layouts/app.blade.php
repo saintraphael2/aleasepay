@@ -42,15 +42,15 @@
                              alt="User Image">
                         <p>
                             {{ Auth::user()->name }}
-                            <small>{{ __('app.member_since') }} {{ Auth::user()->created_at->format('M. Y') }}</small>
+                            <small>{{ Auth::user()->created_at->format('M. Y') }}</small>
                         </p>
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                         <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
                         <a href="#" class="btn btn-default btn-flat float-right"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{ __('auth.sign_out') }}
+                            Déconnexion
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
@@ -74,8 +74,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.0.5
         </div>
-        <strong>Copyright &copy; 2014-2022 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-        reserved.
+        <strong>Copyright &copy; 2024 <a href="https://www.africanlease.com/">AFRICAN LEASE TOGO</a>.</strong> Tous droits reservés
     </footer>
 </div>
 <script src="{{asset('/vendor/jquery/jquery.min.js') }}" crossorigin="anonymous"></script>

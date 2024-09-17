@@ -44,10 +44,10 @@ class MouvementController extends AppBaseController
             $fin= Carbon::parse($request->fin);
             $deb=Carbon::parse($request->deb);
         }
-        
-        $mouvements=Mouvement::where('ECRCPT_NUMCPTE',$comptes[1]->compte)->whereBetween('LOT_DATE', [$deb,$fin])->get();
+        $compte=($request->compte !== null)?$request->compte:$comptes[1]->compte;
+        $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->get();
        // dd($mouvements);
-        return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes]);
+        return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes,'compte'=> $compte]);
     }
 
 
