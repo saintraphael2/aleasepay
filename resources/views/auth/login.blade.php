@@ -78,25 +78,24 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-7">
                                     <a href="{{ route('password.request') }}">
                                         <div class="col-12 iconlogin">
                                             <i class="fas fa fa-key"></i>
                                         </div>
                                         <div class="col-12">
-                                            <span style="font-size: 15px;">
-                                                Mot de passe oublié ? </span>
+                                            <span style="font-size: 15px;">Mot de passe oublié?</span>
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-5">
                                     <a href="{{ route('register') }}" class="text-center">
                                         <div class="col-12 iconlogin">
                                             <i class="fas fa fa-plus-circle"></i>
                                         </div>
                                         <div class="col-12">
 
-                                            <span style="font-size: 15px;"> S'enregistrer
+                                            <span style="font-size: 15px;">S'enregistrer
                                             </span>
                                         </div>
                                     </a>

@@ -7,15 +7,11 @@
                 <div class="col-sm-6">
                     <h4>Mouvements du compte {{$compte}}  -- {{$deb->format('d-m-Y')}} au {{$fin->format('d-m-Y')}}</h4>
                 </div>
-                
             </div>
         </div>
     </section>
-
     <div class="content px-3">
-
         @include('flash::message')
-
         <div class="clearfix"></div>
      
         <div class="row input-daterange">
