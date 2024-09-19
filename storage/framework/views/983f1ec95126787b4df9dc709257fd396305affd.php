@@ -17,6 +17,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+   
 <div class="wrapper">
     <!-- Main Header -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -78,6 +79,7 @@
         <strong>Copyright &copy; 2024 <a href="https://www.africanlease.com/">AFRICAN LEASE TOGO</a>.</strong> Tous droits reservés
     </footer>
 </div>
+
 <script src="<?php echo e(asset('/vendor/jquery/jquery.min.js')); ?>" crossorigin="anonymous"></script>
 <script src="<?php echo e(asset('js/app.js')); ?>"></script>
 <script type="text/javascript" src="<?php echo e(asset('/vendor/UIjs/jquery-ui.min.js')); ?>"></script>
