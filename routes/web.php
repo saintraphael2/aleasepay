@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 //Route::middleware(['auth'])->group(function () {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/validationOtp', [App\Http\Controllers\HomeController::class, 'validationOtp'])->name('validationOtp');
 Route::get('/otp', [App\Http\Controllers\HomeController::class, 'otp'])->name('otp');
 Route::get('/rib', [App\Http\Controllers\CptClientController::class, 'rib'])->name('rib');
