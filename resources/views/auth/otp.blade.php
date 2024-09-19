@@ -14,68 +14,77 @@
         crossorigin="anonymous" />
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
 </head>
 
-<body class="hold-transition login-page opqone">
-    <div class="login-box" style="width:700px !important">
-        <!--div class="login-logo">
-            <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
-        </div-->
-        <!-- /.login-logo -->
-
-        <!-- /.login-box-body -->
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12" style="padding-bottom: 350px;">
-                    <div class="card ">
-                        <div class="card-header" style="text-align: center;">
-                            <h4> Entrez le code de verification envoyé à votre adresse e-mail {{ $emailc }}</h4>
+<body class="hold-transition login-page opqone" style="max-height: 1000px !important;">
+    <div class="row loginbodybackg">
+        <div class="logincustomize loginblocktwo">
+            <div class="login-box">
+                <div class="card logincardctz">
+                    <div class="card-body login-card-body">
+                        <!--p class="login-box-msg">{{ __('auth.login.title') }}</p-->
+                        <div class="">
+                            <h5 class="login-box-msg" style="color:black !important;">Entrez le code de verification
+                                envoyé à votre adresse e-mail: {{ $emailc }}</h5>
                         </div>
 
-                        <div class="card-body">
-                            <form method="POST" action="{{ route('validationOtp') }}">
-                                @csrf
+                        <form method="post" action="{{ route('validationOtp') }}">
+                            @csrf
+                            <div class="row">
+                                <div class="input-group mb-3">
 
-                                <div class="row">
-                                    <div class="col-4" style="text-align: right;">
-                                        <label for="email" class="text-md-end">CODE</label>
+                                    <input id="otp" type="text" class="form-control @error('otp') is-invalid @enderror"
+                                        name="otp" value="{{ old('otp') }}" required>
+                                    <input id="email" type="hidden"
+                                        class="form-control @error('email') is-invalid @enderror" name="email"
+                                        value="{{ $email }}" required>
 
-                                    </div>
-                                    <div class="col-8">
-                                        <input id="otp" type="text"
-                                            class="form-control @error('otp') is-invalid @enderror" name="otp"
-                                            value="{{ old('otp') }}" required>
-                                        <input id="email" type="hidden"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ $email }}" required>
-                                    </div>
                                 </div>
-                                <div class="row" style="margin-top: 14px;margin-left: -8px;">
-                                    <div class="col-4">
-                                    </div>
-                                    <div class="col-3">
-                                        <button type="submit" class="btn btn-primary">
-                                            Valider
-                                        </button>
-                                    </div>
-                                    <div class="col-3">
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit"
+                                        class="btn btn-primary btn-block submit-color">Valider</button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
+
+
+                        <!--form method="POST" action="{{ route('validationOtp') }}">
+
+                            <div class="row">
+                                <div class="col-4" style="text-align: right;">
+                                    <label for="email" class="text-md-end">CODE</label>
+                                </div>
+                                <div class="col-8">
+                                    <input id="otp" type="text" class="form-control @error('otp') is-invalid @enderror"
+                                        name="otp" value="{{ old('otp') }}" required>
+                                    <input id="email" type="hidden"
+                                        class="form-control @error('email') is-invalid @enderror" name="email"
+                                        value="{{ $email }}" required>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 14px;margin-left: -8px;">
+                                <div class="col-4">
+                                </div>
+                                <div class="col-3">
+                                    <button type="submit" class="btn btn-primary">
+                                        Valider
+                                    </button>
+                                </div>
+                                <div class="col-3">
+                                </div>
+                            </div>
+                        </form-->
+
                     </div>
+                    <!-- /.login-card-body -->
                 </div>
             </div>
         </div>
-        <!-- /.login-card-body -->
-    </div>
-
     </div>
     <!-- /.login-box -->
-
     <script src="{{ asset('js/app.js') }}"></script>
-
 </body>
 
 </html>

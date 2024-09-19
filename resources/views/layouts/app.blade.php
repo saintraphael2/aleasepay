@@ -38,7 +38,7 @@
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
                     <li class="user-header bg-primary">
-                        <img src="{{asset('images/logo.png')}}"
+                        <img src="{{asset('images/logoalt.png')}}"
                              class="img-circle elevation-2"
                              alt="User Image">
                         <p>
@@ -61,12 +61,11 @@
             </li>
         </ul>
     </nav>
-
     <!-- Left side column. contains the logo and sidebar -->
 @include('layouts.sidebar')
 
 <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="padding: 20px;"> 
         @yield('content')
     </div>
 
@@ -75,7 +74,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.0.5
         </div>
-        <strong>Copyright &copy; 2024 <a href="https://www.africanlease.com/">AFRICAN LEASE TOGO</a>.</strong> Tous droits reservés
+        <strong>Copyright &copy; 2024 <a class="copyrith" href="https://www.africanlease.com/">AFRICAN LEASE TOGO</a>.</strong> Tous droits reservés
     </footer>
 </div>
 

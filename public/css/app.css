@@ -50286,6 +50286,7 @@ a.text-muted:hover {
 
 .submit-color {
     background-color: #fcd931 !important;
+    color: black !important;
 }
 
 .logincardctz {
@@ -50314,4 +50315,39 @@ a.text-muted:hover {
 .layout-fixed .main-sidebar {
     /*background: #0a944c !important;*/
     background: #2e7518 !important;
+}
+
+
+.bg-primary {
+    background-color: #fcd931 !important;
+    color: black !important;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color:  #fcd931 !important;
+    color: #fff;
+}
+
+.copyrith{
+    color: #fcd931 !important;
+}
+
+footer{
+    color: black !important;
+}
+
+.bg-gradient-warning {
+    background: #fcd931 !important;
+    color: #fff;
+}
+
+.bg-gradient-success {
+    background: #2e7518 !important;
+    color: #fff;
+}
+
+.cardctmz{
+    height: 150px !important;
+    text-align: center;
+    padding: 29px;
 }

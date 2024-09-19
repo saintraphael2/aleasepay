@@ -8,14 +8,15 @@
 
 <li class="nav-item">
     <a href="{{ route('rib') }}" class="nav-link {{ Request::is('rib*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
+        <i class="nav-icon fas fa fa-money-check-alt"></i>
+        
         <p>RIB</p>
     </a>
 </li>
 
 <li class="nav-item">
     <a href="{{ route('mouvements.index') }}" class="nav-link {{ Request::is('mouvements*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
+        <i class="nav-icon fas fa fa-exchange-alt"></i>
         <p>Mouvements</p>
     </a>
 </li>
