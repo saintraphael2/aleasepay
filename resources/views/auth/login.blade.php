@@ -20,7 +20,7 @@
     <div class="row loginbodybackg">
         <div class=" logincustomize loginblockone">
             <div class="">
-                <img class="imgctz" src="../images/logoalt.PNG" />
+                <img class="imgctz" src="../images/logoalt.png" />
             </div>
         </div>
         <div class="logincustomize loginblocktwo" style="">
