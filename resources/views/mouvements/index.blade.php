@@ -58,7 +58,7 @@
             @foreach($mouvements as $mouvement)
                 <tr>
                 <td>{{$mouvement->LOT_DATE->format('d-m-Y')}}</td>
-                    <td>{{$mouvement->ECRCPT_LIBELLE}}</td>
+                    <td>{{$mouvement->ECRCPT_LIBELLE }} {{$mouvement->ECRCPT_LIBCOMP}}</td>
                     <td style="text-align:right">
                         @if($mouvement->ECRCPT_SENS=='D')
                             {{number_format($mouvement->ECRCPT_MONTANT, 0,"", " ") }}

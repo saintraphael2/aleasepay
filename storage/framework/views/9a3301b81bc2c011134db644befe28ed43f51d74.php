@@ -63,7 +63,7 @@
             <?php $__currentLoopData = $mouvements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mouvement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                 <td><?php echo e($mouvement->LOT_DATE->format('d-m-Y')); ?></td>
-                    <td><?php echo e($mouvement->ECRCPT_LIBELLE); ?></td>
+                    <td><?php echo e($mouvement->ECRCPT_LIBELLE); ?> <?php echo e($mouvement->ECRCPT_LIBCOMP); ?></td>
                     <td style="text-align:right">
                         <?php if($mouvement->ECRCPT_SENS=='D'): ?>
                             <?php echo e(number_format($mouvement->ECRCPT_MONTANT, 0,"", " ")); ?>
