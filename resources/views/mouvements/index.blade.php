@@ -4,8 +4,14 @@
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
+                <div class="col-sm-9">
                     <h4>Mouvements du compte {{$compte}}  -- {{$deb->format('d-m-Y')}} au {{$fin->format('d-m-Y')}}</h4>
+                </div>
+                <div class="col-sm-3">
+                    <a class="btn btn-primary float-right"
+                       href="{{ route('releve',[$compte,$deb->format('Y-m-d'),$fin->format('Y-m-d')]) }}">
+                        Export PDF
+                    </a>
                 </div>
             </div>
         </div>
@@ -81,7 +87,7 @@
 <script>
 
     $('#date_debut').datepicker()
-    $('#date_fin').datepicker()
+    $('#date_fin').datepicker({maxDate: '0'})
 
 
         $('#filter').click(function(){

@@ -28,5 +28,6 @@ Route::get('attestation/{id}',['as'=>'attestation','uses' => 'App\Http\Controlle
 Route::resource('mouvements', App\Http\Controllers\MouvementController::class);
 Route::get('checkemail',['as'=>'checkemail','uses' => 'App\Http\Controllers\CptClientController@checkemail'] );
 Route::get('checkcode',['as'=>'checkcode','uses' => 'App\Http\Controllers\CptClientController@checkcode'] );
+Route::get('releve/{compte}/{deb}/{fin}',['as'=>'releve','uses' => 'App\Http\Controllers\MouvementController@releve'] );
 //});
 

@@ -17,9 +17,9 @@
                     <div class="icon">
                         <i class="fas fa fa-wallet"></i>
                     </div>
-                    <a href="" class="small-box-footer">
+                    <span class="small-box-footer">
                         <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    </span>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -38,9 +38,9 @@
                     <div class="icon">
                         <i class="fas fa fa-wallet"></i>
                     </div>
-                    <a href="" class="small-box-footer">
+                    <span href="" class="small-box-footer">
                         <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    </span>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -59,9 +59,9 @@
                     <div class="icon">
                         <i class="fas fa fa-wallet"></i>
                     </div>
-                    <a href="" class="small-box-footer">
+                    <span href="" class="small-box-footer">
                         <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    </span>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -80,9 +80,9 @@
                     <div class="icon">
                         <i class="fas fa fa-wallet"></i>
                     </div>
-                    <a href="" class="small-box-footer">
+                    <span href="" class="small-box-footer">
                         <i class="fas fa-arrow-circle-right"></i>
-                    </a>
+                    </span>
                 </div>
             </div>
         </div>
