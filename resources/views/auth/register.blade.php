@@ -324,7 +324,8 @@
                             url: "{{ route('checkemail') }}",
                             data: {
                                 email: $('#email_init').val(),
-                                matricule: $('#matricule').val()
+                                matricule: $('#matricule').val()    
+                                
                             },
                             success: function(data) {
                                 if (data.nb_elemnt == 1) {
