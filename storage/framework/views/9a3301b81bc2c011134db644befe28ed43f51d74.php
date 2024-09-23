@@ -1,15 +1,15 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-9">
-                    <h4>Mouvements du compte {{$compte}}  -- {{$deb->format('d-m-Y')}} au {{$fin->format('d-m-Y')}}</h4>
+                    <h4>Mouvements du compte <?php echo e($compte); ?>  -- <?php echo e($deb->format('d-m-Y')); ?> au <?php echo e($fin->format('d-m-Y')); ?></h4>
                 </div>
                 <div class="col-sm-3">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('releve',[$compte,$deb->format('Y-m-d'),$fin->format('Y-m-d')]) }}">
+                       href="<?php echo e(route('releve',[$compte,$deb->format('Y-m-d'),$fin->format('Y-m-d')])); ?>">
                         Export PDF
                     </a>
                 </div>
@@ -17,32 +17,37 @@
         </div>
     </section>
     <div class="content px-3">
-        @include('flash::message')
+        <?php echo $__env->make('flash::message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="clearfix"></div>
      
         <div class="row input-daterange">
             
         <div class="form-group col-sm-3">
-                {!! Form::label('compte', 'Comptes :') !!}
+                <?php echo Form::label('compte', 'Comptes :'); ?>
+
                 <select name="compte" id="compte" class = 'form-control'>
-                    @foreach($comptes as $compte)
-                    <option value="{{$compte->id}}">{{$compte->compte}}</option>
-                    @endforeach
+                    <?php $__currentLoopData = $comptes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $compte): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($compte->id); ?>"><?php echo e($compte->compte); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
                 
                 <span class="text-danger font-size-xsmall error_date_debut"></span>
             </div>
   <!-- Date Signature Field -->
   <div class="form-group col-sm-3">
-                {!! Form::label('date_debut', 'Date début (jj-mm-aaaa) :') !!}
-                {!! Form::text('date_debut', null, ['class' => 'form-control','id'=>'date_debut']) !!}
+                <?php echo Form::label('date_debut', 'Date début (jj-mm-aaaa) :'); ?>
+
+                <?php echo Form::text('date_debut', null, ['class' => 'form-control','id'=>'date_debut']); ?>
+
                 <span class="text-danger font-size-xsmall error_date_debut"></span>
             </div>
 
             <!-- Date Debut Field -->
             <div class="form-group col-sm-3">
-                {!! Form::label('date_fin', 'Date fin (jj-mm-aaaa) :') !!}
-                {!! Form::text('date_fin', null, ['class' => 'form-control','id'=>'date_fin']) !!}
+                <?php echo Form::label('date_fin', 'Date fin (jj-mm-aaaa) :'); ?>
+
+                <?php echo Form::text('date_fin', null, ['class' => 'form-control','id'=>'date_fin']); ?>
+
                 <span class="text-danger font-size-xsmall error_date_fin"></span>
             </div>
 
@@ -61,29 +66,31 @@
                 <th>Débit</th>
                 <th>Crédit</th>
             </tr>
-            @foreach($mouvements as $mouvement)
+            <?php $__currentLoopData = $mouvements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mouvement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                <td>{{$mouvement->LOT_DATE->format('d-m-Y')}}</td>
-                    <td>{{$mouvement->ECRCPT_LIBELLE }} {{$mouvement->ECRCPT_LIBCOMP}}</td>
+                <td><?php echo e($mouvement->LOT_DATE->format('d-m-Y')); ?></td>
+                    <td><?php echo e($mouvement->ECRCPT_LIBELLE); ?> <?php echo e($mouvement->ECRCPT_LIBCOMP); ?></td>
                     <td style="text-align:right">
-                        @if($mouvement->ECRCPT_SENS=='D')
-                            {{number_format($mouvement->ECRCPT_MONTANT, 0,"", " ") }}
-                        @endif
+                        <?php if($mouvement->ECRCPT_SENS=='D'): ?>
+                            <?php echo e(number_format($mouvement->ECRCPT_MONTANT, 0,"", " ")); ?>
+
+                        <?php endif; ?>
                     </td>
                     <td style="text-align:right">
 
-                    @if($mouvement->ECRCPT_SENS=='C')
-                    {{number_format($mouvement->ECRCPT_MONTANT, 0,"", " ") }}
-                        @endif
+                    <?php if($mouvement->ECRCPT_SENS=='C'): ?>
+                    <?php echo e(number_format($mouvement->ECRCPT_MONTANT, 0,"", " ")); ?>
+
+                        <?php endif; ?>
                     </td>
                 </tr>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
            </table>
         </div>
     </div>
 
-@endsection
-@push('page_scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('page_scripts'); ?>
 <script>
 
     $('#date_debut').datepicker()
@@ -136,4 +143,5 @@
     return false;
 };
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/mouvements/index.blade.php ENDPATH**/ ?>

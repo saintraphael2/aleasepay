@@ -45,7 +45,7 @@ class MouvementController extends AppBaseController
             $deb=Carbon::parse($request->deb);
         }
         $compte=($request->compte !== null)?$request->compte:$comptes[0]->compte;
-        $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->get();
+        $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','desc')->get();
        // dd($mouvements);
         return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes,'compte'=> $compte]);
     }
@@ -58,7 +58,13 @@ class MouvementController extends AppBaseController
     {
         return view('mouvements.create');
     }
-
+    public function releve($compte,$deb,$fin){
+        ini_set('max_execution_time', 500);
+        $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','desc')->get();
+        $data=['mouvements'=>$mouvements,'compte'=>$compte,'deb' => Carbon::parse($deb)->format('d-m-Y'),'fin'=>Carbon::parse($fin)->format('d-m-Y')];
+        $pdf= PDF::loadView('mouvements.releve',$data);
+        return $pdf->download('releve.pdf');
+    }
     /**
      * Store a newly created Mouvement in storage.
      */

@@ -172,14 +172,14 @@
                                                 <div class="icheck-primary">
                                                     <input type="checkbox" id="agreeTerms" name="terms" value="agree">
                                                     <label for="agreeTerms">
-                                                        J'accepte les <a href="#">termes</a>
+                                                    J'accepte les termes et conditions générales d'utilisation <a href="#">termes</a>
                                                     </label>
                                                 </div>
                                             </div>
                                             <!-- /.col -->
                                             <div class="col-4">
                                                 <!--button type="submit"
-                                                    class="btn btn-primary btn-block">Enregistrer</button-->
+                                                    id="submit" class="btn btn-primary btn-block" disabled='disabled'>Enregistrer</button-->
                                             </div>
                                             <!-- /.col -->
                                         </div>
@@ -241,7 +241,7 @@
             $(document).ready(function() {
                 // Cache toutes les étapes sauf la première
                 $(".step").hide();
-                $("#step1").show();
+                $("#step3").show();
 
                 // Bouton "Suivant"
                 $(".next").click(function() {
@@ -328,7 +328,15 @@
                 // Validation lors de la soumission du formulaire
 
             });
-            </script>
+               
+        if($('#agreeTerms').change(function() {
+            if ($(this).is(':checked')) { 
+                $('#submit').prop( "disabled", false );
+            } else {
+                $('#submit').prop( "disabled",  true);
+            }
+        }));
+    </script>
             @error('password')
             <script>
             $(document).ready(function() {
