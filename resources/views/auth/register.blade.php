@@ -305,7 +305,7 @@
             $(document).ready(function() {
                 // Cache toutes les étapes sauf la première
                 $(".step").hide();
-                $("#step3").show();
+                $("#step1").show();
 
                 // Bouton "Suivant"
                 $(".next").click(function() {
