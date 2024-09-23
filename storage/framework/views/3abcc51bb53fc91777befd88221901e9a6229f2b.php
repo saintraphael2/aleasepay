@@ -3,13 +3,35 @@
     <link href="./css/app.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./vendor/UIjs/themes/base/jquery-ui.css">
     <style>
-.page-break {
-    page-break-after: always;
+#footer {
+  position: fixed;
+  bottom: -60px;
+  left: 0px;
+  right: 0px;
+  background-color: #ffffff;
+  height: 50px;
+}
+#footer .page:after {
+  content: counter(page, decimal);
 }
     </style>
     </head>
     <body style="font-family:Verdana; font-size:10px!important">
-    
+    <div id="footer">
+    <p class="page">Page </p>
+</div>
+    <div style="width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #555;">
+        <div  style="float:left; width:100px"><img src="./images/logo.png" width='100' height='100'></div>
+        <div style="float:right;text-align: center; width:100%" >RELEVE DES TRANSACTIONS <br>
+        Compte : <b><?php echo e($compte); ?></b>     Du <b><?php echo e($deb); ?></b>  Au <b><?php echo e($fin); ?></b>
+    </div>
+    </div>
+<div style='clear:both'></div>
+    <div class="content">
+    <?php $compteur=0;?>
     <table class="table table-striped table-bordered dataTable no-footer " cellspacing="0">
             <tr>
             <th style='width:50px'>Date</th>
@@ -35,9 +57,24 @@
                         <?php endif; ?>
                     </td>
                 </tr>
+               
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
            </table>
-           <div class="page-break"></div>
+    </div>
+    
+    <script type="text/php">
+        if ( isset($pdf) ) { 
+            $pdf->page_script('
+                if ($PAGE_COUNT > 1) {
+                    $font = $fontMetrics->get_font("Arial, sans-serif", "normal");
+                    $size = 12;
+                    $y = 15;
+                    $x = 520;
+                    $pdf->text($x, $y, "Page " . $PAGE_NUM . " of " . $PAGE_COUNT, $font, $size);
+                }
+            ');
+        }
+    </script>
 
        
     </body>

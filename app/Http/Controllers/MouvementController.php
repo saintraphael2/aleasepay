@@ -61,7 +61,7 @@ class MouvementController extends AppBaseController
     public function releve($compte,$deb,$fin){
         ini_set('max_execution_time', 500);
         $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','desc')->get();
-        $data=['mouvements'=>$mouvements];
+        $data=['mouvements'=>$mouvements,'compte'=>$compte,'deb' => Carbon::parse($deb)->format('d-m-Y'),'fin'=>Carbon::parse($fin)->format('d-m-Y')];
         $pdf= PDF::loadView('mouvements.releve',$data);
         return $pdf->download('releve.pdf');
     }
