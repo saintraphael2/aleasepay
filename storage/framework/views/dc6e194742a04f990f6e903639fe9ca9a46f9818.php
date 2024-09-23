@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }} | Registration Page</title>
+    <title><?php echo e(config('app.name')); ?> | Registration Page</title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -13,7 +13,7 @@
         integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
         crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="{{ 'css/app.css' }}" rel="stylesheet">
+    <link href="<?php echo e('css/app.css'); ?>" rel="stylesheet">
     <style>
     .step {
         display: none;
@@ -98,50 +98,92 @@
 
                                 <!-- Étape 3 -->
                                 <div id="step3" class="step">
-                                    <form method="post" action="{{ route('register') }}">
-                                        @csrf
+                                    <form method="post" action="<?php echo e(route('register')); ?>">
+                                        <?php echo csrf_field(); ?>
 
                                         <div class="row form-group">
                                             <input type="text" name="name" id="name"
-                                                class="col-sm form-control @error('name') is-invalid @enderror"
-                                                value="{{ old('name') }}" placeholder="Full name" readonly>
+                                                class="col-sm form-control <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                                value="<?php echo e(old('name')); ?>" placeholder="Full name" readonly>
                                             <div class="input-group-append">
                                                 <div class="input-group-text"><span class="fas fa-user"></span></div>
                                             </div>
-                                            @error('name')
+                                            <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                                <strong><?php echo e($message); ?></strong>
                                             </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
 
                                         <div class="row form-group">
-                                            <input type="email" name="email" id="email" value="{{ old('email') }}"
-                                                class="col-sm form-control @error('email') is-invalid @enderror"
+                                            <input type="email" name="email" id="email" value="<?php echo e(old('email')); ?>"
+                                                class="col-sm form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                 placeholder="Email" readonly>
                                             <div class="input-group-append">
                                                 <div class="input-group-text"><span class="fas fa-envelope"></span>
                                                 </div>
                                             </div>
-                                            @error('email')
+                                            <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                                <strong><?php echo e($message); ?></strong>
                                             </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
 
                                         <div class="row form-group">
                                             <input type="password" name="password"
-                                                class="col-sm form-control @error('password') is-invalid @enderror"
+                                                class="col-sm form-control <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                 placeholder="Mot de passe">
                                             <div class="input-group-append">
                                                 <div class="input-group-text"><span class="fas fa-lock"></span></div>
                                             </div>
-                                            @error('password')
+                                            <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                             <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                                <strong><?php echo e($message); ?></strong>
                                             </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
 
                                         <div class="row form-group">
@@ -177,13 +219,13 @@
                         <!-- /.form-box -->
                     </div>
                     <!-- /.register-box -->
-                    <script src="{{ 'js/app.js' }}" defer></script>
+                    <script src="<?php echo e('js/app.js'); ?>" defer></script>
                     <script>
                     $(document).ready(function() {
                         // Cache toutes les étapes sauf la première
                         $(".step").hide();
-                        $("#step1").show();
-                        $("#tab1").addClass('active');
+                        $("#step3").show();
+                        $("#tab3").addClass('active');
                         // Bouton "Suivant"
                         $(".next").click(function() {
                             var currentStep = $(this).data("step");
@@ -199,7 +241,7 @@
 
                                 $.ajax({
                                     type: 'GET',
-                                    url: "{{ route('checkemail') }}",
+                                    url: "<?php echo e(route('checkemail')); ?>",
                                     data: {
                                         email: $('#email_init').val(),
                                         matricule: $('#matricule').val()
@@ -235,7 +277,7 @@
 
                                 $.ajax({
                                     type: 'GET',
-                                    url: "{{ route('checkcode') }}",
+                                    url: "<?php echo e(route('checkcode')); ?>",
                                     data: {
                                         email: $('#email_init').val(),
                                         code: $('#code').val()
@@ -300,7 +342,11 @@
                             }
                         }));
                     </script>
-                    @error('password')
+                    <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                     <script>
                     $(document).ready(function() {
 
@@ -308,29 +354,46 @@
                         $("#step1").show();
                     });
                     </script>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
-                    @error('email')
+                    <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                     <script>
                     $(document).ready(function() {
                         $("#step3").show();
                         $("#step1").hide();
                     });
                     </script>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
-                    @error('name')
+                    <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                     <script>
                     $(document).ready(function() {
                         $("#step3").show();
                         $("#step1").hide();
                     });
                     </script>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
                 </div>
             </div>
         </div>
     </div>
 </body>
-</html>
+</html><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/auth/register.blade.php ENDPATH**/ ?>
