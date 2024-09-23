@@ -50243,7 +50243,7 @@ a.text-muted:hover {
 
 .logincustomize {
     float: left;
-    width: 450px;
+    width: 440px;
     padding: 10px;
 
     height: 550px;
@@ -50262,6 +50262,7 @@ a.text-muted:hover {
 .loginblockone {
     background-color: white;
     max-width: 430px !important;
+    height: auto;
 }
 
 .imgctz {
@@ -50271,8 +50272,10 @@ a.text-muted:hover {
 
 .loginblocktwo {
     background-color: #2e7518;
-    max-width: 430px !important;
-    /*width: 450px;*/
+    max-width: auto !important;
+    height: auto;
+    /* max-width: 430px !important;
+    width: 450px;*/
 }
 
 .loginbodybackg {
@@ -50300,7 +50303,6 @@ a.text-muted:hover {
     color: #fcd931 !important;
 }
 
-
 .opqone {
     background-image: url(../images/maquettealt.jpg);
     height: 50% !important;
@@ -50317,22 +50319,22 @@ a.text-muted:hover {
     background: #2e7518 !important;
 }
 
-
 .bg-primary {
     background-color: #fcd931 !important;
     color: black !important;
 }
 
-.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-    background-color:  #fcd931 !important;
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #fcd931 !important;
     color: #fff;
 }
 
-.copyrith{
+.copyrith {
     color: #fcd931 !important;
 }
 
-footer{
+footer {
     color: black !important;
 }
 
@@ -50346,8 +50348,120 @@ footer{
     color: #fff;
 }
 
-.cardctmz{
+.cardctmz {
     height: 150px !important;
     text-align: center;
     padding: 29px;
+}
+
+.signinlocktwo {
+    background-color: #fcd931;
+
+    width: auto !important;
+    height: auto;
+    /*width: 450px; #fcd931   #2e7518*/
+}
+.signincardctz{
+    width: auto;
+    
+}
+
+.signinlocktwo {
+    background-color: #fcd931 ;
+	
+    width: auto !important;
+	    height: auto;
+    /*width: 450px; #fcd931   #2e7518*/
+}
+/***************** Step Mecanisme CSS **********************/
+.step_wrapper {
+    float: left;
+    width: auto;
+    height: auto;
+    /*width: 100%;*/
+    background-color: #d1d3d4;
+
+}
+
+.step_active {
+    /*width: 31%;*/
+    width: auto;
+    height: auto;
+    float: left;
+    padding: 2% 1% 0;
+    position: relative;
+    color: black !important;
+}
+
+.step_icon {
+    border: 2px solid #27211f;
+    color: #27211f;
+}
+
+.step_icon {
+    position: absolute;
+    left: 5px;
+    top: 10%;
+    font-size: 1.5em;
+    border: 2px solid #939598;
+    border-radius: 0;
+    display: inline-block;
+    color: #939598;
+    border: 3px solid black;
+    width: 30px;
+    height: 40px;
+}
+
+.step_color {
+    background: #939598;
+
+}
+
+.step_color .step_name {
+    color: #d3dae5;
+}
+
+.step_color .step_icon {
+    color: #d3dae5;
+    border: 3px solid #d3dae5;
+
+}
+
+.step_name.last_step {
+    border-right: none;
+}
+
+.boxsignin {
+    width: auto;
+}
+
+.step_name {
+    display: block;
+    font-size: 1.4em;
+    color: #939598;
+    width: auto;
+    margin-left: 13%;
+    line-height: 1.2em;
+    min-height: 2.8em;
+    border-right: 4px solid #d3dae5;
+
+}
+
+.step_color {
+    background-color: #f0f0f0;
+    color: #333;
+
+    line-height: 30px;
+    border-radius: 5px;
+    margin: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.step_color.active {
+    background-color: #4CAF50;
+    /* Couleur verte pour l'étape active */
+    color: white;
+    font-weight: bold;
+    border: 2px solid #4CAF50;
 }
