@@ -145,7 +145,7 @@
                                         </div>
 
                                         <div class="row form-group">
-                                            <input class="col-sm form-control" style="text-align:right;" type="password"
+                                            <input class="col-sm form-control" type="password"
                                                 name="password_confirmation" placeholder="Confirmation de Mot de passe">
                                             <div class="input-group-append">
                                                 <div class="input-group-text"><span class="fas fa-lock"></span></div>
