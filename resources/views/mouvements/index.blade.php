@@ -86,8 +86,8 @@
 @push('page_scripts')
 <script>
 
-    $('#date_debut').datepicker()
-    $('#date_fin').datepicker({maxDate: '0'})
+    $('#date_debut').datepicker({minDate:-90,maxDate: -1})
+    $('#date_fin').datepicker({minDate:-89,maxDate: '0'})
 
 
         $('#filter').click(function(){
