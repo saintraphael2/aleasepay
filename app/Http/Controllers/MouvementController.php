@@ -32,7 +32,8 @@ class MouvementController extends AppBaseController
     public function index(Request $request)
     {
         $mail=Auth::user()->email;
-        $cptClient=CptClient::where('email',$mail)->first();
+        $racine=Auth::user()->racine;
+        $cptClient=CptClient::where('racine',$racine)->first();
         $comptes=Compte::where('racine',$cptClient->racine)->get();
         //dd($comptes);
         if($request->deb == null){

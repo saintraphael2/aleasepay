@@ -75,7 +75,8 @@ class CptClientController extends AppBaseController
     public function rib()
     {
         $mail=Auth::user()->email;
-        $cptClient=CptClient::where('email',$mail)->first();
+        $racine=Auth::user()->racine;
+        $cptClient=CptClient::where('racine',$racine)->first();
         $comptes=Compte::where('racine',$cptClient->racine)->get();
         //$cptClient = $this->cptClientRepository->find($id);
 

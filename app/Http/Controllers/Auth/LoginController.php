@@ -10,6 +10,7 @@ use Auth;
 use Ichtrojan\Otp\Otp;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
+use App\Models\Connexion;
 
 
 class LoginController extends Controller
@@ -50,10 +51,22 @@ class LoginController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-     
+     //if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {    if (Auth::attempt($credentials)) {
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-  
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'etat' => 1])) {
+            $connexions = Connexion::where('identifier',$request->email)->get();
+           
+           // dd(count($connexion));
+           if(count($connexions)==0){
+                $connexion= new Connexion();
+                $connexion->identifier=$request->email;
+                $connexion->validity=0;
+                $connexion->save();
+           }else{
+                $connexion=$connexions[0];
+                $connexion->validity=0;
+                $connexion->save();
+           }
          //   auth()->user()->generateCode();
          $otp=(new Otp)->generate($request->email, 'numeric', 6, 15);
 
@@ -65,7 +78,8 @@ class LoginController extends Controller
                 ]));
             $tab=explode('@',$request->email);
             $deb=substr($tab[0],0,2).'**********@'.$tab[1];
-            return view("auth.otp")->with('email',$request->email)->with('emailc',$deb);
+            //return view("auth.otp")->with('email',$request->email)->with('emailc',$deb);
+            return redirect(route('otp'))->with('email',$request->email)->with('emailc',$deb);
             
         }
     

@@ -138,6 +138,8 @@ unset($__errorArgs, $__bag); ?>
     </div>
     <!-- /.login-box -->
     <script src="<?php echo e(asset('js/app.js')); ?>"></script>
+   
 </body>
 
-</html><?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/auth/login.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/auth/login.blade.php ENDPATH**/ ?>

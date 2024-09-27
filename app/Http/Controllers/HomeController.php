@@ -8,6 +8,8 @@ use Ichtrojan\Otp\Otp;
 
 use App\Models\CptClient;
 use App\Models\Compte;
+use Session;
+use App\Models\Connexion;
 class HomeController extends Controller
 {
     /**
@@ -27,26 +29,36 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //if(Auth::user()!=null){
+        $connexion = Connexion::where(['identifier'=>Auth::user()->email])->first();
+
+        if($connexion->validity==1){
             $mail=Auth::user()->email;
-            $cptClient=CptClient::where('email',$mail)->first();
+            $racine=Auth::user()->racine;
+            $cptClient=CptClient::where('racine',$racine)->first();
             $comptes=Compte::where('racine',$cptClient->racine)->get();
             return view('home')->with('cptClients',$comptes);
-       /* }else{
-            return view('home');
-        }*/
+        }else{
+            Auth::logout();
+            return redirect('/login');
+        }
         
     }
     public function otp()
     {
-        return view('otp');
+        
+        return view('auth.otp')->with('email',Session::get('email'))->with('emailc',Session::get('emailc'));
     }
     public function validationOtp(Request $request){
        // dd($request->otp);
         $result=(new Otp)->validate($request->email, $request->otp);
        
-        if($result->status==true)
-            return redirect("/");
+        if($result->status==true){
+            $connexion = Connexion::where(['identifier'=>Auth::user()->email])->first();
+            $connexion->validity=1;
+                $connexion->save();
+             return redirect("/");
+        }
+           
         elseif(trim($result->status)==false)  {
            // $errors = new MessageBag; 
             //$errors = new MessageBag(['password' => ['Code Invalide ou expiré.']]);

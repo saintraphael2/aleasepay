@@ -116,6 +116,7 @@
                                         </div>
 
                                         <div class="row form-group">
+                                            <input type="text" name="racine" id='racine'>
                                             <input type="email" name="email" id="email" value="{{ old('email') }}"
                                                 class="col-sm form-control @error('email') is-invalid @enderror"
                                                 placeholder="Email" readonly>
@@ -254,6 +255,7 @@
                                             }
 
                                             $('#email').val($('#email_init').val());
+                                            $('#racine').val($('#matricule').val());
                                         } else {
                                             $('#checkcode').css("display", "block");
                                         }
