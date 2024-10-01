@@ -42,9 +42,11 @@
                              class="img-circle elevation-2"
                              alt="User Image">
                         <p>
-                            <?php echo e(Auth::user()->name); ?>
+                            <?php if(Auth::user()!=null): ?>
+                                <?php echo e(Auth::user()->name); ?>
 
-                            <small><?php echo e(Auth::user()->created_at->format('M. Y')); ?></small>
+                                <small><?php echo e(Auth::user()->created_at->format('M. Y')); ?></small>
+                            <?php endif; ?>
                         </p>
                     </li>
                     <!-- Menu Footer-->
