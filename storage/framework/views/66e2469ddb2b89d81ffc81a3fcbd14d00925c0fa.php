@@ -26,62 +26,80 @@
     <div style="width: 700px; !important; ">
         <div class="row justify-content-center">
         <div class="card-body login-card-body">
-                    <p class="login-box-msg">Mot Passe Perdu
+                    <p class="login-box-msg">Mot de Passe Perdu
                        </p>
 
-                    <form action="<?php echo e(route('password.update')); ?>" method="POST">
+                       <form action="<?php echo e(route('update-password')); ?>" method="POST">
                         <?php echo csrf_field(); ?>
+                        <div class="card-body">
+                            <?php if(session('status')): ?>
+                                <div class="alert alert-success" role="alert">
+                                    <?php echo e(session('status')); ?>
 
-                        <?php
-                            if (!isset($token)) {
-                                $token = \Request::route('token');
-                            }
-                        ?>
+                                </div>
+                            <?php elseif(session('error')): ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <?php echo e(session('error')); ?>
 
-                        <input type="hidden" name="token" value="<?php echo e($token); ?>">
-
-                        <div class="input-group mb-3">
-                            <input type="email" name="email"
-                                class="form-control<?php echo e($errors->has('email') ? ' is-invalid' : ''); ?>"
-                                placeholder="Email">
-                            <div class="input-group-append">
-                                <div class="input-group-text"><span class="fas fa-envelope"></span></div>
-                            </div>
-                            <?php if($errors->has('email')): ?>
-                                <span class="error invalid-feedback"><?php echo e($errors->first('email')); ?></span>
+                                </div>
                             <?php endif; ?>
+
+                            <div class="mb-3">
+                                <label for="oldPasswordInput" class="form-label">Old Password</label>
+                                <input name="old_password" type="password" class="form-control <?php $__errorArgs = ['old_password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="oldPasswordInput"
+                                    placeholder="Old Password">
+                                <?php $__errorArgs = ['old_password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="text-danger"><?php echo e($message); ?></span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                            <div class="mb-3">
+                                <label for="newPasswordInput" class="form-label">New Password</label>
+                                <input name="new_password" type="password" class="form-control <?php $__errorArgs = ['new_password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="newPasswordInput"
+                                    placeholder="New Password">
+                                <?php $__errorArgs = ['new_password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="text-danger"><?php echo e($message); ?></span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmNewPasswordInput" class="form-label">Confirm New Password</label>
+                                <input name="new_password_confirmation" type="password" class="form-control" id="confirmNewPasswordInput"
+                                    placeholder="Confirm New Password">
+                            </div>
+
                         </div>
 
-                        <div class="input-group mb-3">
-                            <input type="password" name="password"
-                                class="form-control<?php echo e($errors->has('password') ? ' is-invalid' : ''); ?>"
-                                placeholder="Mot  de Passe">
-                            <div class="input-group-append">
-                                <div class="input-group-text"><span class="fas fa-lock"></span></div>
-                            </div>
-                            <?php if($errors->has('password')): ?>
-                                <span class="error invalid-feedback"><?php echo e($errors->first('password')); ?></span>
-                            <?php endif; ?>
+                        <div class="card-footer">
+                            <button class="btn btn-success">Submit</button>
                         </div>
 
-                        <div class="input-group mb-3">
-                            <input type="password" name="password_confirmation" class="form-control"
-                                placeholder="Confirmation Mot de passe">
-                            <div class="input-group-append">
-                                <div class="input-group-text"><span class="fas fa-lock"></span></div>
-                            </div>
-                            <?php if($errors->has('password_confirmation')): ?>
-                                <span
-                                    class="error invalid-feedback"><?php echo e($errors->first('password_confirmation')); ?></span>
-                            <?php endif; ?>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary btn-block">Réinitialisez votre mot de passe</button>
-                            </div>
-                            <!-- /.col -->
-                        </div>
                     </form>
                     <p class="mt-3 mb-1">
                         <a href="<?php echo e(route('login')); ?>">Login</a>

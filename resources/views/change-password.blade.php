@@ -1,35 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }} | Registration Page</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-    .step {
-        display: none;
-    }
-
-    .active {
-        display: block;
-    }
-    </style>
-</head>
-
-<body class="hold-transition register-page opqone"  style="max-height: 1000px !important;" >
-    <div style="width: 700px; !important; ">
+@section('content')
+    <div class="container">
         <div class="row justify-content-center">
-        <div class="card-body login-card-body">
-                    <p class="login-box-msg">Mot de Passe Perdu
-                       </p>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Chnage Password') }}</div>
 
-                       <form action="{{ route('update-password') }}" method="POST">
+                    <form action="{{ route('update-password') }}" method="POST">
                         @csrf
                         <div class="card-body">
                             @if (session('status'))
@@ -71,23 +49,8 @@
                         </div>
 
                     </form>
-                    <p class="mt-3 mb-1">
-                        <a href="{{ route('login') }}">Login</a>
-                    </p>
-                   
                 </div>
+            </div>
         </div>
     </div>
-
-
-    <!-- /.form-box -->
-    </div>
-    <!-- /.register-box -->
-
-
-    <script>
-   
-    </script>
-</body>
-
-</html>
+@endsection

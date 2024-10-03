@@ -31,7 +31,7 @@ class HomeController extends Controller
     {
         $connexion = Connexion::where(['identifier'=>Auth::user()->email])->first();
 
-        if($connexion->validity==1){
+        if($connexion!=null && $connexion->validity==1){
             $mail=Auth::user()->email;
             $racine=Auth::user()->racine;
             $cptClient=CptClient::where('racine',$racine)->first();
