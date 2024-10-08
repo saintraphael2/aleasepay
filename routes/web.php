@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/validationOtp', [App\Http\Controllers\HomeController::class, 'validationOtp'])->name('validationOtp');
+Route::post('/password/update', [App\Http\Controllers\PasswordController::class, 'update'])->name('password.update');
 Route::get('/otp', [App\Http\Controllers\HomeController::class, 'otp'])->name('otp');
 Route::get('/rib', [App\Http\Controllers\CptClientController::class, 'rib'])->name('rib');
 //Route::get('/attestation/{$id}', [App\Http\Controllers\CptClientController::class, 'attestation']); pregister

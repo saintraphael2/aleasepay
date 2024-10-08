@@ -9,17 +9,23 @@ use Ichtrojan\Otp\Otp;
 use App\Models\CptClient;
 use App\Models\Compte;
 use Session;
+use App\Repositories\UserRepository;
 use App\Models\Connexion;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 class HomeController extends Controller
 {
+
+    protected $userRepository;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
         $this->middleware('auth');
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -70,4 +76,7 @@ class HomeController extends Controller
     public function creation(){
         return view('creation');
     }
+
+
+   
 }
