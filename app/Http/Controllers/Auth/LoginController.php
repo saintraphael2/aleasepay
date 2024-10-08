@@ -45,6 +45,9 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function passwordUpdate(){
+        dd('dd');
+    }
     public function login(Request $request)
     {
         $request->validate([

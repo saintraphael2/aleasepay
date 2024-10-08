@@ -42,8 +42,10 @@
                              class="img-circle elevation-2"
                              alt="User Image">
                         <p>
-                            {{ Auth::user()->name }}
-                            <small>{{ Auth::user()->created_at->format('M. Y') }}</small>
+                            @if(Auth::user()!=null)
+                                {{ Auth::user()->name }}
+                                <small>{{ Auth::user()->created_at->format('M. Y') }}</small>
+                            @endif
                         </p>
                     </li>
                     <!-- Menu Footer-->
