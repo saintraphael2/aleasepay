@@ -30,13 +30,13 @@ Route::resource('mouvements', App\Http\Controllers\MouvementController::class);
 Route::get('checkemail',['as'=>'checkemail','uses' => 'App\Http\Controllers\CptClientController@checkemail'] );
 Route::get('checkcode',['as'=>'checkcode','uses' => 'App\Http\Controllers\CptClientController@checkcode'] );
 Route::get('releve/{compte}/{deb}/{fin}',['as'=>'releve','uses' => 'App\Http\Controllers\MouvementController@releve'] );
-Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::get('/forget-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
 
-Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::post('forget-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
 
-Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::get('/reset-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 
-Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+Route::post('reset-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 //Route::get('/saisieotp', [App\Http\Controllers\HomeController::class, 'saisieotp'])->name('saisieotp');passwordUpdate
 //});

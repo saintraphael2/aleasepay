@@ -21,7 +21,8 @@ use Mail;
 use Hash;
 
 use Illuminate\Support\Str;
-
+use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Log;
   
 
 class ForgotPasswordController extends Controller
@@ -29,75 +30,42 @@ class ForgotPasswordController extends Controller
 {
 
       /**
-
        * Write code on Method
-
        *
-
        * @return response()
-
        */
-
       public function showForgetPasswordForm()
-
       {
-
-         return view('auth.forgetPassword');
-
+         return view('auth.passwords.forgetPassword');
       }
 
-  
+      public function showLinkRequestForm()
+      {
+         return view('auth.forgetPasswordLink');
+      }
 
       /**
-
        * Write code on Method
-
        *
-
        * @return response()
-
        */
-
       public function submitForgetPasswordForm(Request $request)
-
       {
-
           $request->validate([
-
               'email' => 'required|email|exists:users',
-
           ]);
-
-  
-
           $token = Str::random(64);
-
-  
-
           DB::table('password_resets')->insert([
-
               'email' => $request->email, 
-
               'token' => $token, 
-
               'created_at' => Carbon::now()
-
             ]);
 
-  
-
           Mail::send('email.forgetPassword', ['token' => $token], function($message) use($request){
-
               $message->to($request->email);
-
               $message->subject('Reset Password');
-
           });
-
-  
-
           return back()->with('message', 'We have e-mailed your password reset link!');
-
       }
 
       /**
@@ -110,9 +78,9 @@ class ForgotPasswordController extends Controller
 
        */
 
-      public function showResetPasswordForm($token) { 
+      public function showResetPasswordForm() { 
 
-         return view('auth.forgetPasswordLink', ['token' => $token]);
+         return view('auth.forgetPasswordLink');
 
       }
 
@@ -129,7 +97,6 @@ class ForgotPasswordController extends Controller
        */
 
       public function submitResetPasswordForm(Request $request)
-
       {
 
           $request->validate([
