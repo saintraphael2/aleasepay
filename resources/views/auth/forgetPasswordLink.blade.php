@@ -37,6 +37,7 @@
                     @endif
                     <form action="{{ route('reset.password.post') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
                         <div class="form-group row ">
                             <label for="email" class="col-md-6 col-form-label text-md-right">E-Mail
                             </label>
