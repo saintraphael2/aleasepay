@@ -1,5 +1,5 @@
 <style>
-    .card {
+.card {
     word-wrap: break-word;
     background-clip: border-box;
     background-color: #fff;
@@ -15,6 +15,6 @@
 <div class="card logincardctz">
     <div class="card-body login-card-body">
         <h3>Mot de passe perdu</h3>
-        <a href="<?php echo e(route('reset.password.get', $token)); ?>"> cliquez  ici pour  réinitialiser votre mot de passe </a>
+        <a href="<?php echo e(route('reset.password.get', $token)); ?>"> Cliquez ici pour réinitialiser votre mot de passe </a>
     </div>
 </div><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/auth/passwords/forgetPwd.blade.php ENDPATH**/ ?>
