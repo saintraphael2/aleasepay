@@ -55,8 +55,8 @@ class ForgotPasswordController extends Controller
           $request->validate([
               'email' => 'required|email|exists:users',]);
           $token = Str::random(64);
-          DB::table('password_resets')->where(['email'=> $request->email])->delete();
-          DB::table('password_resets')->insert([
+          DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete();
+          DB::table('password_reset_tokens')->insert([
               'email' => $request->email, 
               'token' => $token, 
               'created_at' => Carbon::now()
@@ -77,7 +77,7 @@ class ForgotPasswordController extends Controller
       public function showResetPasswordForm($token) { 
         #return view('auth.forgetPasswordLink', ['token' => $token]);
 
-        $resetPassword = DB::table('password_resets')->where('token', $token)->first();
+        $resetPassword = DB::table('password_reset_tokens')->where('token', $token)->first();
         if ($resetPassword) {
             // Si le token existe, afficher le formulaire de réinitialisation
             return view('auth.forgetPasswordLink', ['token' => $token]);
@@ -100,7 +100,7 @@ class ForgotPasswordController extends Controller
               'password' => 'required|string|min:6|confirmed',
               'password_confirmation' => 'required'
           ]);
-          $updatePassword = DB::table('password_resets')
+          $updatePassword = DB::table('password_reset_tokens')
                               ->where([
                                 'email' => $request->email, 
                                 'token' => $request->token
@@ -111,7 +111,7 @@ class ForgotPasswordController extends Controller
           }
           $user = User::where('email', $request->email)
                       ->update(['password' => Hash::make($request->password)]);
-          DB::table('password_resets')->where(['email'=> $request->email])->delete();
+          DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete();
           return redirect('/login')->with('message', 'Your password has been changed!');
       }
 
