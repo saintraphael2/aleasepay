@@ -111,7 +111,7 @@ class ForgotPasswordController extends Controller{
           $user = User::where('email', $request->email)
                       ->update(['password' => Hash::make($request->password)]);
           DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete();
-          return redirect('/login')->with('message', 'Your password has been changed!');
+          return redirect('/login')->with('message', 'Votre mot de passe a été modifié avec succès!');
       }
 
 }
