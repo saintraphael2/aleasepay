@@ -18,7 +18,7 @@
 
 </head>
 
-<body class="hold-transition login-page loginbodybackg" style="height: 1000px !important;">
+<body class="hold-transition login-page loginbodybackg" style="height: 840px !important;">
     <div class="row loginbodybackg">
         <div class=" logincustomize loginblockone">
             <div class="">

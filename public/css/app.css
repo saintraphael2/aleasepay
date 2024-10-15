@@ -50280,12 +50280,12 @@ a.text-muted:hover {
 
 .loginbodybackg {
     background-image: url(../images/maquettealt.jpg);
-    height: 50% !important;
+     /*height: 50% !important;*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     margin: 150px;
-    /*margin: 40px;*/
+    /*margin: 124px;*/
 }
 
 .submit-color {
