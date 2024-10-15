@@ -15,24 +15,27 @@
 
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
     <style>
-         .error-container {
-            text-align: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        .error-title {
-            font-size: 2rem;
-            color: #dc3545;
-        }
-        .error-message {
-            margin-top: 10px;
-            font-size: 1.2rem;
-        }
-        .btn-home {
-            margin-top: 20px;
-        }
+    .error-container {
+        text-align: center;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-title {
+        font-size: 2rem;
+        color: #dc3545;
+    }
+
+    .error-message {
+        margin-top: 10px;
+        font-size: 1.2rem;
+    }
+
+    .btn-home {
+        margin-top: 20px;
+    }
     </style>
 </head>
 

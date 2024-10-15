@@ -65,7 +65,7 @@ class ForgotPasswordController extends Controller{
               $message->to($request->email);
               $message->subject('Reset Password');
           });
-          return back()->with('message', 'We have e-mailed your password reset link!');
+          return back()->with('message', 'Nous avons envoyé par e-mail votre lien de réinitialisation de mot de passe!');
       }
 
       /**
@@ -82,7 +82,7 @@ class ForgotPasswordController extends Controller{
             return view('auth.forgetPasswordLink', ['token' => $token]);
         } else {
             // Si le token n'existe pas, rediriger vers une page d'erreur
-            return redirect()->route('errorpage')->with('error', 'Invalid or expired token!');
+            return redirect()->route('errorpage')->with('error', 'Le lien est expiré!');
         }
       }
 

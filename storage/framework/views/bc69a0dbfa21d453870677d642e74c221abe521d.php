@@ -40,7 +40,12 @@
                                 ligne</h4>
                             <i class="fas fa-user"></i>
                         </div>
+                        <?php if(Session::has('message')): ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo e(Session::get('message')); ?>
 
+                        </div>
+                        <?php endif; ?>
                         <form method="post" action="<?php echo e(url('/login')); ?>">
                             <?php echo csrf_field(); ?>
 
@@ -146,12 +151,12 @@ unset($__errorArgs, $__bag); ?>
     <script>
     $(function() {
 
-        var current_effect ='progress' ;
+        var current_effect = 'progress';
         //$('#waitMe_ex_effect').val()
         run_waitMe($('.containerBlock > form'), 1, current_effect);
 
         $('#waitMe_ex').click(function() {
-           
+
         });
         $('.waitMe_ex_close').click(function() {
             $('.containerBlock > form').waitMe('hide');

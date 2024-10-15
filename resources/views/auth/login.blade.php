@@ -40,7 +40,11 @@
                                 ligne</h4>
                             <i class="fas fa-user"></i>
                         </div>
-
+                        @if (Session::has('message'))
+                        <div class="alert alert-success" role="alert">
+                            {{ Session::get('message') }}
+                        </div>
+                        @endif
                         <form method="post" action="{{ url('/login') }}">
                             @csrf
 
@@ -118,12 +122,12 @@
     <script>
     $(function() {
 
-        var current_effect ='progress' ;
+        var current_effect = 'progress';
         //$('#waitMe_ex_effect').val()
         run_waitMe($('.containerBlock > form'), 1, current_effect);
 
         $('#waitMe_ex').click(function() {
-           
+
         });
         $('.waitMe_ex_close').click(function() {
             $('.containerBlock > form').waitMe('hide');
