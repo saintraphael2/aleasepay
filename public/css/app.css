@@ -50284,7 +50284,8 @@ a.text-muted:hover {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 150px;
+    #margin: 150px;
+    margin: 38px;
 }
 
 .submit-color {
