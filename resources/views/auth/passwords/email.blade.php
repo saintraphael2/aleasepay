@@ -22,7 +22,7 @@
     </style>
 </head>
 
-<body class="hold-transition register-page opqone" style="max-height: 1000px !important;">
+<body class="hold-transition register-page opqone" style="height: 840px !important;padding-bottom: 153px;">
     <div style="width: 700px; !important; ">
         <div class="row justify-content-center">
             <div class="card-body login-card-body">
