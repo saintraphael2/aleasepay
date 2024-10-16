@@ -74,6 +74,7 @@ class CptClientController extends AppBaseController
     }
     public function rib()
     {
+        if(Auth::user()!=null ){
         $mail=Auth::user()->email;
         $racine=Auth::user()->racine;
         $cptClient=CptClient::where('racine',$racine)->first();
@@ -87,6 +88,10 @@ class CptClientController extends AppBaseController
         }
 
         return view('cpt_clients.rib')->with('cptClients', $comptes);
+    }else{
+        Auth::logout();
+        return redirect('/login');
+    }
     }
    
     public function attestation($compte){
