@@ -139,10 +139,12 @@
         event.preventDefault();
 
         // Action que tu veux exécuter au clic
-        alert("Le bouton a été cliqué !");
+        
+        showLoading();
 
         // Tu peux aussi soumettre manuellement le formulaire si nécessaire
-        // document.getElementById("myForm").submit();
+        document.getElementById("myForm").submit();
+        hideLoading();
     });
     </script>
 </body>
