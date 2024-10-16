@@ -62,10 +62,10 @@
                                         matricule.</div>
                                     <div class="row form-group">
 
-                                        <label class="col-sm" style="text-align:right;" for="matricule">Matricule
+                                        <label class="col-sm" style="text-align:right;" for="matricule">Matricule 
                                             :</label>
                                         <input class="col-sm form-control" type="text" id="matricule" name="matricule"
-                                            required>
+                                        title="Veuillez saisir les premiers chiffres de votre compte" required>
                                     </div>
                                     <div class="row form-group">
                                         <label class="col-sm" style="text-align:right;" for="email_init">Email :</label>
@@ -147,7 +147,7 @@
 
                                         <div class="row form-group">
                                             <input class="col-sm form-control" type="password"
-                                                name="password_confirmation" placeholder="Confirmation de Mot de passe">
+                                                name="password_confirmation"  placeholder="Confirmation de Mot de passe">
                                             <div class="input-group-append">
                                                 <div class="input-group-text"><span class="fas fa-lock"></span></div>
                                             </div>

@@ -7,9 +7,10 @@
     "require": {
         "php": "^8.0",
         "barryvdh/laravel-dompdf": "^3.0",
+        "codedge/laravel-fpdf": "^1.12",
         "doctrine/dbal": "~2.3",
         "fruitcake/laravel-cors": "^2.0.5",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.9",
         "ichtrojan/laravel-otp": "^2.0",
         "infyomlabs/adminlte-templates": "^5.0",
         "infyomlabs/laravel-generator": "^5.0",
