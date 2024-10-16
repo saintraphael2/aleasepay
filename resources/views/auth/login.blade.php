@@ -35,9 +35,9 @@
                 <div class="card logincardctz containerBlock">
                     <div class="card-body login-card-body">
                         <!--p class="login-box-msg">{{ __('auth.login.title') }}</p-->
-                        <section id="loading">
+                        <div id="loading">
                             <div id="loading-content"></div>
-                        </section>
+                        </div>
                         <div class="iconlogin">
                             <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur votre banque en
                                 ligne</h4>
@@ -123,18 +123,18 @@
     <script src="{{ asset('js/waitMe.js') }}"></script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    $(document).ready(function() {
 
         // Affiche le spinner de chargement
         function showLoading() {
-            document.querySelector('#loading').classList.add('loading');
-            document.querySelector('#loading-content').classList.add('loading-content');
+            document.getElementById('#loading').classList.add('loading');
+            document.getElementById('#loading-content').classList.add('loading-content');
         }
 
         // Cache le spinner de chargement
         function hideLoading() {
-            document.querySelector('#loading').classList.remove('loading');
-            document.querySelector('#loading-content').classList.remove('loading-content');
+            document.getElementById('#loading').classList.remove('loading');
+            document.getElementById('#loading-content').classList.remove('loading-content');
         }
 
         document.getElementById("DOMContentLoaded ").addEventListener("submit", function(event) {
