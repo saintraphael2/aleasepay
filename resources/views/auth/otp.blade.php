@@ -16,7 +16,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body class="hold-transition login-page opqone" style="max-height: 1000px !important;">
+<body class="hold-transition login-page opqone" style="height: 840px !important;padding-bottom: 153px;">
     <div class="row loginbodybackg">
         <div class="logincustomize loginblocktwo">
             <div class="login-box">
