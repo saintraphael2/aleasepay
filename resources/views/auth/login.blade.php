@@ -125,13 +125,13 @@
     <script>
     // Affiche le spinner de chargement
     function showLoading() {
-        document.querySelector('#loading').style.display = 'block';
+        document.querySelector('#loading').classList.add('loading');
         document.querySelector('#loading-content').classList.add('loading-content');
     }
 
     // Cache le spinner de chargement
     function hideLoading() {
-        document.querySelector('#loading').style.display = 'none';
+        document.querySelector('#loading').classList.remove('loading');
         document.querySelector('#loading-content').classList.remove('loading-content');
     }
 
