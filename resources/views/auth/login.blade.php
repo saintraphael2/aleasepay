@@ -48,7 +48,7 @@
                             {{ Session::get('message') }}
                         </div>
                         @endif
-                        <form method="post" action="{{ url('/login') }}">
+                        <form method="post" action="{{ url('/login') }}" id="loginform">
                             @csrf
 
                             <div class="input-group mb-3">
@@ -143,7 +143,7 @@
         showLoading();
 
         // Tu peux aussi soumettre manuellement le formulaire si nécessaire
-        document.getElementById("myForm").submit();
+        document.getElementById("loginform").submit();
         hideLoading();
     });
     </script>
