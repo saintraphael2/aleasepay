@@ -24,6 +24,9 @@
     <div style="width: 700px; !important; ">
         <div class="row justify-content-center">
             <div class="card-body login-card-body">
+                <section id="loading">
+                    <div id="loading-content"></div>
+                </section>
                 <p class="login-box-msg">Mot Passe Perdu
                 </p>
                 <div class="card-header">Réinitialise ton mot de passe</div>
@@ -33,7 +36,7 @@
                         {{ Session::get('message') }}
                     </div>
                     @endif
-                    <form action="{{ route('forget.password.post') }}" method="POST">
+                    <form action="{{ route('forget.password.post') }}" method="POST" id="forgetpwdform">
                         @csrf
                         <div class="form-group row">
                             <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail</label>
@@ -47,7 +50,7 @@
                         </div>
                         <div class="col-md-6 offset-md-4">
                             <button type="submit" class="btn btn-primary">
-                               Valider
+                                Valider
                             </button>
                         </div>
                     </form>
@@ -64,7 +67,20 @@
     <!-- /.register-box -->
 
     <script>
+    function showLoading() {
+        document.querySelector('#loading').classList.add('loading');
+        document.querySelector('#loading-content').classList.add('loading-content');
+    }
 
+    // Cache le spinner de chargement
+    function hideLoading() {
+        document.querySelector('#loading').classList.remove('loading');
+        document.querySelector('#loading-content').classList.remove('loading-content');
+    }
+
+    document.getElementById("forgetpwdform").addEventListener("submit", function(event) {
+        showLoading(); // Affiche le spinner au moment de la soumission du formulaire
+    });
     </script>
 </body>
 

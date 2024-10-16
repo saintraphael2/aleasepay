@@ -50280,11 +50280,11 @@ a.text-muted:hover {
 
 .loginbodybackg {
     background-image: url(../images/maquettealt.jpg);
-     /*height: 50% !important;*/
+    /*height: 50% !important;*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-   /* margin: 150px;*/
+    /* margin: 150px;*/
     margin: 124px;
 }
 
@@ -50306,7 +50306,7 @@ a.text-muted:hover {
 
 .opqone {
     background-image: url(../images/maquettealt.jpg);
-   /*  height: 50% !important;*/
+    /*  height: 50% !important;*/
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
@@ -50362,18 +50362,20 @@ footer {
     height: auto;
     /*width: 450px; #fcd931   #2e7518*/
 }
-.signincardctz{
+
+.signincardctz {
     width: auto;
-    
+
 }
 
 .signinlocktwo {
-    background-color: #fcd931 ;
-	
+    background-color: #fcd931;
+
     width: auto !important;
-	    height: auto;
+    height: auto;
     /*width: 450px; #fcd931   #2e7518*/
 }
+
 /***************** Step Mecanisme CSS **********************/
 .step_wrapper {
     float: left;
@@ -50469,27 +50471,33 @@ footer {
 
 /*============================================================*/
 .loading {
-	z-index: 20;
-	position: absolute;
-	top: 0;
-	left:-5px;
-	width: 100%;
-	height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    z-index: 20;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
 }
+
 .loading-content {
-	position: absolute;
-	border: 16px solid #f3f3f3; /* Light grey */
-	border-top: 16px solid #3498db; /* Blue */
-	border-radius: 50%;
-	width: 50px;
-	height: 50px;
-	top: 40%;
-	left:35%;
-	animation: spin 2s linear infinite;
-	}
-	
-	@keyframes spin {
-		0% { transform: rotate(0deg); }
-		100% { transform: rotate(360deg); }
-	}
+    position: absolute;
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #fcd931;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    top: 40%;
+    left: 48%;
+    animation: spin 2s linear infinite
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

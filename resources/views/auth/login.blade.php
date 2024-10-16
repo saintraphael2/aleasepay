@@ -19,7 +19,11 @@
 </head>
 
 <body class="hold-transition login-page loginbodybackg" style="height: 840px !important;padding-bottom: 153px;">
+
     <div class="row loginbodybackg">
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
         <div class=" logincustomize loginblockone">
             <div class="">
                 <img class="imgctz" src="../images/logoalt.png" />
@@ -35,9 +39,7 @@
                 <div class="card logincardctz containerBlock">
                     <div class="card-body login-card-body">
                         <!--p class="login-box-msg">{{ __('auth.login.title') }}</p-->
-                        <section id="loading">
-                            <div id="loading-content"></div>
-                        </section>
+
                         <div class="iconlogin">
                             <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur votre banque en
                                 ligne</h4>
@@ -123,62 +125,20 @@
     <script src="{{ asset('js/waitMe.js') }}"></script>
 
     <script>
-    $(document).ready(function() {
-        // Affiche le spinner de chargement
-        function showLoading() {
-            alert("test !!!");
-            document.querySelector('#loading').classList.add('loading');
-          
-            document.querySelector('#loading-content').classList.add('loading-content');
-        }
-
-        // Cache le spinner de chargement
-        function hideLoading() {
-            document.querySelector('#loading').classList.remove('loading');
-            document.querySelector('#loading-content').classList.remove('loading-content');
-        }
-
-        hideLoading();
-    });
-    document.getElementById("#loginform").addEventListener("submit", function(event) {
-        // Récupérer les champs email et password
-        var email = document.getElementById("email").value.trim();
-        var password = document.getElementById("password").value.trim();
-
-        // Initialiser une variable pour suivre si le formulaire est valide
-        var formIsValid = true;
-
-        // Réinitialiser les messages d'erreur
-        document.getElementById("email-error").style.display = "none";
-        document.getElementById("password-error").style.display = "none";
-
-        // Vérifier si le champ email est vide ou invalide
-        if (email === "" || !validateEmail(email)) {
-            document.getElementById("email-error").style.display = "block";
-            formIsValid = false;
-        }
-
-        // Vérifier si le champ mot de passe est vide
-        if (password === "") {
-            document.getElementById("password-error").style.display = "block";
-            formIsValid = false;
-        }
-
-        // Si le formulaire n'est pas valide, empêcher la soumission et cacher le spinner
-        if (!formIsValid) {
-            event.preventDefault();
-            hideLoading();
-        } else {
-            // Afficher le spinner de chargement si le formulaire est valide
-            showLoading();
-        }
-    });
-
-    // Fonction pour valider l'adresse email
-    function validateEmail(email) {
-        var re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return re.test(String(email).toLowerCase());
+    function showLoading() {
+        document.querySelector('#loading').classList.add('loading');
+        document.querySelector('#loading-content').classList.add('loading-content');
     }
+
+    // Cache le spinner de chargement
+    function hideLoading() {
+        document.querySelector('#loading').classList.remove('loading');
+        document.querySelector('#loading-content').classList.remove('loading-content');
+    }
+
+    document.getElementById("loginform").addEventListener("submit", function(event) {
+        showLoading(); // Affiche le spinner au moment de la soumission du formulaire
+    });
     </script>
 </body>
 

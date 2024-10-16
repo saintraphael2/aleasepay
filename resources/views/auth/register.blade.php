@@ -28,6 +28,9 @@
 <body class="hold-transition login-page opqone" style="height: 840px !important;padding-bottom: 153px;">
     <div class="row loginbodybackg">
         <div class="logincustomize signinlocktwo">
+            <section id="loading">
+                <div id="loading-content"></div>
+            </section>
             <div class="boxsignin">
                 <div class="card signincardctz">
 
@@ -180,6 +183,18 @@
                     <!-- /.register-box -->
                     <script src="{{ 'js/app.js' }}" defer></script>
                     <script>
+                    function showLoading() {
+                        document.querySelector('#loading').classList.add('loading');
+                        document.querySelector('#loading-content').classList.add('loading-content');
+                    }
+
+                    // Cache le spinner de chargement
+                    function hideLoading() {
+                        document.querySelector('#loading').classList.remove('loading');
+                        document.querySelector('#loading-content').classList.remove('loading-content');
+                    }
+                    </script>
+                    <script>
                     $(document).ready(function() {
                         // Cache toutes les étapes sauf la première
                         $(".step").hide();
@@ -187,6 +202,7 @@
                         $("#tab1").addClass('active');
                         // Bouton "Suivant"
                         $(".next").click(function() {
+                            showLoading();
                             var currentStep = $(this).data("step");
 
                             if (currentStep == 1) {
@@ -221,12 +237,11 @@
                                         } else {
                                             $('#checkmail').css("display", "block");
                                         }
-
-
+                                        hideLoading();
                                     }
                                 });
                             } else if (currentStep == 2) {
-
+                                showLoading();
                                 $.ajaxSetup({
                                     headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -259,8 +274,7 @@
                                         } else {
                                             $('#checkcode').css("display", "block");
                                         }
-
-
+                                        hideLoading();
                                     }
                                 });
                             } else if (currentStep == 3) {
@@ -288,6 +302,7 @@
                                 $('#checkpassword').css("display", "block");
                             } else {
                                 $("#form").submit();
+                                showLoading();
                             }
                         });
                         // Validation lors de la soumission du formulaire
@@ -334,5 +349,8 @@
             </div>
         </div>
     </div>
+
+
 </body>
+
 </html>

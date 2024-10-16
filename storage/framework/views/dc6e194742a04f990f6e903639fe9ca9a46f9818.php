@@ -28,6 +28,9 @@
 <body class="hold-transition login-page opqone" style="height: 840px !important;padding-bottom: 153px;">
     <div class="row loginbodybackg">
         <div class="logincustomize signinlocktwo">
+            <section id="loading">
+                <div id="loading-content"></div>
+            </section>
             <div class="boxsignin">
                 <div class="card signincardctz">
 
@@ -222,6 +225,18 @@ unset($__errorArgs, $__bag); ?>
                     <!-- /.register-box -->
                     <script src="<?php echo e('js/app.js'); ?>" defer></script>
                     <script>
+                    function showLoading() {
+                        document.querySelector('#loading').classList.add('loading');
+                        document.querySelector('#loading-content').classList.add('loading-content');
+                    }
+
+                    // Cache le spinner de chargement
+                    function hideLoading() {
+                        document.querySelector('#loading').classList.remove('loading');
+                        document.querySelector('#loading-content').classList.remove('loading-content');
+                    }
+                    </script>
+                    <script>
                     $(document).ready(function() {
                         // Cache toutes les étapes sauf la première
                         $(".step").hide();
@@ -229,6 +244,7 @@ unset($__errorArgs, $__bag); ?>
                         $("#tab1").addClass('active');
                         // Bouton "Suivant"
                         $(".next").click(function() {
+                            showLoading();
                             var currentStep = $(this).data("step");
 
                             if (currentStep == 1) {
@@ -263,12 +279,11 @@ unset($__errorArgs, $__bag); ?>
                                         } else {
                                             $('#checkmail').css("display", "block");
                                         }
-
-
+                                        hideLoading();
                                     }
                                 });
                             } else if (currentStep == 2) {
-
+                                showLoading();
                                 $.ajaxSetup({
                                     headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -301,8 +316,7 @@ unset($__errorArgs, $__bag); ?>
                                         } else {
                                             $('#checkcode').css("display", "block");
                                         }
-
-
+                                        hideLoading();
                                     }
                                 });
                             } else if (currentStep == 3) {
@@ -322,7 +336,7 @@ unset($__errorArgs, $__bag); ?>
                         });
                         $("#submitForm").click(function(e) {
                             e.preventDefault();
-
+                            
                             var password = $("#password").val();
                             var password_confirmation = $("#password_confirmation").val();
 
@@ -330,6 +344,7 @@ unset($__errorArgs, $__bag); ?>
                                 $('#checkpassword').css("display", "block");
                             } else {
                                 $("#form").submit();
+                                showLoading();
                             }
                         });
                         // Validation lors de la soumission du formulaire
@@ -397,5 +412,8 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </div>
+
+
 </body>
+
 </html><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/auth/register.blade.php ENDPATH**/ ?>
