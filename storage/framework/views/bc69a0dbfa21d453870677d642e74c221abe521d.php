@@ -49,7 +49,7 @@
 
                         </div>
                         <?php endif; ?>
-                        <form method="post" action="<?php echo e(url('/login')); ?>">
+                        <form method="post" action="<?php echo e(url('/login')); ?>" id="loginform">
                             <?php echo csrf_field(); ?>
 
                             <div class="input-group mb-3">
@@ -172,7 +172,7 @@ unset($__errorArgs, $__bag); ?>
         showLoading();
 
         // Tu peux aussi soumettre manuellement le formulaire si nécessaire
-        document.getElementById("myForm").submit();
+        document.getElementById("loginform").submit();
         hideLoading();
     });
     </script>
