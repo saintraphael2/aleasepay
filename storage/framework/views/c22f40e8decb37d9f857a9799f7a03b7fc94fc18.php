@@ -16,8 +16,11 @@
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
 </head>
 
-<body class="hold-transition login-page opqone" style="max-height: 1000px !important;">
+<body class="hold-transition login-page opqone" style="height: 840px !important;padding-bottom: 153px;">
     <div class="row loginbodybackg">
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
         <div class="logincustomize loginblocktwo">
             <div class="login-box">
                 <div class="card logincardctz">
@@ -28,7 +31,7 @@
                                 envoyé à votre adresse e-mail: <?php echo e($emailc); ?></h5>
                         </div>
 
-                        <form method="post" action="<?php echo e(route('validationOtp')); ?>">
+                        <form method="post" action="<?php echo e(route('validationOtp')); ?>" id="opqform">
                             <?php echo csrf_field(); ?>
                             <div class="row">
                                 <div class="input-group mb-3">
@@ -113,6 +116,23 @@ unset($__errorArgs, $__bag); ?>" name="email"
     </div>
     <!-- /.login-box -->
     <script src="<?php echo e(asset('js/app.js')); ?>"></script>
+
+    <script>
+    function showLoading() {
+        document.querySelector('#loading').classList.add('loading');
+        document.querySelector('#loading-content').classList.add('loading-content');
+    }
+
+    // Cache le spinner de chargement
+    function hideLoading() {
+        document.querySelector('#loading').classList.remove('loading');
+        document.querySelector('#loading-content').classList.remove('loading-content');
+    }
+
+    document.getElementById("opqform").addEventListener("submit", function(event) {
+        showLoading(); // Affiche le spinner au moment de la soumission du formulaire
+    });
+    </script>
 </body>
 
 </html><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/auth/otp.blade.php ENDPATH**/ ?>

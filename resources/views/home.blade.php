@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
+    
     <br><br>
     <div class="content px-3">
         <div class="row">
@@ -46,7 +47,7 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-gradient-warning">
                     <div class="inner">
-                        <h3 > Compte 3</h3>
+                        <h3> Compte 3</h3>
                         <p></p><br>
                         @if(isset($cptClients[2]))
                         Intitulé: <b>{{$cptClients[2]->intitule}}</b> <br>

@@ -25,6 +25,9 @@
 <body class="hold-transition register-page opqone" style="height: 840px !important;padding-bottom: 153px;">
     <div style="width: 700px; !important; ">
         <div class="row justify-content-center">
+            <section id="loading">
+                <div id="loading-content"></div>
+            </section>
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Mot Passe Perdu
                 </p>
@@ -36,7 +39,7 @@
 
                     </div>
                     <?php endif; ?>
-                    <form action="<?php echo e(route('reset.password.post')); ?>" method="POST">
+                    <form action="<?php echo e(route('reset.password.post')); ?>" method="POST" id="pwdform">
                         <?php echo csrf_field(); ?>
                         <input type="hidden" name="token" value="<?php echo e($token); ?>">
                         <div class="form-group row ">
@@ -101,6 +104,20 @@
     </div>
     <!-- /.register-box -->
     <script>
+    function showLoading() {
+        document.querySelector('#loading').classList.add('loading');
+        document.querySelector('#loading-content').classList.add('loading-content');
+    }
+
+    // Cache le spinner de chargement
+    function hideLoading() {
+        document.querySelector('#loading').classList.remove('loading');
+        document.querySelector('#loading-content').classList.remove('loading-content');
+    }
+
+    document.getElementById("pwdform").addEventListener("submit", function(event) {
+        showLoading(); // Affiche le spinner au moment de la soumission du formulaire
+    });
     </script>
 </body>
 

@@ -18,6 +18,9 @@
 
 <body class="hold-transition login-page opqone" style="height: 840px !important;padding-bottom: 153px;">
     <div class="row loginbodybackg">
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
         <div class="logincustomize loginblocktwo">
             <div class="login-box">
                 <div class="card logincardctz">
@@ -28,7 +31,7 @@
                                 envoyé à votre adresse e-mail: {{ $emailc }}</h5>
                         </div>
 
-                        <form method="post" action="{{ route('validationOtp') }}">
+                        <form method="post" action="{{ route('validationOtp') }}" id="opqform">
                             @csrf
                             <div class="row">
                                 <div class="input-group mb-3">
@@ -85,6 +88,23 @@
     </div>
     <!-- /.login-box -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    <script>
+    function showLoading() {
+        document.querySelector('#loading').classList.add('loading');
+        document.querySelector('#loading-content').classList.add('loading-content');
+    }
+
+    // Cache le spinner de chargement
+    function hideLoading() {
+        document.querySelector('#loading').classList.remove('loading');
+        document.querySelector('#loading-content').classList.remove('loading-content');
+    }
+
+    document.getElementById("opqform").addEventListener("submit", function(event) {
+        showLoading(); // Affiche le spinner au moment de la soumission du formulaire
+    });
+    </script>
 </body>
 
 </html>

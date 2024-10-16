@@ -19,7 +19,11 @@
 </head>
 
 <body class="hold-transition login-page loginbodybackg" style="height: 840px !important;padding-bottom: 153px;">
+
     <div class="row loginbodybackg">
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
         <div class=" logincustomize loginblockone">
             <div class="">
                 <img class="imgctz" src="../images/logoalt.png" />
@@ -35,6 +39,7 @@
                 <div class="card logincardctz containerBlock">
                     <div class="card-body login-card-body">
                         <!--p class="login-box-msg">{{ __('auth.login.title') }}</p-->
+
                         <div class="iconlogin">
                             <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur votre banque en
                                 ligne</h4>
@@ -45,7 +50,7 @@
                             {{ Session::get('message') }}
                         </div>
                         @endif
-                        <form method="post" action="{{ url('/login') }}">
+                        <form method="post" action="{{ url('/login') }}" id="loginform">
                             @csrf
 
                             <div class="input-group mb-3">
@@ -120,107 +125,19 @@
     <script src="{{ asset('js/waitMe.js') }}"></script>
 
     <script>
-    $(function() {
+    function showLoading() {
+        document.querySelector('#loading').classList.add('loading');
+        document.querySelector('#loading-content').classList.add('loading-content');
+    }
 
-        var current_effect = 'progress';
-        //$('#waitMe_ex_effect').val()
-        run_waitMe($('.containerBlock > form'), 1, current_effect);
+    // Cache le spinner de chargement
+    function hideLoading() {
+        document.querySelector('#loading').classList.remove('loading');
+        document.querySelector('#loading-content').classList.remove('loading-content');
+    }
 
-        $('#waitMe_ex').click(function() {
-
-        });
-        $('.waitMe_ex_close').click(function() {
-            $('.containerBlock > form').waitMe('hide');
-            $('#waitMe_ex2').waitMe('hide');
-            $('#waitMe_ex3').waitMe('hide');
-        });
-
-        $('#waitMe_ex_effect').change(function() {
-            current_effect = $(this).val();
-            run_waitMe($('.containerBlock > form'), 1, current_effect);
-            run_waitMe($('#waitMe_ex2'), 2, current_effect);
-            run_waitMe($('#waitMe_ex3'), 3, current_effect);
-        });
-
-        $('#waitMe_ex_effect').click(function() {
-            current_effect = $(this).val();
-        });
-
-        function run_waitMe(el, num, effect) {
-            text = 'Please wait...';
-            fontSize = '';
-            switch (num) {
-                case 1:
-                    maxSize = '';
-                    textPos = 'vertical';
-                    break;
-                case 2:
-                    text = '';
-                    maxSize = 30;
-                    textPos = 'vertical';
-                    break;
-                case 3:
-                    maxSize = 30;
-                    textPos = 'horizontal';
-                    fontSize = '18px';
-                    break;
-            }
-            el.waitMe({
-                effect: effect,
-                text: text,
-                bg: 'rgba(255,255,255,0.7)',
-                color: '#000',
-                maxSize: maxSize,
-                waitTime: -1,
-                source: 'img.svg',
-                textPos: textPos,
-                fontSize: fontSize,
-                onClose: function(el) {}
-            });
-        }
-
-        $('#waitMe_ex2').click(function() {
-            run_waitMe($(this), 2, current_effect);
-        });
-
-        $('#waitMe_ex3').click(function() {
-            run_waitMe($(this), 3, current_effect);
-        });
-
-        var current_body_effect = $('#waitMe_ex_body_effect').val();
-
-        $('#waitMe_ex_body').click(function() {
-            run_waitMe_body(current_body_effect);
-        });
-
-        $('#waitMe_ex_body_effect').change(function() {
-            current_body_effect = $(this).val();
-            run_waitMe_body(current_body_effect);
-        });
-
-        function run_waitMe_body(effect) {
-            $('body').addClass('waitMe_body');
-            var img = '';
-            var text = '';
-            if (effect == 'img') {
-                img = 'background:url(\'img.svg\')';
-            } else if (effect == 'text') {
-                text = 'Loading...';
-            }
-            var elem = $('<div class="waitMe_container ' + effect + '"><div style="' + img + '">' + text +
-                '</div></div>');
-            $('body').prepend(elem);
-
-            setTimeout(function() {
-                $('body.waitMe_body').addClass('hideMe');
-                setTimeout(function() {
-                    $('body.waitMe_body').find('.waitMe_container:not([data-waitme_id])')
-                        .remove();
-                    $('body.waitMe_body').removeClass('waitMe_body hideMe');
-                }, 200);
-            }, 4000);
-        }
-
+    document.getElementById("loginform").addEventListener("submit", function(event) {
+        showLoading(); // Affiche le spinner au moment de la soumission du formulaire
     });
     </script>
 </body>
