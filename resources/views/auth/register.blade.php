@@ -292,23 +292,20 @@
                             $("#tab" + (currentStep)).removeClass('active');
                             $("#tab" + (currentStep - 1)).addClass('active');
                         });
-                        $("#submit").click(function(e) {
+                        $("#submitForm").click(function(e) {
                             e.preventDefault();
-                            alert("+++++++++++++++++");
                             var password = $("#password").val();
                             var password_confirmation = $("#password_confirmation").val();
 
                             if (password !== password_confirmation) {
                                 $('#checkpassword').css("display", "block");
                             } else {
-                                alert("+++++++++++++++++");
                                 $("#form").submit();
                                 showLoading();
                             }
-                            hideLoading();
                         });
                         // Validation lors de la soumission du formulaire
-                       
+
                     });
 
                     if ($('#agreeTerms').change(function() {

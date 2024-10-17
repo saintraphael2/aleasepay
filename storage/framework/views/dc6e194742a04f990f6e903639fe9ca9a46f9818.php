@@ -334,23 +334,22 @@ unset($__errorArgs, $__bag); ?>
                             $("#tab" + (currentStep)).removeClass('active');
                             $("#tab" + (currentStep - 1)).addClass('active');
                         });
-                        $("#submit").click(function(e) {
+                        $("#submitForm").click(function(e) {
                             e.preventDefault();
-                            alert("+++++++++++++++++");
+                            alert("+++++++++++++++++ 1");
                             var password = $("#password").val();
                             var password_confirmation = $("#password_confirmation").val();
 
                             if (password !== password_confirmation) {
                                 $('#checkpassword').css("display", "block");
                             } else {
-                                alert("+++++++++++++++++");
+                                 alert("+++++++++++++++++ 2");
                                 $("#form").submit();
                                 showLoading();
                             }
-                            hideLoading();
                         });
                         // Validation lors de la soumission du formulaire
-                       
+
                     });
 
                     if ($('#agreeTerms').change(function() {
