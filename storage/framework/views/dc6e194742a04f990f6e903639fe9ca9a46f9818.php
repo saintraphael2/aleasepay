@@ -334,7 +334,7 @@ unset($__errorArgs, $__bag); ?>
                             $("#tab" + (currentStep)).removeClass('active');
                             $("#tab" + (currentStep - 1)).addClass('active');
                         });
-                        $("#submitForm").click(function(e) {
+                        $("#submit").click(function(e) {
                             e.preventDefault();
                             alert("+++++++++++++++++");
                             var password = $("#password").val();
@@ -347,9 +347,10 @@ unset($__errorArgs, $__bag); ?>
                                 $("#form").submit();
                                 showLoading();
                             }
+                            hideLoading();
                         });
                         // Validation lors de la soumission du formulaire
-
+                       
                     });
 
                     if ($('#agreeTerms').change(function() {

@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-sm-3">
                     <a class="btn btn-primary float-right"
-                       href="<?php echo e(route('releve',[$compte,$deb->format('Y-m-d'),$fin->format('Y-m-d')])); ?>">
+                       href="<?php echo e(route('releve',[$compte,$deb->format('Y-m-d'),$fin->format('Y-m-d')])); ?>" target="_blank">
                         Export PDF
                     </a>
                 </div>
@@ -66,6 +66,20 @@
                 <th>Débit</th>
                 <th>Crédit</th>
             </tr>
+            <tr>
+            <td><?php echo e($deb->format('d-m-Y')); ?></td>
+                <td>Solde initial</td>
+                <td>
+                    <?php if($soldedeb<=0): ?>
+                            <?php echo e(number_format($soldedeb, 0,"", " ")); ?>
+
+                            <?php endif; ?>
+                    </td>
+                <td> <?php if($soldedeb>0): ?>
+                            <?php echo e(number_format($soldedeb, 0,"", " ")); ?>
+
+                            <?php endif; ?></td>
+            </tr>
             <?php $__currentLoopData = $mouvements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mouvement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                 <td><?php echo e($mouvement->LOT_DATE->format('d-m-Y')); ?></td>
@@ -85,6 +99,20 @@
                     </td>
                 </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <tr>
+            <td><?php echo e($fin->format('d-m-Y')); ?></td>
+                <td>Solde Final</td>
+                <td>
+                    <?php if($soldefin<=0): ?>
+                            <?php echo e(number_format($soldefin, 0,"", " ")); ?>
+
+                            <?php endif; ?>
+                    </td>
+                <td> <?php if($soldefin>0): ?>
+                            <?php echo e(number_format($soldefin, 0,"", " ")); ?>
+
+                            <?php endif; ?></td>
+            </tr>
            </table>
         </div>
     </div>
