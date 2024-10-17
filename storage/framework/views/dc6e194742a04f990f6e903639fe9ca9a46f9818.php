@@ -133,7 +133,7 @@ unset($__errorArgs, $__bag); ?>
                                         </div>
 
                                         <div class="row form-group">
-                                            <input type="text" name="racine" id='racine'>
+                                            <input type="hidden" name="racine" id='racine'>
                                             <input type="email" name="email" id="email" value="<?php echo e(old('email')); ?>"
                                                 class="col-sm form-control <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -336,16 +336,13 @@ unset($__errorArgs, $__bag); ?>
                         });
                         $("#submitForm").click(function(e) {
                             e.preventDefault();
-                            alert("+++++++++++++++++ 1");
                             var password = $("#password").val();
                             var password_confirmation = $("#password_confirmation").val();
 
                             if (password !== password_confirmation) {
                                 $('#checkpassword').css("display", "block");
                             } else {
-                                 alert("+++++++++++++++++ 2");
                                 $("#form").submit();
-                                showLoading();
                             }
                         });
                         // Validation lors de la soumission du formulaire
