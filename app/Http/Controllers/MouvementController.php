@@ -82,7 +82,7 @@ class MouvementController extends AppBaseController
     public function releve($compte,$deb,$fin){
         ini_set('max_execution_time', 500);
         $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
-            'dateSolde' => Carbon::parse($deb)->format('d/m/Y'),
+            'dateSolde' => Carbon::parse($deb)->addDays(-1)->format('d/m/Y'),
             'compte' => $compte,
             
         ]);//var_dump($soldedeb['solde']);exit;
@@ -148,7 +148,9 @@ class MouvementController extends AppBaseController
         
        // $fpdf->Cell(25, 5,( $solde>0)? number_format($solde, 0,"", " "):'',0,0,'C',false);
     //$fpdf->Line(150,$y,150,$y+10);
-    
+    if($y==97){
+        $fpdf->SetXY(10,$y);
+    }
 
         $fpdf->Cell(70, 5, number_format($soldedeb['solde'], 0,"", " "),0,0,'C',false);
         $fpdf->Cell(30, 5, number_format($total_debit, 0,"", " "),0,0,'C',false);
