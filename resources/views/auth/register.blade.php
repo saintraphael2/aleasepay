@@ -301,7 +301,6 @@
                                 $('#checkpassword').css("display", "block");
                             } else {
                                 $("#form").submit();
-                                showLoading();
                             }
                         });
                         // Validation lors de la soumission du formulaire
