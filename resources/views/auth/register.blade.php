@@ -294,13 +294,14 @@
                         });
                         $("#submitForm").click(function(e) {
                             e.preventDefault();
-
+                            alert("+++++++++++++++++");
                             var password = $("#password").val();
                             var password_confirmation = $("#password_confirmation").val();
 
                             if (password !== password_confirmation) {
                                 $('#checkpassword').css("display", "block");
                             } else {
+                                alert("+++++++++++++++++");
                                 $("#form").submit();
                                 showLoading();
                             }
