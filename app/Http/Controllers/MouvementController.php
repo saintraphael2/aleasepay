@@ -51,7 +51,7 @@ class MouvementController extends AppBaseController
       
         $compte=($request->compte !== null)?$request->compte:$comptes[0]->compte;
         $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
-      /*  $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
+        $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => $deb->format('d/m/Y'),
             'compte' => $compte,
             
@@ -59,13 +59,13 @@ class MouvementController extends AppBaseController
 
         $soldefin = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => $fin->format('d/m/Y'),
-            'compte' => $compte,($soldedeb!=null)?$soldedeb['solde']:
-            =>($soldefin!=null)?$soldefin['solde']:
+            'compte' => $compte,
+            
         ]); 
-        echo'<pre>';*/
-    //var_dump($soldedeb);exit;
+       // echo'<pre>';
+   // var_dump($soldedeb);exit;
         return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes,
-        'compte'=> $compte,'soldedeb'=>0,'soldefin'=>0]);
+        'compte'=> $compte,'soldedeb'=>($soldedeb!=null)?$soldedeb['solde']:0,'soldefin'=>($soldefin!=null)?$soldefin['solde']:0]);
     }else{
         Auth::logout();
         return redirect('/login');
@@ -82,11 +82,11 @@ class MouvementController extends AppBaseController
     }
     public function releve($compte,$deb,$fin){
         ini_set('max_execution_time', 500);
-       /* $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
+        $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => Carbon::parse($deb)->addDays(-1)->format('d/m/Y'),
             'compte' => $compte,
             
-        ]);*/ //var_dump($soldedeb['solde']);exit;
+        ]);//var_dump($soldedeb['solde']);exit;
        // $soldedeb =$soldedeb['solde'];
        $comptes=Compte::where('compte',$compte)->first();
         $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
@@ -103,14 +103,14 @@ class MouvementController extends AppBaseController
          $fpdf->auteur=Auth::user()->email;
          $fpdf->datedition=Carbon::now()->toDateTimeString();
          $fpdf->rib=$comptes->cle;
-         $fpdf->soldeinit=0;//$soldedeb['solde'];
+         $fpdf->soldeinit=$soldedeb['solde'];
         
         $fpdf->AddPage();
        
     $fpdf->SetFont('Courier', 'B', 8);
     /*$fpdf->SetLineWidth(1);
-    $fpdf->Line(10,80,200,80);$soldedeb['solde']*/
-    $solde=0;
+    $fpdf->Line(10,80,200,80);*/
+    $solde=$soldedeb['solde'];
     $y=97;
     $total_debit=0;
     $total_credit=0;
@@ -148,12 +148,12 @@ class MouvementController extends AppBaseController
    // $fpdf->Line(100,$y,100,$y+10);$fpdf->Cell(35, 5, ( $solde<=0)? number_format($solde, 0,"", " "):'',0,0,'C',false);
         
        // $fpdf->Cell(25, 5,( $solde>0)? number_format($solde, 0,"", " "):'',0,0,'C',false);
-    //$fpdf->Line(150,$y,150,$y+10);$soldedeb['solde']
+    //$fpdf->Line(150,$y,150,$y+10);
     if($y==97){
         $fpdf->SetXY(10,$y);
     }
 
-        $fpdf->Cell(70, 5, number_format(0, 0,"", " "),0,0,'C',false);
+        $fpdf->Cell(70, 5, number_format($soldedeb['solde'], 0,"", " "),0,0,'C',false);
         $fpdf->Cell(30, 5, number_format($total_debit, 0,"", " "),0,0,'C',false);
         $fpdf->Cell(30, 5, number_format($total_credit, 0,"", " "),0,0,'C',false);
         
