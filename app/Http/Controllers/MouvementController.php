@@ -51,7 +51,7 @@ class MouvementController extends AppBaseController
       
         $compte=($request->compte !== null)?$request->compte:$comptes[0]->compte;
         $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
-        $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
+      /*  $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => $deb->format('d/m/Y'),
             'compte' => $compte,
             
@@ -59,12 +59,13 @@ class MouvementController extends AppBaseController
 
         $soldefin = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => $fin->format('d/m/Y'),
-            'compte' => $compte,
-            
+            'compte' => $compte,($soldedeb!=null)?$soldedeb['solde']:
+            =>($soldefin!=null)?$soldefin['solde']:
         ]); 
-    
+        echo'<pre>';*/
+    //var_dump($soldedeb);exit;
         return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes,
-        'compte'=> $compte,'soldedeb'=>($soldedeb!=null)?$soldedeb['solde']:0,'soldefin'=>($soldefin!=null)?$soldefin['solde']:0]);
+        'compte'=> $compte,'soldedeb'=>0,'soldefin'=>0]);
     }else{
         Auth::logout();
         return redirect('/login');
