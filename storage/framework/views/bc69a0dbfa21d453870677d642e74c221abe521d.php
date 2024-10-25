@@ -19,11 +19,11 @@
 </head>
 
 <body class="hold-transition login-page loginbodybackg" style="height: 840px !important;padding-bottom: 153px;">
-    
+
     <div class="row loginbodybackg">
-    <section id="loading">
-        <div id="loading-content"></div>
-    </section>
+        <section id="loading">
+            <div id="loading-content"></div>
+        </section>
         <div class=" logincustomize loginblockone">
             <div class="">
                 <img class="imgctz" src="../images/logoalt.png" />
@@ -164,7 +164,7 @@ unset($__errorArgs, $__bag); ?>
         document.querySelector('#loading').classList.remove('loading');
         document.querySelector('#loading-content').classList.remove('loading-content');
     }
-   
+
     document.getElementById("loginform").addEventListener("submit", function(event) {
         showLoading(); // Affiche le spinner au moment de la soumission du formulaire
     });

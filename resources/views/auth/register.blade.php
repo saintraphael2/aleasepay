@@ -119,7 +119,7 @@
                                         </div>
 
                                         <div class="row form-group">
-                                            <input type="text" name="racine" id='racine'>
+                                            <input type="hidden" name="racine" id='racine'>
                                             <input type="email" name="email" id="email" value="{{ old('email') }}"
                                                 class="col-sm form-control @error('email') is-invalid @enderror"
                                                 placeholder="Email" readonly>
@@ -294,7 +294,6 @@
                         });
                         $("#submitForm").click(function(e) {
                             e.preventDefault();
-
                             var password = $("#password").val();
                             var password_confirmation = $("#password_confirmation").val();
 
@@ -302,7 +301,6 @@
                                 $('#checkpassword').css("display", "block");
                             } else {
                                 $("#form").submit();
-                                showLoading();
                             }
                         });
                         // Validation lors de la soumission du formulaire

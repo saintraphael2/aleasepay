@@ -109,7 +109,7 @@
     window.addEventListener('load', function() {
         // Cache le spinner une fois le chargement de la page terminé
         hideLoading();
-        alert("test");
+       // alert("test");
 
         // Affiche le contenu de la page
         document.getElementById('page-content').style.display = 'block';
