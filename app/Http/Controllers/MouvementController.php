@@ -82,11 +82,11 @@ class MouvementController extends AppBaseController
     }
     public function releve($compte,$deb,$fin){
         ini_set('max_execution_time', 500);
-        $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
+       /* $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => Carbon::parse($deb)->addDays(-1)->format('d/m/Y'),
             'compte' => $compte,
             
-        ]);//var_dump($soldedeb['solde']);exit;
+        ]);*/ //var_dump($soldedeb['solde']);exit;
        // $soldedeb =$soldedeb['solde'];
        $comptes=Compte::where('compte',$compte)->first();
         $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
@@ -109,8 +109,8 @@ class MouvementController extends AppBaseController
        
     $fpdf->SetFont('Courier', 'B', 8);
     /*$fpdf->SetLineWidth(1);
-    $fpdf->Line(10,80,200,80);*/
-    $solde=$soldedeb['solde'];
+    $fpdf->Line(10,80,200,80);$soldedeb['solde']*/
+    $solde=0;
     $y=97;
     $total_debit=0;
     $total_credit=0;
