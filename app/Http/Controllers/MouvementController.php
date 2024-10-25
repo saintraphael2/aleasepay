@@ -148,12 +148,12 @@ class MouvementController extends AppBaseController
    // $fpdf->Line(100,$y,100,$y+10);$fpdf->Cell(35, 5, ( $solde<=0)? number_format($solde, 0,"", " "):'',0,0,'C',false);
         
        // $fpdf->Cell(25, 5,( $solde>0)? number_format($solde, 0,"", " "):'',0,0,'C',false);
-    //$fpdf->Line(150,$y,150,$y+10);
+    //$fpdf->Line(150,$y,150,$y+10);$soldedeb['solde']
     if($y==97){
         $fpdf->SetXY(10,$y);
     }
 
-        $fpdf->Cell(70, 5, number_format($soldedeb['solde'], 0,"", " "),0,0,'C',false);
+        $fpdf->Cell(70, 5, number_format(0, 0,"", " "),0,0,'C',false);
         $fpdf->Cell(30, 5, number_format($total_debit, 0,"", " "),0,0,'C',false);
         $fpdf->Cell(30, 5, number_format($total_credit, 0,"", " "),0,0,'C',false);
         
