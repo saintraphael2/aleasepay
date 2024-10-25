@@ -103,7 +103,7 @@ class MouvementController extends AppBaseController
          $fpdf->auteur=Auth::user()->email;
          $fpdf->datedition=Carbon::now()->toDateTimeString();
          $fpdf->rib=$comptes->cle;
-         $fpdf->soldeinit=$soldedeb['solde'];
+         $fpdf->soldeinit=0;//$soldedeb['solde'];
         
         $fpdf->AddPage();
        
