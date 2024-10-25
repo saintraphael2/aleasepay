@@ -61,7 +61,7 @@
                 <th>Débit</th>
                 <th>Crédit</th>
             </tr>
-            <!--tr>
+            <tr>
             <td>{{$deb->format('d-m-Y')}}</td>
                 <td>Solde initial</td>
                 <td>
@@ -72,7 +72,7 @@
                 <td> @if($soldedeb>0)
                             {{  number_format($soldedeb, 0,"", " ")   }}
                             @endif</td>
-            </tr-->
+            </tr>
             @foreach($mouvements as $mouvement)
                 <tr>
                 <td>{{$mouvement->LOT_DATE->format('d-m-Y')}}</td>
@@ -91,7 +91,7 @@
                 </tr>
             @endforeach
             <tr>
-            <!--td>{{$fin->format('d-m-Y')}}</td>
+            <td>{{$fin->format('d-m-Y')}}</td>
                 <td>Solde Final</td>
                 <td>
                     @if($soldefin<=0)
@@ -101,7 +101,7 @@
                 <td> @if($soldefin>0)
                             {{  number_format($soldefin, 0,"", " ")   }}
                             @endif</td>
-            </tr-->
+            </tr>
            </table>
         </div>
     </div>
