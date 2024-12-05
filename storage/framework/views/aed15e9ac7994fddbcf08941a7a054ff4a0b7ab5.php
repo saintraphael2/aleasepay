@@ -20,4 +20,12 @@
         <p>Mouvements</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="<?php echo e(route('bordereaux.index')); ?>" class="nav-link <?php echo e(Request::is('bordereaux*') ? 'active' : ''); ?>">
+    <i class="nav-icon fas fa-solid fa-money-check"></i>
+        <p>Bordereaux</p>
+    </a>
+</li>
+
 <?php /**PATH D:\Dev\internetBanking\aleasepay2.0\resources\views/layouts/menu.blade.php ENDPATH**/ ?>

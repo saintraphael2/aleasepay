@@ -43,3 +43,6 @@ Route::post('reset-password', [App\Http\Controllers\Auth\ForgotPasswordControlle
 //Route::get('/saisieotp', [App\Http\Controllers\HomeController::class, 'saisieotp'])->name('saisieotp');passwordUpdate
 //});
 
+
+Route::resource('bordereaux', App\Http\Controllers\BordereauController::class);
+Route::resource('type_bordereaus', App\Http\Controllers\Type_bordereauController::class);

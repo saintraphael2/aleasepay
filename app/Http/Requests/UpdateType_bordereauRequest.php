@@ -1,13 +1,11 @@
-@php
-    echo "<?php".PHP_EOL;
-@endphp
+<?php
 
-namespace {{ $config->namespaces->request }};
+namespace App\Http\Requests;
 
-use {{ $config->namespaces->model }}\{{ $config->modelNames->name }};
+use App\Models\Type_bordereau;
 use Illuminate\Foundation\Http\FormRequest;
 
-class Create{{ $config->modelNames->name }}Request extends FormRequest
+class UpdateType_bordereauRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,6 +24,8 @@ class Create{{ $config->modelNames->name }}Request extends FormRequest
      */
     public function rules()
     {
-        return {{ $config->modelNames->name }}::$rules;
+        $rules = Type_bordereau::$rules;
+        
+        return $rules;
     }
 }
