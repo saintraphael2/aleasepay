@@ -46,3 +46,8 @@ Route::post('reset-password', [App\Http\Controllers\Auth\ForgotPasswordControlle
 
 Route::resource('bordereaux', App\Http\Controllers\BordereauController::class);
 Route::resource('type_bordereaus', App\Http\Controllers\Type_bordereauController::class);
+
+
+Route::get('/cnss/cotisations', [App\Http\Controllers\CotisationCNSSController::class, 'index'])->name('cnss.cotisations');
+
+//Route::resource('cnss', App\Http\Controllers\CotisationCNSSController::class);

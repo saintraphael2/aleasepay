@@ -20,4 +20,19 @@
         <p>Mouvements</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="<?php echo e(route('bordereaux.index')); ?>" class="nav-link <?php echo e(Request::is('bordereaux*') ? 'active' : ''); ?>">
+    <i class="nav-icon fas fa-solid fa-money-check"></i>
+        <p>Bordereaux</p>
+    </a>
+</li>
+
+<li class="nav-item"> 
+    <a href="<?php echo e(route('cnss.cotisations')); ?>" class="nav-link {{ Request::is('cnss*') ? 'active' : '' ">
+    <i class="nav-icon fas fa-solid fa-wallet" ></i>
+        <p>Cotisation CNSS</p>
+    </a>
+</li>
+
 <?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/layouts/menu.blade.php ENDPATH**/ ?>
