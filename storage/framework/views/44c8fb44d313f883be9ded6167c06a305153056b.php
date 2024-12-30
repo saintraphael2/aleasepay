@@ -7,6 +7,7 @@
                     <th>Demandeur</th>
                     <th>Date</th>
                     <th>Montant</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,6 +18,14 @@
                         <td><?php echo e($cotisation['requester']); ?></td>
                         <td><?php echo e($cotisation['created_at']); ?></td>
                         <td><?php echo e(number_format($cotisation['amount'], 0, ',', ' ')); ?> FCFA</td>
+
+                        <td>
+                        <?php if($cotisation['done'] == true): ?>
+                            <button class="btn btn-secondary" disabled>Action (Désactivé)</button>
+                        <?php else: ?>
+                            <button class="btn btn-primary">Action (Actif)</button>
+                        <?php endif; ?>
+                    </td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>

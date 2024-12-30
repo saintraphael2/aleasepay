@@ -7,6 +7,7 @@
                     <th>Demandeur</th>
                     <th>Date</th>
                     <th>Montant</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,6 +18,14 @@
                         <td>{{ $cotisation['requester'] }}</td>
                         <td>{{ $cotisation['created_at'] }}</td>
                         <td>{{ number_format($cotisation['amount'], 0, ',', ' ') }} FCFA</td>
+
+                        <td>
+                        @if($cotisation['done'] == true)
+                            <button class="btn btn-secondary" disabled>Action (Désactivé)</button>
+                        @else
+                            <button class="btn btn-primary">Action (Actif)</button>
+                        @endif
+                    </td>
                     </tr>
                 @endforeach
             </tbody>

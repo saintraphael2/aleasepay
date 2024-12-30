@@ -49,5 +49,6 @@ Route::resource('type_bordereaus', App\Http\Controllers\Type_bordereauController
 
 
 Route::get('/cnss/cotisations', [App\Http\Controllers\CotisationCNSSController::class, 'index'])->name('cnss.cotisations');
+Route::get('/cnss/cotisations/search', [App\Http\Controllers\CotisationCNSSController::class, 'search'])->name('cnss.cotisations.search');
 
 //Route::resource('cnss', App\Http\Controllers\CotisationCNSSController::class);
