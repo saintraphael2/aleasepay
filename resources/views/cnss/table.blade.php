@@ -16,14 +16,19 @@
                         <td>{{ $cotisation['referenceID'] }}</td>
                         <td>{{ $cotisation['designation'] }}</td>
                         <td>{{ $cotisation['requester'] }}</td>
-                        <td>{{ $cotisation['created_at'] }}</td>
+                        <td>{{ $cotisation['created_at'] }}  </td>
                         <td>{{ number_format($cotisation['amount'], 0, ',', ' ') }} FCFA</td>
 
                         <td>
                         @if($cotisation['done'] == true)
-                            <button class="btn btn-secondary" disabled>Action (Désactivé)</button>
+
+                            <a href="{{route('cnss.cotisations.form', ['reference' => $cotisation['referenceID']])}}" 
+                                class="btn btn-primary">
+                                Action
+                            </a>
+                            <!-- <button class="btn btn-secondary" >Paiement </button> -->
                         @else
-                            <button class="btn btn-primary">Action (Actif)</button>
+                            <button class="btn btn-primary" disabled>Paiement </button>
                         @endif
                     </td>
                     </tr>

@@ -50,5 +50,8 @@ Route::resource('type_bordereaus', App\Http\Controllers\Type_bordereauController
 
 Route::get('/cnss/cotisations', [App\Http\Controllers\CotisationCNSSController::class, 'index'])->name('cnss.cotisations');
 Route::get('/cnss/cotisations/search', [App\Http\Controllers\CotisationCNSSController::class, 'search'])->name('cnss.cotisations.search');
+Route::get('/cnss/cotisations/{reference}/form/{numero_employeur}', [App\Http\Controllers\CotisationCNSSController::class, 'showForm'])
+    ->name('cnss.cotisations.form');
 
+    Route::post('/cnss/cotisations/pay', [App\Http\Controllers\CotisationCNSSController::class, 'paiement'])->name('cnss.cotisations.pay');
 //Route::resource('cnss', App\Http\Controllers\CotisationCNSSController::class);
