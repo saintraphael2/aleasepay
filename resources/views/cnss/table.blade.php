@@ -22,7 +22,7 @@
                         <td>
                         @if($cotisation['done'] == true)
 
-                            <a href="{{route('cnss.cotisations.form', ['reference' => $cotisation['referenceID']])}}" 
+                            <a href="{{route('cnss.cotisations.form',['reference' => $cotisation['referenceID'], 'numero_employeur' => $numero_employeur])}}" 
                                 class="btn btn-primary">
                                 Action
                             </a>

@@ -18,6 +18,10 @@ class CotisationCNSSController extends Controller
       return view('cnss.cotisations');
    }
 
+
+    /**
+     * 
+     */
    public function search(Request $request){
 
       $numero_employeur = $request->input('numero_employeur');
@@ -72,7 +76,7 @@ class CotisationCNSSController extends Controller
    /**
     *
     */
-   public function showForm($reference, $numero_employeur)
+   public function showForm($reference,$numero_employeur)
    {
        // Recherche des informations basées sur la référence
        $cotisation = $this->getCotisationByReference($reference); // Méthode fictive à implémenter
@@ -88,12 +92,19 @@ class CotisationCNSSController extends Controller
             $mail=Auth::user()->email;
             $racine=Auth::user()->racine;
             $cptClient=CptClient::where('racine',$racine)->first();
-            $comptes=Compte::where('racine',$cptClient->racine)->get();
+            $comptes=Compte::where('racine',$racine)->get();
+            #$comptes=Compte::where('racine',$cptClient->racine)->get();
+
+            #dd($comptes);
+
+            $cptClientsOriginal = $comptes->map(function ($cpt) {
+                return $cpt->getOriginal();
+            });
             #return view('home')->with('cptClients',$comptes);
         }else{
             return redirect()->back()->withErrors('Cotisation introuvable.');
         }
-       return view('cnss.form', compact('cotisation', 'comptes'));
+       return view('cnss.form', compact('cotisation', 'comptes', 'numero_employeur','cptClientsOriginal'));
    }
 
    /**
@@ -153,36 +164,36 @@ class CotisationCNSSController extends Controller
     */
    public function paiement(Request $request)
    {
-       // Récupérer les données depuis la requête
-       $validated = $request->validate([
-         'referenceID' => 'required|string',
-         'transactionID' => 'nullable|string',
-         'amount' => 'required|numeric',
-         'transactionDate' => 'required|date',
-         'currency' => 'XOF',
-         'status' => 1,
-         'designation' => 'required|string',
-         'requester' => 'required|string',
-         'numeroEmployeur' => 'required|string',
-         'comptealt' => 'required|string',
-     ]);
- 
-     // Préparer les données pour l'API
-     $data = [
-         'cNSSpaytax' => [
-             'referenceID' => $validated['referenceID'],
-             'transactionID' => $validated['transactionID'],
-             'amount' => $validated['amount'],
-             'transactionDate' => $validated['transactionDate'],
-             'currency' => $validated['currency'],
-             'status' => $validated['status'],
-         ],
-         'designation' => $validated['designation'],
-         'requester' => $validated['requester'],
-         'numeroEmployeur' => $validated['numeroEmployeur'],
-         'comptealt' => $validated['comptealt'],
-     ];
-   
+
+        #dd($request->all());
+        $validated = $request->validate([
+            'referenceID' => 'required|string',
+            'amount' => 'required|string', // Formaté avec devise et espaces
+            'designation' => 'required|string',
+            'requester' => 'required|string',
+            'numero_employeur' => 'required|string',
+            'comptealt' => 'required|string',
+        ]);
+    
+        // Nettoyer le champ "amount" pour extraire uniquement le montant numérique
+        $validated['amount'] = (float) str_replace(' ', '', preg_replace('/[^0-9]/', '', $validated['amount']));
+        $transactionDate = now()->format('Y-m-d H:i:s');
+        // Construire l'objet $data
+        $data = [
+            'cNSSpaytax' => [
+                'referenceID' => $validated['referenceID'],
+                'transactionID' => null, // Champ laissé vide ou par défaut
+                'amount' => $validated['amount'],
+                'transactionDate' =>$transactionDate, // Par exemple, date actuelle
+                'currency' => 'XOF', // Valeur fixe
+                'status' => 1, // Valeur fixe
+            ],
+            'designation' => $validated['designation'],
+            'requester' => $validated['requester'],
+            'numeroEmployeur' => $validated['numero_employeur'],
+            'comptealt' => $validated['comptealt'],
+        ];
+        #dd( $data );
        // Construire l'URL du service de paiement
        $baseUrl = env('API_TAX_BASE_URL', 'base_url');
        $paymentEndpoint = env('CNSS_API_POST_PAYMENT', 'api_post_payment');
@@ -210,11 +221,11 @@ class CotisationCNSSController extends Controller
        $responsePayment = Http::withHeaders([
            'Authorization' => "Bearer {$token}",
        ])->post($urlPayment, $data);
-   
+        dd($responsePayment);
        // Vérification de la réponse
        if ($responsePayment->successful()) {
            $responseBody = $responsePayment->json();
-   
+           dd($responseBody);
            if ($responseBody['data']['success'] ?? false) {
                Flash::success('Paiement effectué avec succès.');
                return redirect()->route('cnss.cotisations')->with('success', 'Paiement effectué avec succès.');

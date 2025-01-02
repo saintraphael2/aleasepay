@@ -53,5 +53,5 @@ Route::get('/cnss/cotisations/search', [App\Http\Controllers\CotisationCNSSContr
 Route::get('/cnss/cotisations/{reference}/form/{numero_employeur}', [App\Http\Controllers\CotisationCNSSController::class, 'showForm'])
     ->name('cnss.cotisations.form');
 
-    Route::post('/cnss/cotisations/pay', [App\Http\Controllers\CotisationCNSSController::class, 'paiement'])->name('cnss.cotisations.pay');
+Route::post('/cnss/cotisations/pay', [App\Http\Controllers\CotisationCNSSController::class, 'paiement'])->name('cnss.cotisations.pay');
 //Route::resource('cnss', App\Http\Controllers\CotisationCNSSController::class);
