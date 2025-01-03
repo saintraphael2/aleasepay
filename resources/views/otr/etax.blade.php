@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Cotisation CNSS</h1>
+                <h1> Etax OTR</h1>
             </div>
             <div class="col-sm-6">
                 <!-- <a class="btn btn-primary float-right"
@@ -23,18 +23,18 @@
 
     <div class="clearfix"></div>
     <div class="card" style="padding: 15px;">
-        <form method="GET" action="{{route('cnss.cotisations.search')}}" class="mb-4">
+        <form method="GET" action="{{route('otr.etax.search')}}" class="mb-4">
             @csrf
             <div class="form-group ">
-                <label for="numero_employeur">Numéro d'employeur</label>
-                <input type="text" name="numero_employeur" id="numero_employeur" class="form-control col-sm-3" 
-                    placeholder="Entrez le numéro d'employeur"  value="{{ old('numero_employeur', $numero_employeur ?? '') }}"  required>
+                <label for="reference_taxe">Référence de taxe</label>
+                <input type="text" name="reference_taxe" id="reference_taxe" class="form-control col-sm-3" 
+                    placeholder="Entrez la reférence de taxe"  value="{{ old('reference_taxe', $reference_taxe ?? '') }}"  required>
             </div>
             <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
         </form>
     </div>
     <div class="card" style="padding: 15px;">
-        @include('cnss.table')
+       
     </div>
 </div>
 

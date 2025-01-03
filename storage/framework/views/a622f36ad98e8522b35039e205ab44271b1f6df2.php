@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Cotisation CNSS</h1>
+                <h1> Etax OTR</h1>
             </div>
             <div class="col-sm-6">
                 <!-- <a class="btn btn-primary float-right"
@@ -23,20 +23,20 @@
 
     <div class="clearfix"></div>
     <div class="card" style="padding: 15px;">
-        <form method="GET" action="<?php echo e(route('cnss.cotisations.search')); ?>" class="mb-4">
+        <form method="GET" action="<?php echo e(route('otr.etax.search')); ?>" class="mb-4">
             <?php echo csrf_field(); ?>
             <div class="form-group ">
-                <label for="numero_employeur">Numéro d'employeur</label>
-                <input type="text" name="numero_employeur" id="numero_employeur" class="form-control col-sm-3" 
-                    placeholder="Entrez le numéro d'employeur"  value="<?php echo e(old('numero_employeur', $numero_employeur ?? '')); ?>"  required>
+                <label for="reference_taxe">Référence de taxe</label>
+                <input type="text" name="reference_taxe" id="reference_taxe" class="form-control col-sm-3" 
+                    placeholder="Entrez la reférence de taxe"  value="<?php echo e(old('reference_taxe', $reference_taxe ?? '')); ?>"  required>
             </div>
             <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
         </form>
     </div>
     <div class="card" style="padding: 15px;">
-        <?php echo $__env->make('cnss.table', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+       
     </div>
 </div>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/cnss/cotisations.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/otr/etax.blade.php ENDPATH**/ ?>

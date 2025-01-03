@@ -55,3 +55,7 @@ Route::get('/cnss/cotisations/{reference}/form/{numero_employeur}', [App\Http\Co
 
 Route::post('/cnss/cotisations/pay', [App\Http\Controllers\CotisationCNSSController::class, 'paiement'])->name('cnss.cotisations.pay');
 //Route::resource('cnss', App\Http\Controllers\CotisationCNSSController::class);
+
+
+Route::get('/otr/etax', [App\Http\Controllers\OTREtaxController::class, 'index'])->name('otr.etax');
+Route::get('/otr/etax/search', [App\Http\Controllers\OTREtaxController::class, 'search'])->name('otr.etax.search');

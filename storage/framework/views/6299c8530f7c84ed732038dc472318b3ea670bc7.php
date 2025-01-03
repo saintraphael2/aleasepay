@@ -29,10 +29,18 @@
 </li>
 
 <li class="nav-item"> 
-    <a href="<?php echo e(route('cnss.cotisations')); ?>" class="nav-link {{ Request::is('cnss*') ? 'active' : '' ">
+    <a href="<?php echo e(route('cnss.cotisations')); ?>" class="nav-link <?php echo e(Request::is('cnss*') ? 'active' : ''); ?> ">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>
-        <p>Cotisation CNSS</p>
+        <p>Cotisation CNSS </p>
     </a>
 </li>
+
+<li class="nav-item"> 
+    <a href="<?php echo e(route('otr.etax')); ?>" class="nav-link <?php echo e(Request::is('otr*') ? 'active' : ''); ?>">
+    <i class="nav-icon fas fa-solid fa-wallet" ></i>
+        <p>Etax OTR </p>
+    </a>
+</li>
+
 
 <?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/layouts/menu.blade.php ENDPATH**/ ?>

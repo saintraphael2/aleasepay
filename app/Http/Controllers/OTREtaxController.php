@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Flash;
 
-class CotisationCNSSController extends Controller
+class OTREtaxController extends Controller
 {
    public function index(){
     if(Auth::user()!=null ){
-        return view('cnss.cotisations');
+        return view('otr.etax');
     }else{
         Auth::logout();
         return redirect('/login');

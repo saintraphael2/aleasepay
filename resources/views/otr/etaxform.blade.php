@@ -3,9 +3,7 @@
 @section('content')
 <div class="card" style="padding: 15px;">
     <div class="container">
-
-        <h2>Paiement de Cotisation</h2>
-
+        <h2>Paiement Etax OTR</h2>
         <form action="{{route('cnss.cotisations.pay')}}" method="POST">
             @csrf
             @if($errors->any())

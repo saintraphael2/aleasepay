@@ -29,9 +29,17 @@
 </li>
 
 <li class="nav-item"> 
-    <a href="{{ route('cnss.cotisations') }}" class="nav-link {{ Request::is('cnss*') ? 'active' : '' ">
+    <a href="{{ route('cnss.cotisations') }}" class="nav-link {{ Request::is('cnss*') ? 'active' : ''}} ">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>
-        <p>Cotisation CNSS</p>
+        <p>Cotisation CNSS </p>
     </a>
 </li>
+
+<li class="nav-item"> 
+    <a href="{{ route('otr.etax') }}" class="nav-link {{ Request::is('otr*') ? 'active' : '' }}">
+    <i class="nav-icon fas fa-solid fa-wallet" ></i>
+        <p>Etax OTR </p>
+    </a>
+</li>
+
 
