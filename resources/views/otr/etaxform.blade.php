@@ -57,8 +57,8 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-success">Effectuer le Paiement</button>
-            <a href="{{ route('cnss.cotisations.search', ['numero_employeur' => $numero_employeur]) }}" class="btn btn-danger">
+            <button type="submit" class="btn btn-success btnSubmit">Effectuer le Paiement</button>
+            <a href="{{ route('cnss.cotisations.search', ['numero_employeur' => $numero_employeur]) }}" class="btn btn-danger btnSubmit">
                 Annuler
             </a>
         </form>

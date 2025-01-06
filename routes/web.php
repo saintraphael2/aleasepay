@@ -59,3 +59,5 @@ Route::post('/cnss/cotisations/pay', [App\Http\Controllers\CotisationCNSSControl
 
 Route::get('/otr/etax', [App\Http\Controllers\OTREtaxController::class, 'index'])->name('otr.etax');
 Route::get('/otr/etax/search', [App\Http\Controllers\OTREtaxController::class, 'search'])->name('otr.etax.search');
+Route::post('/otr/etax/pay', [App\Http\Controllers\OTREtaxController::class, 'paiement'])->name('otr.etax.pay');
+

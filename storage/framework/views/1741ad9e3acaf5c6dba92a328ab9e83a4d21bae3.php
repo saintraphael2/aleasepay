@@ -27,16 +27,20 @@
             <?php echo csrf_field(); ?>
             <div class="form-group ">
                 <label for="numero_employeur">Numéro d'employeur</label>
-                <input type="text" name="numero_employeur" id="numero_employeur" class="form-control col-sm-3" 
-                    placeholder="Entrez le numéro d'employeur"  value="<?php echo e(old('numero_employeur', $numero_employeur ?? '')); ?>"  required>
+                <input type="text" name="numero_employeur" id="numero_employeur" class="form-control col-sm-3"
+                    placeholder="Entrez le numéro d'employeur"
+                    value="<?php echo e(old('numero_employeur', $numero_employeur ?? '')); ?>" required>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
+            <button id="" type="submit" class="btn btn-primary mt-2 btnSubmit">Rechercher</button>
         </form>
     </div>
     <div class="card" style="padding: 15px;">
         <?php echo $__env->make('cnss.table', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
 </div>
+<script>
 
+
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/cnss/cotisations.blade.php ENDPATH**/ ?>

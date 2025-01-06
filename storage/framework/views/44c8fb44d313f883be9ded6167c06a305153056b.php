@@ -23,12 +23,12 @@
                         <?php if($cotisation['done'] == true): ?>
 
                             <a href="<?php echo e(route('cnss.cotisations.form',['reference' => $cotisation['referenceID'], 'numero_employeur' => $numero_employeur])); ?>" 
-                                class="btn btn-primary">
+                                class="btn btn-primary btnSubmit">
                                 Action
                             </a>
                             <!-- <button class="btn btn-secondary" >Paiement </button> -->
                         <?php else: ?>
-                            <button class="btn btn-primary" disabled>Paiement </button>
+                            <button class="btn btn-primary btnSubmit" disabled>Paiement </button>
                         <?php endif; ?>
                     </td>
                     </tr>

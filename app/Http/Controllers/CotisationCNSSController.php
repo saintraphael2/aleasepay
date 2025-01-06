@@ -10,6 +10,7 @@ use Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Flash;
 
 class CotisationCNSSController extends Controller
@@ -170,10 +171,6 @@ class CotisationCNSSController extends Controller
     */
     private function rappelSearch($numero_employeur)
     {
-       #dd("++++++++++++++++++++++++++++++++ rappelSearch");
-       #$request = new Request(['numero_employeur' => $numero_employeur]);
-       #return $this->search($request);
-
        return redirect()->route('cnss.cotisations.search', ['numero_employeur' => $numero_employeur]);
     }
 
@@ -253,15 +250,32 @@ class CotisationCNSSController extends Controller
            'Authorization' => "Bearer {$token}",
        ])->post($urlPayment, $data);
        // Vérification de la réponse
+       
+    
        if ($responsePayment->successful()) {
            $responseBody = $responsePayment->json();
-           ##dd($responseBody);
-           if ($responseBody['success'] ?? false) {
-           #if (false ?? false) {
-               Flash::success($responseBody['message']);
-              
+           #dd($responseBody);
+           $response = $responseBody['Response']['data'];
+           $othersInfos = $responseBody['Others'];
+           $mail=null;
+           #dd($mail);
+
+           if(Auth::user()!=null ){
+            $mail=Auth::user()->email;
+           }
+
+           if ($response['success'] ?? false) {
+                if( $mail!=null){
+                    Mail::send('cnss.email', ['others' => $othersInfos], function($message) use($mail){
+                        $message->to($mail);
+                        $message->subject('Détails de la cotisation CNSS Reférence : ' . $othersInfos['refDecla']);
+                    });
+                    Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.'); 
+                }else{
+                    Flash::success($response['body']['message']); 
+                }
+               $referenceTransaction = $othersInfos['referenceTransaction'];
                return $this->rappelSearch($numEmp);
-               #return redirect()->route('cnss.cotisations')->with('success', 'Paiement effectué avec succès.');
            } else {
                #Flash::errors($responseBody['message']);
                return redirect()->back()->withErrors('Erreur lors du paiement : ' .$responseBody['message'] );

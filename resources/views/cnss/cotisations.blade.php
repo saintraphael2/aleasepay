@@ -27,15 +27,19 @@
             @csrf
             <div class="form-group ">
                 <label for="numero_employeur">Numéro d'employeur</label>
-                <input type="text" name="numero_employeur" id="numero_employeur" class="form-control col-sm-3" 
-                    placeholder="Entrez le numéro d'employeur"  value="{{ old('numero_employeur', $numero_employeur ?? '') }}"  required>
+                <input type="text" name="numero_employeur" id="numero_employeur" class="form-control col-sm-3"
+                    placeholder="Entrez le numéro d'employeur"
+                    value="{{ old('numero_employeur', $numero_employeur ?? '') }}" required>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
+            <button id="" type="submit" class="btn btn-primary mt-2 btnSubmit">Rechercher</button>
         </form>
     </div>
     <div class="card" style="padding: 15px;">
         @include('cnss.table')
     </div>
 </div>
+<script>
 
+
+</script>
 @endsection

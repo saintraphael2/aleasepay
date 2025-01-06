@@ -29,17 +29,16 @@ class OTREtaxController extends Controller
      * 
      */
    public function search(Request $request){
-
-      $numero_employeur = $request->input('numero_employeur');
+      $reference_taxe = $request->input('reference_taxe');
       $dotenv = Dotenv::createImmutable(base_path());
       $dotenv->load();
 
       $baseUrl=env('API_TAX_BASE_URL', 'base_url');
       $tokenEndPoint=env('API_GET_TOKEN', 'token_api');
-      $CotisationsEndPoint=env('CNSS_API_GET_COTISIATIONS', 'api_get_cotisations');
+      $etaxgetEndPoint=env('OTR_API_GET_TAX', 'api_get_etax');
 
       $urlAuthenticate = $baseUrl . $tokenEndPoint;
-      $urlCotisations = $baseUrl . $CotisationsEndPoint."{$numero_employeur}";
+      $urlCotisations = $baseUrl . $etaxgetEndPoint."{$reference_taxe}";
 
     // Récupération des identifiants depuis .env
       $username = env('API_USERNAME', 'default_user');
@@ -67,115 +66,29 @@ class OTREtaxController extends Controller
       // Vérification de la réponse
       if ($responseCotisations->successful()) {
          $data = $responseCotisations->json();
-
-        if (isset($data['body'])) {
-            $cotisations = $data['body']; // Récupération des cotisations
+        #dd($data);
+        if (isset($data)) {
+            $etax = $data; // Récupération de la taxe
         } else {
-            $cotisations = [];
+            $etax = [];
         }
       } else {
-         $cotisations = [];
+         $etax = [];
       }
-      return view('cnss.cotisations', compact('cotisations','numero_employeur'));
-   }
+      $connexion = Connexion::where(['identifier'=>Auth::user()->email])->first();
+      $comptes=[];
+       if($connexion!=null && $connexion->validity==1){
+           $mail=Auth::user()->email;
+           $racine=Auth::user()->racine;
+           $comptes=Compte::where('racine',$racine)->get();
 
-   /**
-    *
-    */
-   public function showForm($reference,$numero_employeur)
-   {
-       // Recherche des informations basées sur la référence
-       $cotisation = $this->getCotisationByReference($reference); // Méthode fictive à implémenter
-
-       if (!$cotisation) {
-           return redirect()->back()->withErrors('Cotisation introuvable.');
+           $cptClientsOriginal = $comptes->map(function ($cpt) {
+            return $cpt->getOriginal();
+        });
        }
-      ##dd($cotisation);
-       // Exemple de comptes disponibles pour le paiement (remplace par une vraie source de données)
-       $connexion = Connexion::where(['identifier'=>Auth::user()->email])->first();
-       $comptes=[];
-        if($connexion!=null && $connexion->validity==1){
-            $mail=Auth::user()->email;
-            $racine=Auth::user()->racine;
-            $cptClient=CptClient::where('racine',$racine)->first();
-            $comptes=Compte::where('racine',$racine)->get();
-            #$comptes=Compte::where('racine',$cptClient->racine)->get();
-
-            #dd($comptes);
-
-            $cptClientsOriginal = $comptes->map(function ($cpt) {
-                return $cpt->getOriginal();
-            });
-            #return view('home')->with('cptClients',$comptes);
-        }else{
-            return redirect()->back()->withErrors('Cotisation introuvable.');
-        }
-       return view('cnss.form', compact('cotisation', 'comptes', 'numero_employeur','cptClientsOriginal'));
+      return view('otr.etax', compact('etax','comptes','reference_taxe','cptClientsOriginal'));
    }
 
-   /**
-    *
-    */
-   private function getCotisationByReference($reference){
-      $dotenv = Dotenv::createImmutable(base_path());
-      $dotenv->load();
-
-      $baseUrl=env('API_TAX_BASE_URL', 'base_url');
-      $tokenEndPoint=env('API_GET_TOKEN', 'token_api');
-      $CotisationEndPoint=env('CNSS_API_GET_COTISIATION', 'api_get_cotisation');
-
-      $urlAuthenticate = $baseUrl . $tokenEndPoint;
-      $urlCotisation = $baseUrl . $CotisationEndPoint."{$reference}";
-
-    // Récupération des identifiants depuis .env
-      $username = env('API_USERNAME', 'default_user');
-      $password = env('API_PASSWORD', 'default_password');
-
-      ##dd($urlAuthenticate);
-      // Authentification pour récupérer le token
-      $responseAuth = Http::post($urlAuthenticate, [
-         'username' => $username,
-         'password' => $password,
-      ]);
-
-      if ($responseAuth->failed()) {
-         return redirect()->back()->withErrors('Erreur lors de l’authentification.');
-      }
-
-      // Récupération du token
-      $token = $responseAuth->json('token');
-  
-      // Consommation du Web Service pour les cotisations
-      $responseCotisation = Http::withHeaders([
-         'Authorization' => "Bearer {$token}",
-      ])->get($urlCotisation);
-      //dd($urlCotisation);
-      //dd($responseCotisation->successful());
-
-      // Vérification de la réponse
-      if ($responseCotisation->successful()) {
-         $data = $responseCotisation->json();
-         //dd($data);
-        if (isset($data['data']['body']) && is_array($data['data']['body'])) {
-            $cotisation = $data['data']['body']; // Récupération des cotisations
-            return $cotisation;
-        }
-      }
-      ##dd("TRACEEEE++++++++++++++++ ");
-      return null;
-   }
-
-   /**
-    * 
-    */
-    private function rappelSearch($numero_employeur)
-    {
-       #dd("++++++++++++++++++++++++++++++++ rappelSearch");
-       #$request = new Request(['numero_employeur' => $numero_employeur]);
-       #return $this->search($request);
-
-       return redirect()->route('cnss.cotisations.search', ['numero_employeur' => $numero_employeur]);
-    }
 
    /**
     * 
@@ -185,50 +98,40 @@ class OTREtaxController extends Controller
     $dotenv = Dotenv::createImmutable(base_path());
     $dotenv->load();
 
-
         #dd($request->all());
         $validated = $request->validate([
-            'referenceID' => 'required|string',
-            'amount' => 'required|string', // Formaté avec devise et espaces
-            'designation' => 'required|string',
-            'requester' => 'required|string',
-            'numero_employeur' => 'required|string',
+            'referenceDeclaration' => 'required|string',
+            'referenceTransaction' => 'required|string',
+            'montant' => 'required|string', 
+            'contribuable' => 'required|string',
+            'nif' => 'required|string',
             'comptealt' => 'required|string',
         ]);
-    
-        // Nettoyer le champ "amount" pour extraire uniquement le montant numérique
-        $validated['amount'] = (float) str_replace(' ', '', preg_replace('/[^0-9]/', '', $validated['amount']));
-        $transactionDate = now()->format('Y-m-d H:i:s');
+        $validated['montant'] = (float) str_replace(' ', '', preg_replace('/[^0-9]/', '', $validated['montant']));
         // Construire l'objet $data
         $data = [
-            'cNSSpaytax' => [
-                'referenceID' => $validated['referenceID'],
-                'transactionID' => null, // Champ laissé vide ou par défaut
-                'amount' => $validated['amount'],
-                'transactionDate' =>$transactionDate, // Par exemple, date actuelle
-                'currency' => 'XOF', // Valeur fixe
-                'status' => 1, // Valeur fixe
-            ],
-            'designation' => $validated['designation'],
-            'requester' => $validated['requester'],
-            'numeroEmployeur' => $validated['numero_employeur'],
+            'referenceDeclaration' => $validated['referenceDeclaration'],
+            'referenceTransaction' => $validated['referenceTransaction'],
+            'montant' => $validated['montant'],
+            'contribuable' => $validated['contribuable'],
+            'nif' => $validated['nif'],
             'comptealt' => $validated['comptealt'],
         ];
-        $numEmp=$validated['numero_employeur'];
-
-        $amount=$validated['amount'];
+       
+        $amount=$validated['montant'];
         $comptealt=$validated['comptealt'];
         $compte=Compte::where('compte',$comptealt)->get();
+        
         $solde=$compte[0]->getOriginal()['solde'];
+        #dd($amount);
         if ($solde < $amount) {
              return redirect()->back()->withErrors('Erreur lors du paiement : Le solde compte ' . $comptealt .' est insufisant');
         }
-            #return view('home')->with('cptClients',$comptes);
         #dd( $data );
        // Construire l'URL du service de paiement
        $baseUrl = env('API_TAX_BASE_URL', 'base_url');
-       $paymentEndpoint = env('CNSS_API_POST_PAYMENT', 'api_post_payment');
-       $urlPayment = $baseUrl . $paymentEndpoint;
+       $paymentOTREndpoint = env('OTR_API_POST_TAX', 'api_post_payment');
+       $urlPayment = $baseUrl . $paymentOTREndpoint;
    
        // Authentification pour récupérer le token
        $tokenEndpoint = env('API_GET_TOKEN', 'token_api');
@@ -252,16 +155,16 @@ class OTREtaxController extends Controller
        $responsePayment = Http::withHeaders([
            'Authorization' => "Bearer {$token}",
        ])->post($urlPayment, $data);
+       #dd($data);
        // Vérification de la réponse
        if ($responsePayment->successful()) {
            $responseBody = $responsePayment->json();
-           ##dd($responseBody);
+           dd($responseBody);
            if ($responseBody['success'] ?? false) {
-           #if (false ?? false) {
                Flash::success($responseBody['message']);
-              
-               return $this->rappelSearch($numEmp);
-               #return redirect()->route('cnss.cotisations')->with('success', 'Paiement effectué avec succès.');
+               $etax=[];
+               $reference_taxe=null;
+               return redirect()->route('otr.etax').compact('etax','reference_taxe');
            } else {
                #Flash::errors($responseBody['message']);
                return redirect()->back()->withErrors('Erreur lors du paiement : ' .$responseBody['message'] );
@@ -271,7 +174,5 @@ class OTREtaxController extends Controller
            return redirect()->back()->withErrors('Erreur lors de la connexion au service de paiement.');
        }
    }
-
-    
    
 }
