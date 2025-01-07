@@ -40,24 +40,26 @@ class OTREtaxController extends Controller
       $urlAuthenticate = $baseUrl . $tokenEndPoint;
       $urlCotisations = $baseUrl . $etaxgetEndPoint."{$reference_taxe}";
 
-    // Récupération des identifiants depuis .env
-      $username = env('API_USERNAME', 'default_user');
-      $password = env('API_PASSWORD', 'default_password');
+      try {
+        $token = $this->getToken();
+     } catch (\Exception $e) {
+         if ($e->getCode() === 0 || explode(':',$e->getMessage())[0] === 'cURL error 7') {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         } else {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         }
+         return redirect()->back()->withErrors($message);
+     }
 
-      ##dd($urlAuthenticate);
-      // Authentification pour récupérer le token
-      $responseAuth = Http::post($urlAuthenticate, [
-         'username' => $username,
-         'password' => $password,
-      ]);
-
-      if ($responseAuth->failed()) {
-         return redirect()->back()->withErrors('Erreur lors de l’authentification.');
+      // Consommation du Web Service pour les cotisations
+      if($token!=null){
+        $responseCotisations = Http::withHeaders([
+            'Authorization' => "Bearer {$token}",
+         ])->get($urlCotisations);
+      }else{
+        return redirect()->back()->withErrors('Erreur Interne.');
       }
-
-      // Récupération du token
-      $token = $responseAuth->json('token');
-
+     
       // Consommation du Web Service pour les cotisations
       $responseCotisations = Http::withHeaders([
          'Authorization' => "Bearer {$token}",
@@ -88,7 +90,31 @@ class OTREtaxController extends Controller
        }
       return view('otr.etax', compact('etax','comptes','reference_taxe','cptClientsOriginal'));
    }
-
+   
+    /**
+    * 
+    */
+    private function getToken(){
+        $dotenv = Dotenv::createImmutable(base_path());
+        $dotenv->load();
+        $baseUrl=env('API_TAX_BASE_URL', 'base_url');
+        $tokenEndPoint=env('API_GET_TOKEN', 'token_api');
+        $urlAuthenticate = $baseUrl . $tokenEndPoint;
+        $username = env('API_USERNAME', 'default_user');
+        $password = env('API_PASSWORD', 'default_password');
+    
+        $responseAuth = Http::post($urlAuthenticate, [
+            'username' => $username,
+            'password' => $password,
+        ]);
+         
+        if ($responseAuth->failed()) {
+            return null;
+        }
+         // Récupération du token
+        $token = $responseAuth->json('token');
+        return $token;
+       }
 
    /**
     * 
@@ -175,4 +201,57 @@ class OTREtaxController extends Controller
        }
    }
    
+
+   private function confirmTaxe($reference_taxe){
+    $dotenv = Dotenv::createImmutable(base_path());
+    $dotenv->load();
+
+    $baseUrl=env('API_TAX_BASE_URL', 'base_url');
+    $etaxConfirmationEndPoint=env('OTR_API_CONFIRM_TAX', 'api_get_cotisation');
+
+    $urlConfirmation = $baseUrl . $etaxConfirmationEndPoint."{$reference_taxe}";
+
+
+    // Authentification pour récupérer le token
+    try {
+      $responseAuth = Http::post($urlAuthenticate, [
+          'username' => $username,
+          'password' => $password,
+      ]);
+   }catch(RequestException $e){
+       if ($e->getCode() === 7 || $e->getMessage() === 'cURL error 7') {
+           $message = "Impossible de se connecter au serveur. Veuillez vérifier que le service est disponible.";
+       } else {
+           // Message d'erreur générique
+           $message = "Une erreur est survenue lors de la communication avec le serveur.";
+       }
+       return redirect()->back()->withErrors('Veuillez réessayer plutard' );
+   }
+
+    if ($responseAuth->failed()) {
+       return redirect()->back()->withErrors('Erreur lors de l’authentification.');
+    }
+
+    // Récupération du token
+    $token = $responseAuth->json('token');
+
+    // Consommation du Web Service pour les cotisations
+    $responseCotisation = Http::withHeaders([
+       'Authorization' => "Bearer {$token}",
+    ])->get($urlCotisation);
+    //dd($urlCotisation);
+    //dd($responseCotisation->successful());
+
+    // Vérification de la réponse
+    if ($responseCotisation->successful()) {
+       $data = $responseCotisation->json();
+       //dd($data);
+      if (isset($data['data']['body']) && is_array($data['data']['body'])) {
+          $cotisation = $data['data']['body']; // Récupération des cotisations
+          return $cotisation;
+      }
+    }
+    ##dd("TRACEEEE++++++++++++++++ ");
+    return null;
+ }
 }

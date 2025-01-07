@@ -25,6 +25,12 @@
     <div class="card" style="padding: 15px;">
         <form method="GET" action="<?php echo e(route('cnss.cotisations.search')); ?>" class="mb-4">
             <?php echo csrf_field(); ?>
+            <?php if($errors->any()): ?>
+            <div class="alert alert-danger">
+                <?php echo e($errors->first()); ?>
+
+            </div>
+            <?php endif; ?>
             <div class="form-group ">
                 <label for="numero_employeur">Numéro d'employeur</label>
                 <input type="text" name="numero_employeur" id="numero_employeur" class="form-control col-sm-3"
