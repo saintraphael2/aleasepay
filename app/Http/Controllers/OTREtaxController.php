@@ -10,6 +10,7 @@ use Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Flash;
 
 class OTREtaxController extends Controller
@@ -34,10 +35,8 @@ class OTREtaxController extends Controller
       $dotenv->load();
 
       $baseUrl=env('API_TAX_BASE_URL', 'base_url');
-      $tokenEndPoint=env('API_GET_TOKEN', 'token_api');
       $etaxgetEndPoint=env('OTR_API_GET_TAX', 'api_get_etax');
 
-      $urlAuthenticate = $baseUrl . $tokenEndPoint;
       $urlCotisations = $baseUrl . $etaxgetEndPoint."{$reference_taxe}";
 
       try {
@@ -59,11 +58,6 @@ class OTREtaxController extends Controller
       }else{
         return redirect()->back()->withErrors('Erreur Interne.');
       }
-     
-      // Consommation du Web Service pour les cotisations
-      $responseCotisations = Http::withHeaders([
-         'Authorization' => "Bearer {$token}",
-      ])->get($urlCotisations);
 
       // Vérification de la réponse
       if ($responseCotisations->successful()) {
@@ -80,7 +74,6 @@ class OTREtaxController extends Controller
       $connexion = Connexion::where(['identifier'=>Auth::user()->email])->first();
       $comptes=[];
        if($connexion!=null && $connexion->validity==1){
-           $mail=Auth::user()->email;
            $racine=Auth::user()->racine;
            $comptes=Compte::where('racine',$racine)->get();
 
@@ -160,37 +153,59 @@ class OTREtaxController extends Controller
        $urlPayment = $baseUrl . $paymentOTREndpoint;
    
        // Authentification pour récupérer le token
-       $tokenEndpoint = env('API_GET_TOKEN', 'token_api');
-       $urlAuthenticate = $baseUrl . $tokenEndpoint;
-       $username = env('API_USERNAME', 'default_user');
-       $password = env('API_PASSWORD', 'default_password');
        #dd($urlAuthenticate);
-       $responseAuth = Http::post($urlAuthenticate, [
-           'username' => $username,
-           'password' => $password,
-       ]);
-   
-       if ($responseAuth->failed()) {
-           return redirect()->back()->withErrors('Erreur lors de l’authentification.');
-       }
-   
-       // Récupération du token
-       $token = $responseAuth->json('token');
-   
-       // Appeler le web service de paiement avec les données
-       $responsePayment = Http::withHeaders([
-           'Authorization' => "Bearer {$token}",
-       ])->post($urlPayment, $data);
+       try {
+        $token = $this->getToken();
+     } catch (\Exception $e) {
+         if ($e->getCode() === 0 || explode(':',$e->getMessage())[0] === 'cURL error 7') {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         } else {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         }
+         return redirect()->back()->withErrors($message);
+     }
+
+      // Consommation du Web Service
+      if($token!=null){
+        $responsePayment = Http::withHeaders([
+            'Authorization' => "Bearer {$token}",
+        ])->post($urlPayment, $data);
+      }else{
+        return redirect()->back()->withErrors('Erreur Interne.');
+      }
+    
        #dd($data);
        // Vérification de la réponse
        if ($responsePayment->successful()) {
            $responseBody = $responsePayment->json();
-           dd($responseBody);
-           if ($responseBody['success'] ?? false) {
-               Flash::success($responseBody['message']);
-               $etax=[];
-               $reference_taxe=null;
-               return redirect()->route('otr.etax').compact('etax','reference_taxe');
+           ##dd($responseBody);
+           if ($responseBody['resultat'] !=null) {
+               #Flash::success($responseBody['message']);
+               $result= $this->confirmTaxe($responseBody['resultat']);
+                if($result==0){
+                   
+                    $mail = null;
+            #dd($mail);
+
+                if (Auth::user() != null) {
+                $mail = Auth::user()->email;
+                }
+                    #Envoi de mail
+                if ($mail != null) {
+                        Mail::send('otr.email', ['data' => $data], function ($message) use ($mail, $data) {
+                            $message->to($mail);
+                            $message->subject('Détails de la TAXE OTR Reférence : ' . $data['referenceDeclaration']);
+                        });
+                        Flash::success("Opération Réussie" . ' . Un email de notification vous sera envoyé.');
+                }
+                $etax=[];
+                $reference_taxe=null;
+                return redirect()->route('otr.etax').compact('etax','reference_taxe');
+                }else{
+                    return redirect()->route('otr.etax')->withErrors("Votre Opération n'a pas aboutie. Veuillez réessayer ! ");
+                    #return redirect()->back()->withErrors("Votre Opération n'a pas aboutie. Veuillez réessayer ! ");
+                }
+               
            } else {
                #Flash::errors($responseBody['message']);
                return redirect()->back()->withErrors('Erreur lors du paiement : ' .$responseBody['message'] );
@@ -199,6 +214,21 @@ class OTREtaxController extends Controller
            Flash::error('Erreur lors de la connexion au service de paiement.');
            return redirect()->back()->withErrors('Erreur lors de la connexion au service de paiement.');
        }
+   }
+
+   private function getcomptesClient(){
+    $connexion = Connexion::where(['identifier'=>Auth::user()->email])->first();
+    $comptes=[];
+    $cptalts=[];
+     if($connexion!=null && $connexion->validity==1){
+         $racine=Auth::user()->racine;
+         $comptes=Compte::where('racine',$racine)->get();
+
+         $cptClientsOriginal = $comptes->map(function ($cpt) {
+            $cptalts= $cpt->getOriginal();
+      });
+     }
+     return $cptalts;
    }
    
 
@@ -214,41 +244,31 @@ class OTREtaxController extends Controller
 
     // Authentification pour récupérer le token
     try {
-      $responseAuth = Http::post($urlAuthenticate, [
-          'username' => $username,
-          'password' => $password,
-      ]);
-   }catch(RequestException $e){
-       if ($e->getCode() === 7 || $e->getMessage() === 'cURL error 7') {
-           $message = "Impossible de se connecter au serveur. Veuillez vérifier que le service est disponible.";
-       } else {
-           // Message d'erreur générique
-           $message = "Une erreur est survenue lors de la communication avec le serveur.";
-       }
-       return redirect()->back()->withErrors('Veuillez réessayer plutard' );
-   }
+        $token = $this->getToken();
+     } catch (\Exception $e) {
+         if ($e->getCode() === 0 || explode(':',$e->getMessage())[0] === 'cURL error 7') {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         } else {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         }
+         return redirect()->back()->withErrors($message);
+     }
 
-    if ($responseAuth->failed()) {
-       return redirect()->back()->withErrors('Erreur lors de l’authentification.');
-    }
-
-    // Récupération du token
-    $token = $responseAuth->json('token');
-
-    // Consommation du Web Service pour les cotisations
-    $responseCotisation = Http::withHeaders([
-       'Authorization' => "Bearer {$token}",
-    ])->get($urlCotisation);
-    //dd($urlCotisation);
-    //dd($responseCotisation->successful());
-
+      // Consommation du Web Service
+      if($token!=null){
+        $confirmEtaxResult = Http::withHeaders([
+            'Authorization' => "Bearer {$token}",
+         ])->get($urlConfirmation);
+      }else{
+        return redirect()->back()->withErrors('Erreur Interne.');
+      }
+   
     // Vérification de la réponse
-    if ($responseCotisation->successful()) {
-       $data = $responseCotisation->json();
-       //dd($data);
-      if (isset($data['data']['body']) && is_array($data['data']['body'])) {
-          $cotisation = $data['data']['body']; // Récupération des cotisations
-          return $cotisation;
+    if ($confirmEtaxResult->successful()) {
+       $data = $confirmEtaxResult->json();
+       #dd($data);
+      if (isset($data['result']) && $data['result']!=null ) {
+        return $data['result']; 
       }
     }
     ##dd("TRACEEEE++++++++++++++++ ");

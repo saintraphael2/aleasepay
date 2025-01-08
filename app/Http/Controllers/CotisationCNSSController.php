@@ -26,7 +26,6 @@ class CotisationCNSSController extends Controller {
     /**
     *
     */
-
     public function search( Request $request ) {
         $numero_employeur = $request->input( 'numero_employeur' );
         $dotenv = Dotenv::createImmutable( base_path() );
@@ -283,7 +282,7 @@ public function paiement( Request $request ) {
 
             if ($response['success'] ?? false) {
                 if ($mail != null) {
-                    Mail::send('cnss.email', ['others' => $othersInfos], function ($message) use ($mail) {
+                    Mail::send('cnss.email', ['others' => $othersInfos], function ($message) use ($mail, $othersInfos) {
                         $message->to($mail);
                         $message->subject('Détails de la cotisation CNSS Reférence : ' . $othersInfos['refDecla']);
                     });
