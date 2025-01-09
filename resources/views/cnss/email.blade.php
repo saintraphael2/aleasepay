@@ -1,15 +1,4 @@
-    <!-- <h1>Transaction Réussie</h1>
-    <p>Voici les détails de la transaction :</p>
-    <ul>
-        <li><strong>Transaction Référence:</strong> {{ $others['referenceTransaction'] }}</li>
-        <li><strong>Date de la Transaction:</strong> {{ $others['transBankDate'] }}</li>
-        <li><strong>Référence Déclaration:</strong> {{ $others['refDecla'] }}</li>
-        <li><strong>Contribuable:</strong> {{ $others['contribuable'] }}</li>
-        <li><strong>Montant:</strong> {{ $others['mount'] }}</li>
-        <li><strong>Compte:</strong> {{ $others['comptealt'] }}</li>
-    </ul> -->
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

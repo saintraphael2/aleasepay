@@ -178,29 +178,31 @@ class OTREtaxController extends Controller
        // Vérification de la réponse
        if ($responsePayment->successful()) {
            $responseBody = $responsePayment->json();
-           ##dd($responseBody);
-           if ($responseBody['resultat'] !=null) {
+           #dd($responseBody['Response']['resultat']);
+           if (isset($responseBody['Response']) && $responseBody['Response']['resultat'] !=null) {
                #Flash::success($responseBody['message']);
-               $result= $this->confirmTaxe($responseBody['resultat']);
+               $result= $this->confirmTaxe($responseBody['Response']['resultat']);
+        
+               $othersInfos = $responseBody['Others'];
                 if($result==0){
                    
-                    $mail = null;
-            #dd($mail);
+                $mail = null;
+                #dd($mail);
 
                 if (Auth::user() != null) {
                 $mail = Auth::user()->email;
                 }
                     #Envoi de mail
                 if ($mail != null) {
-                        Mail::send('otr.email', ['data' => $data], function ($message) use ($mail, $data) {
+                        Mail::send('otr.email', ['others' => $othersInfos], function ($message) use ($mail, $othersInfos) {
                             $message->to($mail);
-                            $message->subject('Détails de la TAXE OTR Reférence : ' . $data['referenceDeclaration']);
+                            $message->subject('Détails de la TAXE OTR Reférence : ' . $othersInfos['refDecla']);
                         });
                         Flash::success("Opération Réussie" . ' . Un email de notification vous sera envoyé.');
                 }
-                $etax=[];
-                $reference_taxe=null;
-                return redirect()->route('otr.etax').compact('etax','reference_taxe');
+                #$etax=[];
+                #$reference_taxe=null;
+                return redirect()->route('otr.etax');
                 }else{
                     return redirect()->route('otr.etax')->withErrors("Votre Opération n'a pas aboutie. Veuillez réessayer ! ");
                     #return redirect()->back()->withErrors("Votre Opération n'a pas aboutie. Veuillez réessayer ! ");
