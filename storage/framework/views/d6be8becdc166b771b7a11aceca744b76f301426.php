@@ -42,5 +42,13 @@
     </a>
 </li>
 
+<li class="nav-item"> 
+    <a href="<?php echo e(route('transactions.index')); ?>" class="nav-link <?php echo e(Request::is('transactions*') ? 'active' : ''); ?>">
+    <i class="nav-icon fas fa-solid fa-wallet" ></i>
+        <p>Transactions </p>
+    </a>
+</li>
 
-<?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/layouts/menu.blade.php ENDPATH**/ ?>
+
+
+<?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/layouts/menu.blade.php ENDPATH**/ ?>

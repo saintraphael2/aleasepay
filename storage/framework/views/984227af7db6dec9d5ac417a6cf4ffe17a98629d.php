@@ -171,4 +171,4 @@ unset($__errorArgs, $__bag); ?>
     </script>
 </body>
 
-</html><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/auth/login.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/auth/login.blade.php ENDPATH**/ ?>

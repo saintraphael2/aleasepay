@@ -301,4 +301,108 @@ public function paiement( Request $request ) {
             return redirect()->back()->withErrors('Erreur lors de la connexion au service de paiement.' );
         }
     }
+
+    public function listing() {
+        if ( Auth::user() != null ) {
+
+            $mail=Auth::user()->email;
+            $racine=Auth::user()->racine;
+            $cptClient=CptClient::where('racine',$racine)->first();
+            $comptes=Compte::where('racine',$cptClient->racine)->get();
+            #dd($comptes);
+            $transactions=[];
+            $types = [
+                (object)['id' => 'CNSS', 'type' => 'CNSS'],
+                (object)['id' => 'OTR', 'type' => 'OTR'],
+            ];
+            #return view( 'home' )->with( 'cptClients', $comptes );
+            return view( 'transactions.index',compact('comptes', 'transactions','types')) ;
+        } else {
+            Auth::logout();
+            return redirect( '/login' );
+        }
+    }
+
+    public function filter(Request $request ) {
+        $parameters = $request->query();
+
+        // Exemple : accéder individuellement aux paramètres
+        $compte = $request->query('compte');
+        $type = $request->query('type');
+        $dateDebut = $request->query('date_debut');
+        $dateFin = $request->query('date_fin');
+    
+        $params = [
+            'comptealt' => $request->query('compte'),
+            'typeTransaction' => $request->query('type'),
+            'dateDebut' => $request->query('date_debut'),
+            'dateFin' => $request->query('date_fin'),
+        ];
+        // Affichage des paramètres (optionnel, pour debug)
+        #dd($parameters);
+        #$compte = $request->input( 'compte' );
+        $dotenv = Dotenv::createImmutable( base_path() );
+        $dotenv->load();
+
+
+        $baseUrl = env( 'API_TAX_BASE_URL', 'base_url' );
+        $transactionsEndPoint = env( 'CNSS_API_GET_TRANSACTION', 'api_get_transactions' );
+
+        $urlTransactions = $baseUrl . $transactionsEndPoint;
+
+        // Récupération du token
+        try {
+            $token = $this->getToken();
+        } catch ( \Exception $e ) {
+            if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            } else {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            }
+            return redirect()->back()->withErrors( $message );
+        }
+
+        // Consommation du Web Service pour les cotisations
+        if ( $token != null ) {
+            $responseTransactions = Http::withHeaders( [
+                'Authorization' => "Bearer {$token}",
+            ] )->get( $urlTransactions,$params);
+        } else {
+            return redirect()->back()->withErrors( 'Serveur indisponible.' );
+        }
+
+        // Vérification de la réponse
+        if ( $responseTransactions->successful() ) {
+            $data = $responseTransactions->json();
+            if ( isset( $data) ) {
+                $transactions = $data;
+                #dd($transactions);
+                // Récupération des cotisations
+            } else {
+                $transactions=[];
+            }
+        } else {
+            $transactions=[];
+        }
+
+   
+
+        #========================
+
+        if ( Auth::user() != null ) {
+            $mail=Auth::user()->email;
+            $racine=Auth::user()->racine;
+            $cptClient=CptClient::where('racine',$racine)->first();
+            $comptes=Compte::where('racine',$cptClient->racine)->get();
+            #dd($comptes);
+            $types = [
+                (object)['id' => 'CNSS', 'type' => 'CNSS'],
+                (object)['id' => 'OTR', 'type' => 'OTR'],
+            ];
+            return view( 'transactions.index',compact('comptes', 'transactions','types')) ;
+        } else {
+            Auth::logout();
+            return redirect( '/login' );
+        }
+    }
 }

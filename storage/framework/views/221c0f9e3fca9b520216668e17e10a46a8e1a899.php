@@ -135,4 +135,4 @@ unset($__errorArgs, $__bag); ?>" name="email"
     </script>
 </body>
 
-</html><?php /**PATH C:\Users\kokou.djimissa\Documents\Projets\altprojects\aleasepay\resources\views/auth/otp.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/auth/otp.blade.php ENDPATH**/ ?>

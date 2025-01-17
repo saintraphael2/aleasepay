@@ -42,4 +42,12 @@
     </a>
 </li>
 
+<li class="nav-item"> 
+    <a href="{{ route('transactions.index') }}" class="nav-link {{ Request::is('transactions*') ? 'active' : '' }}">
+    <i class="nav-icon fas fa-solid fa-wallet" ></i>
+        <p>Transactions </p>
+    </a>
+</li>
+
+
 
