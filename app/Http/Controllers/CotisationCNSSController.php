@@ -6,8 +6,9 @@ use Dotenv\Dotenv;
 use App\Models\CptClient;
 use App\Models\Compte;
 use App\Models\Connexion;
-use Auth;
 
+use Auth;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
@@ -229,9 +230,9 @@ public function paiement( Request $request ) {
         $comptealt = $validated['comptealt'];
         $compte = Compte::where('compte', $comptealt)->get();
         $solde = $compte[0]->getOriginal()['solde'];
-        if ($solde < $amount) {
-            return redirect()->back()->withErrors('Erreur lors du paiement : Le solde compte ' . $comptealt . ' est insufisant');
-        }
+       //  if ($solde < $amount) {
+         //    return redirect()->back()->withErrors('Erreur lors du paiement : Le solde compte ' . $comptealt . ' est insufisant');
+        // }
         #return view('home')->with('cptClients',$comptes);
         #dd( $data );
         // Construire l'URL du service de paiement
@@ -266,19 +267,35 @@ public function paiement( Request $request ) {
     } else {
         return redirect()->back()->withErrors( 'Serveur indisponible.' );
     }
-        // Vérification de la réponse
 
+    if (Auth::user() != null) {
+        $mail = Auth::user()->email;
+    }
+        // Vérification de la réponse
         if ($responsePayment->successful()) {
             $responseBody = $responsePayment->json();
             #dd($responseBody);
+            if(isset($responseBody)){
+                $code= Str::before($responseBody["code"], " ");
+                #dd($code);
+                if($code==500){
+                    $msg=html_entity_decode($responseBody["message"]);
+                    if ($mail != null) {
+                        Mail::send('notifications.index', ['msge' => $msg], function ($message) use ($mail, $msg) {
+                            $message->to($mail);
+                            $message->subject('Notification');
+                        });
+                        #Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.');
+                    }
+                    return redirect()->back()->withErrors($msg);
+                }
+            }
             $response = $responseBody['Response']['data'];
             $othersInfos = $responseBody['Others'];
             $mail = null;
             #dd($mail);
 
-            if (Auth::user() != null) {
-                $mail = Auth::user()->email;
-            }
+          
 
             if ($response['success'] ?? false) {
                 if ($mail != null) {

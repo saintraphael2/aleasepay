@@ -51,4 +51,4 @@
 
 
 
-<?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/layouts/menu.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Projets\aleasepay\resources\views/layouts/menu.blade.php ENDPATH**/ ?>

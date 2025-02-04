@@ -12,4 +12,4 @@
     <?php echo $dataTable->scripts(); ?>
 
 <?php $__env->stopPush(); ?>
-<?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/bordereaus/table.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Projets\aleasepay\resources\views/bordereaus/table.blade.php ENDPATH**/ ?>

@@ -172,4 +172,4 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 </script>
 <?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/mouvements/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Projets\aleasepay\resources\views/mouvements/index.blade.php ENDPATH**/ ?>

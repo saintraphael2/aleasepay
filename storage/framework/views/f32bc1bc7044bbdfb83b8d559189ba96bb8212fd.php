@@ -12,4 +12,4 @@
         </nav>
     </div>
 
-</aside><?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/layouts/sidebar.blade.php ENDPATH**/ ?>
+</aside><?php /**PATH C:\Projets\aleasepay\resources\views/layouts/sidebar.blade.php ENDPATH**/ ?>

@@ -25,4 +25,4 @@
         <p>Aucune transaction trouvée.</p>
     <?php endif; ?>
 
-    <?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/transactions/table.blade.php ENDPATH**/ ?>
+    <?php /**PATH C:\Projets\aleasepay\resources\views/transactions/table.blade.php ENDPATH**/ ?>

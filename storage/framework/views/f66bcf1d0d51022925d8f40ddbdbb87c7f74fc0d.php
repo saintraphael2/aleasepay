@@ -28,4 +28,4 @@
 
 <?php echo e(session()->forget('flash_notification')); ?>
 
-<?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\vendor\laracasts\flash\src\Laracasts\Flash/../../views/message.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Projets\aleasepay\vendor\laracasts\flash\src\Laracasts\Flash/../../views/message.blade.php ENDPATH**/ ?>

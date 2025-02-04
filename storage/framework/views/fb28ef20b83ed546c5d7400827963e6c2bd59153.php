@@ -4,4 +4,4 @@
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.colVis.min.js"></script>
-<script src="http://localhost/vendor/datatables/buttons.server-side.js"></script><?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/layouts/datatables_js.blade.php ENDPATH**/ ?>
+<script src="http://localhost/vendor/datatables/buttons.server-side.js"></script><?php /**PATH C:\Projets\aleasepay\resources\views/layouts/datatables_js.blade.php ENDPATH**/ ?>

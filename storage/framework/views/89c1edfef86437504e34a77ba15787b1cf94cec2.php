@@ -37,4 +37,4 @@
         </table>
     <?php else: ?>
         <p>Aucune cotisation trouvée.</p>
-    <?php endif; ?><?php /**PATH C:\Users\kokou.djimissa\OneDrive - AFRICAN LEASE GROUP SA\Documents\Projets\altprojects\aleasepay\resources\views/cnss/table.blade.php ENDPATH**/ ?>
+    <?php endif; ?><?php /**PATH C:\Projets\aleasepay\resources\views/cnss/table.blade.php ENDPATH**/ ?>
