@@ -184,8 +184,6 @@ class OTREtaxController extends Controller
             }
 
             if(isset($responseBody) && isset($responseBody["code"])){
-dd($responseBody);
-
                 $code= Str::before($responseBody["code"], " ");
                 #dd($code);
                 if($code==500){
