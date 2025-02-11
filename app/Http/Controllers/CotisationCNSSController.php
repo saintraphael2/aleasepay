@@ -292,7 +292,7 @@ public function paiement( Request $request ) {
             }
             $response = $responseBody['Response']['data'];
             $othersInfos = $responseBody['Others'];
-            $mail = null;
+           
             #dd($mail);
 
           
@@ -321,17 +321,13 @@ public function paiement( Request $request ) {
 
     public function listing() {
         if ( Auth::user() != null ) {
-
             $mail=Auth::user()->email;
             $racine=Auth::user()->racine;
             $cptClient=CptClient::where('racine',$racine)->first();
             $comptes=Compte::where('racine',$cptClient->racine)->get();
             #dd($comptes);
             $transactions=[];
-            $types = [
-                (object)['id' => 'CNSS', 'type' => 'CNSS'],
-                (object)['id' => 'OTR', 'type' => 'OTR'],
-            ];
+            $types = $this->getTypeOperation();
             #return view( 'home' )->with( 'cptClients', $comptes );
             return view( 'transactions.index',compact('comptes', 'transactions','types')) ;
         } else {
@@ -340,23 +336,72 @@ public function paiement( Request $request ) {
         }
     }
 
-    public function filter(Request $request ) {
-        $parameters = $request->query();
 
+    private function getTypeOperation() {
+        $dotenv = Dotenv::createImmutable( base_path() );
+        $dotenv->load();
+
+        $baseUrl = env( 'API_TAX_BASE_URL', 'base_url' );
+        $typeOperationEndPoint = env( 'TYPE_OPERATION_ENDPOINT', 'api_get_typeOperation' );
+
+        $urlTypeOperation = $baseUrl . $typeOperationEndPoint ;
+        // Authentification pour récupérer le token
+        try {
+            $token = $this->getToken();
+        } catch ( \Exception $e ) {
+            if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            } else {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            }
+            return redirect()->back()->withErrors($message);
+        }
+
+        // Consommation du Web Service pour les opérations
+        if ( $token != null ) {
+            $responseTypeOperation = Http::withHeaders([
+                'Authorization' => "Bearer {$token}",
+            ] )->get($urlTypeOperation);
+        } else {
+            return redirect()->back()->withErrors( 'Serveur indisponible.' );
+        }
+        // Vérification de la réponse
+        if ( $responseTypeOperation->successful() ) {
+            $data = $responseTypeOperation->json();
+            #dd($data);
+            if ( isset( $data ) ) {
+                $typeOperations = $data;
+                // Récupération des types opérations
+                return $typeOperations;
+            }
+        }
+        return null;
+    }
+/**
+ * 
+ */
+    public function filter(Request $request ) {
         // Exemple : accéder individuellement aux paramètres
-        $compte = $request->query('compte');
-        $type = $request->query('type');
-        $dateDebut = $request->query('date_debut');
-        $dateFin = $request->query('date_fin');
-    
+        $compte = $request->input( 'compte' );
+        $typeOperation = $request->input( 'type' );
+        $dateDebut = $request->input( 'date_debut' );
+        $dateFin = $request->input( 'date_fin' );
+
+        if ( $dateDebut == null ) {
+            return redirect()->back()->withErrors( 'Date de début est obligatoire' );
+        }
+        if ( $dateFin == null ) {
+            return redirect()->back()->withErrors( 'Date de fin est obligatoire' );
+        }
         $params = [
-            'comptealt' => $request->query('compte'),
-            'typeTransaction' => $request->query('type'),
-            'dateDebut' => $request->query('date_debut'),
-            'dateFin' => $request->query('date_fin'),
+            'comptealt' =>  $compte,
+            'typeTransaction' => $typeOperation,
+            'dateDebut' =>  $dateDebut,
+            'dateFin' => $dateFin,
         ];
+       
         // Affichage des paramètres (optionnel, pour debug)
-        #dd($parameters);
+       # dd($params);
         #$compte = $request->input( 'compte' );
         $dotenv = Dotenv::createImmutable( base_path() );
         $dotenv->load();
@@ -383,7 +428,7 @@ public function paiement( Request $request ) {
         if ( $token != null ) {
             $responseTransactions = Http::withHeaders( [
                 'Authorization' => "Bearer {$token}",
-            ] )->get( $urlTransactions,$params);
+            ] )->post( $urlTransactions,$params);
         } else {
             return redirect()->back()->withErrors( 'Serveur indisponible.' );
         }
@@ -412,10 +457,7 @@ public function paiement( Request $request ) {
             $cptClient=CptClient::where('racine',$racine)->first();
             $comptes=Compte::where('racine',$cptClient->racine)->get();
             #dd($comptes);
-            $types = [
-                (object)['id' => 'CNSS', 'type' => 'CNSS'],
-                (object)['id' => 'OTR', 'type' => 'OTR'],
-            ];
+            $types = $this->getTypeOperation();
             return view( 'transactions.index',compact('comptes', 'transactions','types')) ;
         } else {
             Auth::logout();

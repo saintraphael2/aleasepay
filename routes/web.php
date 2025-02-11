@@ -56,10 +56,18 @@ Route::get('/cnss/cotisations/{reference}/form/{numero_employeur}', [App\Http\Co
 Route::post('/cnss/cotisations/pay', [App\Http\Controllers\CotisationCNSSController::class, 'paiement'])->name('cnss.cotisations.pay');
 
 Route::get('/transactions/listing', [App\Http\Controllers\CotisationCNSSController::class,'listing'])->name('transactions.index');
-Route::get('/transactions/search', [App\Http\Controllers\CotisationCNSSController::class,'filter'])->name('transactions.filter');
+Route::post('/transactions/search', [App\Http\Controllers\CotisationCNSSController::class,'filter'])->name('transactions.filter');
 
 
 Route::get('/otr/etax', [App\Http\Controllers\OTREtaxController::class, 'index'])->name('otr.etax');
 Route::get('/otr/etax/search', [App\Http\Controllers\OTREtaxController::class, 'search'])->name('otr.etax.search');
 Route::post('/otr/etax/pay', [App\Http\Controllers\OTREtaxController::class, 'paiement'])->name('otr.etax.pay');
+
+
+#Route::resource('mybordereaux', App\Http\Controllers\MyBordereauController::class);
+Route::get('/bordereau/listing', [App\Http\Controllers\MyBordereauController::class,'index'])->name('commandeBordereau.index');
+Route::get('/bordereau/showCommand', [App\Http\Controllers\MyBordereauController::class, 'command'])->name('commandeBordereau.form');
+Route::post('/bordereau/command', [App\Http\Controllers\MyBordereauController::class, 'docommand'])->name('commandeBordereau.docommand');
+Route::post('/bordereau/checklist', [App\Http\Controllers\MyBordereauController::class, 'filter'])->name('commandeBordereau.filter');
+
 

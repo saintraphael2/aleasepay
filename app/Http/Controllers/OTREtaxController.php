@@ -7,7 +7,7 @@ use App\Models\CptClient;
 use App\Models\Compte;
 use App\Models\Connexion;
 use Auth;
-
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
@@ -143,9 +143,10 @@ class OTREtaxController extends Controller
         
         $solde=$compte[0]->getOriginal()['solde'];
         #dd($amount);
-        if ($solde < $amount) {
-             return redirect()->back()->withErrors('Erreur lors du paiement : Le solde compte ' . $comptealt .' est insufisant');
-        }
+        #if ($solde < $amount) {
+        #     return redirect()->back()->withErrors('Erreur lors du paiement : Le solde compte ' . $comptealt .' est insufisant');
+       # }
+
         #dd( $data );
        // Construire l'URL du service de paiement
        $baseUrl = env('API_TAX_BASE_URL', 'base_url');
@@ -178,6 +179,27 @@ class OTREtaxController extends Controller
        // Vérification de la réponse
        if ($responsePayment->successful()) {
            $responseBody = $responsePayment->json();
+           if (Auth::user() != null) {
+            $mail = Auth::user()->email;
+            }
+
+            if(isset($responseBody) && isset($responseBody["code"])){
+dd($responseBody);
+
+                $code= Str::before($responseBody["code"], " ");
+                #dd($code);
+                if($code==500){
+                    $msg=html_entity_decode($responseBody["message"]);
+                    if ($mail != null) {
+                        Mail::send('notifications.index', ['msge' => $msg], function ($message) use ($mail, $msg) {
+                            $message->to($mail);
+                            $message->subject('Notification');
+                        });
+                        #Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.');
+                    }
+                    return redirect()->back()->withErrors($msg);
+                }
+            }
            #dd($responseBody['Response']['resultat']);
            if (isset($responseBody['Response']) && $responseBody['Response']['resultat'] !=null) {
                #Flash::success($responseBody['message']);
@@ -185,13 +207,9 @@ class OTREtaxController extends Controller
         
                $othersInfos = $responseBody['Others'];
                 if($result==0){
-                   
-                $mail = null;
+                #$mail = null;
                 #dd($mail);
-
-                if (Auth::user() != null) {
-                $mail = Auth::user()->email;
-                }
+               
                     #Envoi de mail
                 if ($mail != null) {
                         Mail::send('otr.email', ['others' => $othersInfos], function ($message) use ($mail, $othersInfos) {

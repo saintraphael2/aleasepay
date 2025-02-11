@@ -18,16 +18,15 @@
     @include('flash::message')
     <div class="clearfix"></div>
     <div class="card" style="padding: 15px;">
-       
+      
         @if($errors->any())
         <div class="alert alert-danger">
             {{ $errors->first() }}
         </div>
         @endif
-        <form method="POST" action="{{route('transactions.filter')}}" class="mb-4">
+        <form method="POST" action="{{route('commandeBordereau.filter')}}" class="mb-4">
         @csrf
             <div class="row input-daterange">
-
                 <div class="form-group col-sm-2">
                     {!! Form::label('compte', 'Comptes :') !!}
                     <select name="compte" id="compte" class='form-control'>
@@ -39,9 +38,9 @@
                 </div>
                 <div class="form-group col-sm-2">
                     {!! Form::label('type', 'Types :') !!}
-                    <select name="type" id="type" class='form-control'>
+                    <select name="typebordereau" id="type" class='form-control'>
                         @foreach($types as $type)
-                        <option value="{{$type['id']}}">{{$type['type']}}</option>
+                        <option value="{{$type['code']}}">{{$type['libelle']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -58,13 +57,12 @@
                     <span class="text-danger font-size-xsmall error_date_fin"></span>
                 </div>
                 <div class="form-group col-sm-2" style="margin-top: 2rem;">
-                    <button type="submit"  id="" class="btn btn-primary btnSubmit">Filtrer</button>
+                    <button type="submit" id=""  class="btn btn-primary btnSubmit">Filtrer</button>
                 </div>
             </div>
         </form>
-        @include('transactions.table')
+        @include('commandeBordereau.table')
     </div>
-
 </div>
 <script>
 </script>

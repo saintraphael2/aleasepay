@@ -51,19 +51,19 @@ class MouvementController extends AppBaseController
       
         $compte=($request->compte !== null)?$request->compte:$comptes[0]->compte;
         $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
-        $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
+        $soldedeb = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => $deb->format('d/m/Y'),
             'compte' => $compte,
             
         ]); //dd( $soldedeb);
 
-        $soldefin = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
+        $soldefin = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => $fin->format('d/m/Y'),
             'compte' => $compte,
             
         ]); 
        // echo'<pre>';
-   // var_dump($soldedeb);exit;
+    #dd($soldedeb);exit;
         return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes,
         'compte'=> $compte,'soldedeb'=>($soldedeb!=null)?$soldedeb['solde']:0,'soldefin'=>($soldefin!=null)?$soldefin['solde']:0]);
     }else{
@@ -82,7 +82,7 @@ class MouvementController extends AppBaseController
     }
     public function releve($compte,$deb,$fin){
         ini_set('max_execution_time', 500);
-        $soldedeb = Http::post('http://aleaseapi.com/api/myalt_v1/soldeDate', [
+        $soldedeb = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => Carbon::parse($deb)->addDays(-1)->format('d/m/Y'),
             'compte' => $compte,
             

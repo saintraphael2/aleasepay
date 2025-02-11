@@ -22,7 +22,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('bordereaux.index') }}" class="nav-link {{ Request::is('bordereaux*') ? 'active' : '' }}">
+    <a href="{{ route('commandeBordereau.index') }}" class="nav-link {{ Request::is('bordereau*') ? 'active' : '' }}">
     <i class="nav-icon fas fa-solid fa-money-check"></i>
         <p>Bordereaux</p>
     </a>
