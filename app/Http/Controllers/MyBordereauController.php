@@ -80,7 +80,7 @@ class MyBordereauController extends AppBaseController
         // Vérification de la réponse
         if ( $responseTypeBordereau->successful() ) {
             $data = $responseTypeBordereau->json();
-
+#dd($data);
             if ( isset( $data[ 'body' ] ) ) {
                 $typebordereaux = $data[ 'body' ];
                 // Récupération des types bordereaux
@@ -104,7 +104,7 @@ class MyBordereauController extends AppBaseController
 
             $bordereaux = [];
             $types = $this->getTypeBordereaux();
-            #dd( $types );
+         
             #return view( 'home' )->with( 'cptClients', $comptes );
             return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
         } else {
@@ -180,7 +180,7 @@ class MyBordereauController extends AppBaseController
         } else {
             return redirect()->back()->withErrors( 'Serveur indisponible.' );
         }
-
+        #dd($data);
         if ( $responseCommand->successful() ) {
             $responseBody = $responseCommand->json();
             #dd( $responseBody );

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Flash;
+use PDF;
 
 class CotisationCNSSController extends Controller {
     public function index() {
@@ -295,13 +296,18 @@ public function paiement( Request $request ) {
            
             #dd($mail);
 
-          
-
             if ($response['success'] ?? false) {
                 if ($mail != null) {
+                    $data=['others'=>$othersInfos];
+                    $pdf= PDF::loadView('cnss.quittance', $data);
+                    ##dd($data);
+                    $pdfContent = $pdf->output();
                     Mail::send('cnss.email', ['others' => $othersInfos], function ($message) use ($mail, $othersInfos) {
                         $message->to($mail);
                         $message->subject('Détails de la cotisation CNSS Reférence : ' . $othersInfos['refDecla']);
+                        $message->attachData($pdfContent, 'quittance_paiement_cnss.pdf', [
+                            'mime' => 'application/pdf',
+                        ]);
                     });
                     Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.');
                 } else {

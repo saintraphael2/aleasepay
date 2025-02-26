@@ -30,7 +30,7 @@ class Contact extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('releve-cpte-alt@africanlease.com', 'ALEASEPAY OTP '),
+            from: new Address('noreply@africanlease.com', 'ALEASEPAY OTP '),
             subject: 'Code d\'Authenfication ALEASE PAY',
         );
     }
