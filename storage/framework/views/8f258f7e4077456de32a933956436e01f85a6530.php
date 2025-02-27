@@ -65,13 +65,14 @@
                 <th>Frais</th>
             </tr>
             <tr>
-                <td>{{ $others['refDecla'] }}</td>
-                <td>{{ $others['referenceTransaction'] }}</td>
-                <td>{{ $others['transBankDate'] }}</td>
-                <td>{{ $others['mount'] }}</td>
+                <td><?php echo e($others['refDecla']); ?></td>
+                <td><?php echo e($others['referenceTransaction']); ?></td>
+                <td><?php echo e($others['transBankDate']); ?></td>
+                <td><?php echo e($others['mount']); ?></td>
                 <td>0.0</td>
             </tr>
         </table>
     </div>
 </body>
 </html>
+<?php /**PATH C:\Projets\aleasepay\resources\views/otr/quittance.blade.php ENDPATH**/ ?>

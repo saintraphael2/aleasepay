@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reçu Paiement OTR</title>
+    <title>Reçu Paiement Cotisation CNSS</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,11 +50,16 @@
 </head>
 <body>
     <div class="container">
+
     <div  class="header" style="display: flex; justify-content: space-between; width: 100%;">
-    <img src="./images/otr_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
     <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;">
-        </div>
-        <h2>Reçu Paiement OTR</h2>
+   </div>
+        <!--div>
+        <img src="./images/cnss_logo.png" alt="CNSS Logo">
+        <img src="./images/african_lease_logo.png"  alt="African Lease Logo">
+        </div-->
+        <h2>Reçu Paiement Cotisation CNSS</h2>
 
         <table>
             <tr>
@@ -65,13 +70,14 @@
                 <th>Frais</th>
             </tr>
             <tr>
-                <td>{{ $others['refDecla'] }}</td>
-                <td>{{ $others['referenceTransaction'] }}</td>
-                <td>{{ $others['transBankDate'] }}</td>
-                <td>{{ $others['mount'] }}</td>
-                <td>0.0</td>
+                <td><?php echo e($transaction['refDecla']); ?></td>
+                <td><?php echo e($transaction['referenceTransaction']); ?></td>
+                <td><?php echo e($transaction['transBankDate']); ?></td>
+                <td><?php echo e($transaction['mount']); ?></td>
+                <td>12340009899U99E99.0</td>
             </tr>
         </table>
     </div>
 </body>
 </html>
+<?php /**PATH C:\Projets\aleasepay\resources\views/transactions/quittance.blade.php ENDPATH**/ ?>

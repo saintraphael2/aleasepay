@@ -57,7 +57,7 @@ Route::post('/cnss/cotisations/pay', [App\Http\Controllers\CotisationCNSSControl
 
 Route::get('/transactions/listing', [App\Http\Controllers\CotisationCNSSController::class,'listing'])->name('transactions.index');
 Route::post('/transactions/search', [App\Http\Controllers\CotisationCNSSController::class,'filter'])->name('transactions.filter');
-
+Route::get('/quittance/{transaction}', [App\Http\Controllers\CotisationCNSSController::class, 'quittance'])->name('transaction.quittance');
 
 Route::get('/otr/etax', [App\Http\Controllers\OTREtaxController::class, 'index'])->name('otr.etax');
 Route::get('/otr/etax/search', [App\Http\Controllers\OTREtaxController::class, 'search'])->name('otr.etax.search');

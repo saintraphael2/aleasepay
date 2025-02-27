@@ -10,19 +10,20 @@
             text-align: center;
         }
         .container {
-            width: 50%;
-            margin: auto;
-            border: 1px solid #000;
+            width: 100%;
+            /**margin: auto;**/
             padding: 20px;
         }
         .header {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-evenly; /* Ajoute plus d'espace entre les images */
             align-items: center;
-            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid black;
         }
         .header img {
             height: 80px;
+            margin-left: 35px;
         }
         h2 {
             border: 1px dashed #000;
@@ -32,12 +33,15 @@
         }
         table {
             width: 100%;
+            margin-top: 20px;
+            /*height: 50%;*/
             border-collapse: collapse;
         }
         th, td {
             border: 1px solid black;
             padding: 10px;
             text-align: center;
+            width:50%;
         }
         th {
             background-color: #f2f2f2;
@@ -45,11 +49,11 @@
     </style>
 </head>
 <body>
-
     <div class="container">
-        <div class="header">
-            <img src="../img/cnss_logo.png" alt="CNSS Logo">
-            <img src="../img/african_lease_logo.png" alt="African Lease Logo">
+
+    <div  class="header" style="display: flex; justify-content: space-between; width: 100%;">
+    <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;">
         </div>
         <h2>Reçu Paiement Cotisation CNSS</h2>
 

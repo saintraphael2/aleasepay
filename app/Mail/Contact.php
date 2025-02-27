@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
+use Dotenv\Dotenv;
 
 class Contact extends Mailable
 {
@@ -29,8 +30,12 @@ class Contact extends Mailable
      */
     public function envelope(): Envelope
     {
+        $dotenv = Dotenv::createImmutable( base_path() );
+        $dotenv->load();
+        $email = env( 'MAIL_FROM_ADDRESS', 'email_sender' );
+    
         return new Envelope(
-            from: new Address('noreply@africanlease.com', 'ALEASEPAY OTP '),
+            from: new Address($email, 'ALEASEPAY OTP '),
             subject: 'Code d\'Authenfication ALEASE PAY',
         );
     }

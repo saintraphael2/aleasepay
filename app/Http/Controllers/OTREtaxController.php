@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Flash;
+use PDF;
 
 class OTREtaxController extends Controller
 {
@@ -207,12 +208,17 @@ class OTREtaxController extends Controller
                 if($result==0){
                 #$mail = null;
                 #dd($mail);
-               
+                $data = [ 'others' => $othersInfos ];
+                $pdf = PDF::loadView( 'otr.quittance',$data);
+                $pdfContent = $pdf->output();
                     #Envoi de mail
                 if ($mail != null) {
-                        Mail::send('otr.email', ['others' => $othersInfos], function ($message) use ($mail, $othersInfos) {
+                        Mail::send('otr.email', ['others' => $othersInfos], function ($message) use ($mail, $othersInfos,$pdfContent) {
                             $message->to($mail);
-                            $message->subject('Détails de la TAXE OTR Reférence : ' . $othersInfos['refDecla']);
+                            $message->subject('Détails Paiement OTR : ' . $othersInfos['refDecla']);
+                            $message->attachData( $pdfContent, 'quittance_paiement_OTR.pdf', [
+                                'mime' => 'application/pdf',
+                            ] );
                         });
                         Flash::success("Opération Réussie" . ' . Un email de notification vous sera envoyé.');
                 }

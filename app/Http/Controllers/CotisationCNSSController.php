@@ -28,6 +28,7 @@ class CotisationCNSSController extends Controller {
     /**
     *
     */
+
     public function search( Request $request ) {
         $numero_employeur = $request->input( 'numero_employeur' );
         $dotenv = Dotenv::createImmutable( base_path() );
@@ -247,7 +248,6 @@ public function paiement( Request $request ) {
     $username = env( 'API_USERNAME', 'default_user' );
     $password = env( 'API_PASSWORD', 'default_password' );
     #dd( $urlAuthenticate );
-    
 
     try {
         $token = $this->getToken();
@@ -260,55 +260,56 @@ public function paiement( Request $request ) {
         return redirect()->back()->withErrors( $message );
     }
 
-    // Consommation du Web Service 
+    // Consommation du Web Service
     if ( $token != null ) {
-        $responsePayment = Http::withHeaders([
+        $responsePayment = Http::withHeaders( [
             'Authorization' => "Bearer {$token}",
-        ])->post($urlPayment, $data);
+        ] )->post( $urlPayment, $data );
     } else {
         return redirect()->back()->withErrors( 'Serveur indisponible.' );
     }
 
-    if (Auth::user() != null) {
+    if ( Auth::user() != null ) {
         $mail = Auth::user()->email;
     }
-        // Vérification de la réponse
-        if ($responsePayment->successful()) {
-            $responseBody = $responsePayment->json();
-            #dd($responseBody);
-            if(isset($responseBody)){
-                $code= Str::before($responseBody["code"], " ");
-                #dd($code);
-                if($code==500){
-                    $msg=html_entity_decode($responseBody["message"]);
-                    if ($mail != null) {
-                        Mail::send('notifications.index', ['msge' => $msg], function ($message) use ($mail, $msg) {
-                            $message->to($mail);
-                            $message->subject('Notification');
-                        });
-                        #Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.');
+    // Vérification de la réponse
+    if ( $responsePayment->successful() ) {
+        $responseBody = $responsePayment->json();
+        #dd( $responseBody );
+        if ( isset( $responseBody ) ) {
+            $code = Str::before( $responseBody[ 'code' ], ' ' );
+            #dd( $code );
+            if ( $code == 500 ) {
+                $msg = html_entity_decode( $responseBody[ 'message' ] );
+                if ( $mail != null ) {
+                    Mail::send( 'notifications.index', [ 'msge' => $msg ], function ( $message ) use ( $mail, $msg ) {
+                        $message->to( $mail );
+                        $message->subject( 'Notification' );
                     }
-                    return redirect()->back()->withErrors($msg);
-                }
+                );
+                #Flash::success( $response[ 'body' ][ 'message' ] . ' . Un email de notification vous sera envoyé.' );
             }
-            $response = $responseBody['Response']['data'];
-            $othersInfos = $responseBody['Others'];
-           
-            #dd($mail);
+            return redirect()->back()->withErrors( $msg );
+        }
+    }
+    $response = $responseBody[ 'Response' ][ 'data' ];
+    $othersInfos = $responseBody[ 'Others' ];
 
-            if ($response['success'] ?? false) {
-                if ($mail != null) {
-                    $data=['others'=>$othersInfos];
-                    $pdf= PDF::loadView('cnss.quittance', $data);
-                    ##dd($data);
-                    $pdfContent = $pdf->output();
-                    Mail::send('cnss.email', ['others' => $othersInfos], function ($message) use ($mail, $othersInfos) {
-                        $message->to($mail);
-                        $message->subject('Détails de la cotisation CNSS Reférence : ' . $othersInfos['refDecla']);
-                        $message->attachData($pdfContent, 'quittance_paiement_cnss.pdf', [
-                            'mime' => 'application/pdf',
-                        ]);
-                    });
+    #dd( $mail );
+
+    if ( $response[ 'success' ] ?? false ) {
+        if ( $mail != null ) {
+            $data = [ 'others' => $othersInfos ];
+            $pdf = PDF::loadView('cnss.quittance', $data);
+            $pdfContent = $pdf->output();
+            Mail::send( 'cnss.email', [ 'others' => $othersInfos ], function ( $message ) use ( $mail, $othersInfos, $pdfContent ) {
+                $message->to( $mail );
+                $message->subject( 'Reçu Paiement Cotisation CNSS: ' . $othersInfos[ 'refDecla' ] );
+                $message->attachData( $pdfContent, 'quittance_paiement_cnss.pdf', [
+                    'mime' => 'application/pdf',
+                ] );
+                // Joindre le PDF sans l'enregistrer sur le disque
+                });
                     Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.');
                 } else {
                     Flash::success($response['body']['message']);
@@ -468,6 +469,56 @@ public function paiement( Request $request ) {
         } else {
             Auth::logout();
             return redirect( '/login' );
+            }
         }
-    }
-}
+/**
+ * 
+ */
+        public function quittance($transaction){
+            $dotenv = Dotenv::createImmutable( base_path() );
+            $dotenv->load();
+    
+            $baseUrl = env('API_TAX_BASE_URL', 'base_url');
+            $transactionEndPoint = env('GET_TRANSACTION', 'api_get_trans');
+    
+            $urlTransaction = $baseUrl . $transactionEndPoint . "{$transaction}";
+            #dd($urlTransaction);
+            // Récupération du token
+            try {
+                $token = $this->getToken();
+            } catch ( \Exception $e ) {
+                if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                    $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+                } else {
+                    $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+                }
+                return redirect()->back()->withErrors( $message );
+            }
+    
+            // Consommation du Web Service pour les cotisations
+            if ( $token != null ) {
+                $responseTransaction = Http::withHeaders( [
+                    'Authorization' => "Bearer {$token}",
+                ] )->get($urlTransaction);
+            } else {
+                return redirect()->back()->withErrors('Serveur indisponible.' );
+            }
+    
+            // Vérification de la réponse
+            #dd($responseTransaction);
+            if ($responseTransaction->successful()) {
+                $data = $responseTransaction->json();
+                #dd($data);
+                if (isset($data)) {
+                    $transaction = $data;
+                    #dd($transactions);
+                    // Récupération des cotisations
+                } 
+            }
+            #$transaction
+            $data=['transaction'=> $transaction];
+            #dd($data);
+            $pdf= PDF::loadView('transactions.quittance',$data);
+            return $pdf->stream('quittance'. $transaction['referenceTransaction'].'.pdf' );
+            }
+        }
