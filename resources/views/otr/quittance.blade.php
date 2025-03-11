@@ -58,7 +58,7 @@
 
         <table>
             <tr>
-                <th>Référence CNSS</th>
+                <th>Référence OTR</th>
                 <th>Référence de paiement ALT</th>
                 <th>Date de paiement</th>
                 <th>Montant</th>
@@ -68,8 +68,10 @@
                 <td>{{ $others['refDecla'] }}</td>
                 <td>{{ $others['referenceTransaction'] }}</td>
                 <td>{{ $others['transBankDate'] }}</td>
-                <td>{{ $others['mount'] }}</td>
-                <td>0.0</td>
+                <td>{{number_format($others['mount'] , 0, ',', ' ')}} FCFA</td>
+                <td>
+                    {{number_format($others['mountTTC'] - $others['mount'], 0, ',', ' ') }} FCFA
+                </td>
             </tr>
         </table>
     </div>

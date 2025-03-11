@@ -20,7 +20,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background-color: #4CAF50;
+            background-color:rgb(255, 69, 0);
             color: #ffffff;
             text-align: center;
             padding: 20px;
@@ -65,18 +65,10 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <h1>Transaction Réussie</h1>
+            <h1>Notification</h1>
         </div>
         <div class="content">
-            <p>Voici les détails de la transaction :</p>
-            <ul>
-                <li><strong>Transaction Référence:</strong> <?php echo e($others['referenceTransaction']); ?></li>
-                <li><strong>Date de la Transaction:</strong> <?php echo e($others['transBankDate']); ?></li>
-                <li><strong>Référence Déclaration:</strong> <?php echo e($others['refDecla']); ?></li>
-                <li><strong>Contribuable:</strong> <?php echo e($others['contribuable']); ?></li>
-                <li><strong>Montant:</strong> <?php echo e($others['mount']); ?></li>
-                <li><strong>Compte:</strong> <?php echo e($others['comptealt']); ?></li>
-            </ul>
+            <p> <?php echo e($msge); ?></p>
         </div>
         <div class="footer">
             <p>Merci pour votre confiance.</p>
@@ -86,4 +78,4 @@
     </div>
 </body>
 </html>
-<?php /**PATH C:\Projets\aleasepay\resources\views/cnss/email.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Projets\aleasepay\resources\views/notifications/index.blade.php ENDPATH**/ ?>

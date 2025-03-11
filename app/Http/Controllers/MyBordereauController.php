@@ -70,22 +70,31 @@ class MyBordereauController extends AppBaseController
         }
 
         // Consommation du Web Service pour les cotisations
-        if ( $token != null ) {
-            $responseTypeBordereau = Http::withHeaders( [
-                'Authorization' => "Bearer {$token}",
-            ] )->get( $urlTypeBordereau );
-        } else {
-            return redirect()->back()->withErrors( 'Serveur indisponible.' );
-        }
-        // Vérification de la réponse
-        if ( $responseTypeBordereau->successful() ) {
-            $data = $responseTypeBordereau->json();
-#dd($data);
-            if ( isset( $data[ 'body' ] ) ) {
-                $typebordereaux = $data[ 'body' ];
-                // Récupération des types bordereaux
-                return $typebordereaux;
+        try {
+            if ( $token != null ) {
+                $responseTypeBordereau = Http::withHeaders( [
+                    'Authorization' => "Bearer {$token}",
+                ] )->get( $urlTypeBordereau );
+            } else {
+                return redirect()->back()->withErrors( 'Serveur indisponible.' );
             }
+            // Vérification de la réponse
+            if ( $responseTypeBordereau->successful() ) {
+                $data = $responseTypeBordereau->json();
+                ##dd( $data );
+                if ( isset( $data[ 'body' ] ) ) {
+                    $typebordereaux = $data[ 'body' ];
+                    // Récupération des types bordereaux
+                    return $typebordereaux;
+                }
+            }
+        } catch ( \Exception $e ) {
+            if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            } else {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            }
+            return redirect()->back()->withErrors( $message );
         }
         return null;
     }
@@ -103,10 +112,19 @@ class MyBordereauController extends AppBaseController
             #dd( $comptes );
 
             $bordereaux = [];
-            $types = $this->getTypeBordereaux();
-         
+            try {
+                $types = $this->getTypeBordereaux();
+                return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
+            } catch ( \Exception $e ) {
+                if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                    $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+                } else {
+                    $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+                }
+                return redirect()->back()->withErrors( $message );
+            }
             #return view( 'home' )->with( 'cptClients', $comptes );
-            return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
+            
         } else {
             Auth::logout();
             return redirect( '/login' );
@@ -180,7 +198,7 @@ class MyBordereauController extends AppBaseController
         } else {
             return redirect()->back()->withErrors( 'Serveur indisponible.' );
         }
-        #dd($data);
+        #dd( $data );
         if ( $responseCommand->successful() ) {
             $responseBody = $responseCommand->json();
             #dd( $responseBody );
@@ -188,24 +206,24 @@ class MyBordereauController extends AppBaseController
                 $response = $responseBody[ 'body' ];
                 if ( $response[ 'id' ] != null ) {
                     Flash::success( 'Votre commande a été enregistrée avec succès.' );
-                    
+
                     $datafilter = [
-                        'comptealt' => $data['compte'],
-                        'typebordereau' =>$data['code'],
-                        'dateDebut' => Carbon::parse($data['dateCommande'])->format('d-m-Y'),
-                        'dateFin' => Carbon::parse($data['dateCommande'])->format('d-m-Y')
+                        'comptealt' => $data[ 'compte' ],
+                        'typebordereau' =>$data[ 'code' ],
+                        'dateDebut' => Carbon::parse( $data[ 'dateCommande' ] )->format( 'd-m-Y' ),
+                        'dateFin' => Carbon::parse( $data[ 'dateCommande' ] )->format( 'd-m-Y' )
                     ];
 
-                    #dd($datafilter);
-                    $bord = $this->getBordereaux($datafilter);
-                    #dd($bord);
+                    #dd( $datafilter );
+                    $bord = $this->getBordereaux( $datafilter );
+                    #dd( $bord );
                     if ( Auth::user() != null ) {
                         $mail = Auth::user()->email;
                         $racine = Auth::user()->racine;
                         $cptClient = CptClient::where( 'racine', $racine )->first();
                         $comptes = Compte::where( 'racine', $cptClient->racine )->get();
                         #dd( $comptes );
-            
+
                         $bordereaux =  $bord;
                         $types = $this->getTypeBordereaux();
                         #dd( $types );
@@ -245,8 +263,8 @@ class MyBordereauController extends AppBaseController
             'dateDebut' =>  $dateDebut,
             'dateFin' => $dateFin
         ];
-        #dd($data);
-        $bord = $this->getBordereaux($data);
+        #dd( $data );
+        $bord = $this->getBordereaux( $data );
         #dd( $bordereaux );
         if ( Auth::user() != null ) {
             $mail = Auth::user()->email;

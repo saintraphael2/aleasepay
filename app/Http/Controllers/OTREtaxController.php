@@ -128,6 +128,10 @@ class OTREtaxController extends Controller
             'comptealt' => 'required|string',
         ]);
         $validated['montant'] = (float) str_replace(' ', '', preg_replace('/[^0-9]/', '', $validated['montant']));
+
+        if (Auth::user() != null) {
+            $mail = Auth::user()->email;
+            }
         // Construire l'objet $data
         $data = [
             'referenceDeclaration' => $validated['referenceDeclaration'],
@@ -136,6 +140,7 @@ class OTREtaxController extends Controller
             'contribuable' => $validated['contribuable'],
             'nif' => $validated['nif'],
             'comptealt' => $validated['comptealt'],
+            'email' =>  $mail,
         ];
        
         $amount=$validated['montant'];
@@ -180,9 +185,7 @@ class OTREtaxController extends Controller
        // Vérification de la réponse
        if ($responsePayment->successful()) {
            $responseBody = $responsePayment->json();
-           if (Auth::user() != null) {
-            $mail = Auth::user()->email;
-            }
+         
 
             if(isset($responseBody) && isset($responseBody["code"])){
                 $code= Str::before($responseBody["code"], " ");

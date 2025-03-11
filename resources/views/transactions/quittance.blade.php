@@ -52,7 +52,11 @@
     <div class="container">
 
     <div  class="header" style="display: flex; justify-content: space-between; width: 100%;">
+    @if ($transaction['type_transaction']['operationMonetique'] == 'OOT')
+    <img src="./images/otr_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    @elseif ($transaction['type_transaction']['operationMonetique'] == 'OCN')
     <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    @endif
     <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;">
    </div>
         <!--div>
@@ -60,21 +64,26 @@
         <img src="./images/african_lease_logo.png"  alt="African Lease Logo">
         </div-->
         <h2>Reçu Paiement Cotisation CNSS</h2>
-
         <table>
             <tr>
+            @if ($transaction['type_transaction']['operationMonetique'] == 'OOT')
+                <th>Référence OTR</th>
+                @elseif ($transaction['type_transaction']['operationMonetique'] == 'OCN')
                 <th>Référence CNSS</th>
+                @endif
                 <th>Référence de paiement ALT</th>
                 <th>Date de paiement</th>
                 <th>Montant</th>
                 <th>Frais</th>
             </tr>
             <tr>
-                <td>{{$transaction['refDecla']}}</td>
+                <td>{{$transaction['refDecla']}} </td>
                 <td>{{$transaction['referenceTransaction']}}</td>
                 <td>{{$transaction['transBankDate']}}</td>
-                <td>{{$transaction['mount']}}</td>
-                <td>12340009899U99E99.0</td>
+                <td>{{number_format($transaction['mount'] , 0, ',', ' ')}} FCFA</td>
+                <td>{{number_format($transaction['mountTTC'] - $transaction['mount'], 0, ',', ' ') }} FCFA
+                    
+                </td>
             </tr>
         </table>
     </div>

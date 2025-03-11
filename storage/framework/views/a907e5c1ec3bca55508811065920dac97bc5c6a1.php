@@ -52,7 +52,11 @@
     <div class="container">
 
     <div  class="header" style="display: flex; justify-content: space-between; width: 100%;">
+    <?php if($transaction['type_transaction']['operationMonetique'] == 'OOT'): ?>
+    <img src="./images/otr_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    <?php elseif($transaction['type_transaction']['operationMonetique'] == 'OCN'): ?>
     <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    <?php endif; ?>
     <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;">
    </div>
         <!--div>
@@ -60,21 +64,26 @@
         <img src="./images/african_lease_logo.png"  alt="African Lease Logo">
         </div-->
         <h2>Reçu Paiement Cotisation CNSS</h2>
-
         <table>
             <tr>
+            <?php if($transaction['type_transaction']['operationMonetique'] == 'OOT'): ?>
+                <th>Référence OTR</th>
+                <?php elseif($transaction['type_transaction']['operationMonetique'] == 'OCN'): ?>
                 <th>Référence CNSS</th>
+                <?php endif; ?>
                 <th>Référence de paiement ALT</th>
                 <th>Date de paiement</th>
                 <th>Montant</th>
                 <th>Frais</th>
             </tr>
             <tr>
-                <td><?php echo e($transaction['refDecla']); ?></td>
+                <td><?php echo e($transaction['refDecla']); ?> </td>
                 <td><?php echo e($transaction['referenceTransaction']); ?></td>
                 <td><?php echo e($transaction['transBankDate']); ?></td>
-                <td><?php echo e($transaction['mount']); ?></td>
-                <td>12340009899U99E99.0</td>
+                <td><?php echo e(number_format($transaction['mount'] , 0, ',', ' ')); ?> FCFA</td>
+                <td><?php echo e(number_format($transaction['mountTTC'] - $transaction['mount'], 0, ',', ' ')); ?> FCFA
+                    
+                </td>
             </tr>
         </table>
     </div>

@@ -211,6 +211,9 @@ public function paiement( Request $request ) {
     // Nettoyer le champ 'amount' pour extraire uniquement le montant numérique
     $validated[ 'amount' ] = ( float ) str_replace( ' ', '', preg_replace( '/[^0-9]/', '', $validated[ 'amount' ] ) );
     $transactionDate = now()->format( 'Y-m-d H:i:s' );
+    if ( Auth::user() != null ) {
+        $mail = Auth::user()->email;
+    }
     // Construire l'objet $data
         $data = [
             'cNSSpaytax' => [
@@ -225,6 +228,7 @@ public function paiement( Request $request ) {
             'requester' => $validated['requester'],
             'numeroEmployeur' => $validated['numero_employeur'],
             'comptealt' => $validated['comptealt'],
+            'email' => $mail,
         ];
         $numEmp = $validated['numero_employeur'];
 
@@ -269,9 +273,7 @@ public function paiement( Request $request ) {
         return redirect()->back()->withErrors( 'Serveur indisponible.' );
     }
 
-    if ( Auth::user() != null ) {
-        $mail = Auth::user()->email;
-    }
+   
     // Vérification de la réponse
     if ( $responsePayment->successful() ) {
         $responseBody = $responsePayment->json();
@@ -443,7 +445,9 @@ public function paiement( Request $request ) {
         // Vérification de la réponse
         if ( $responseTransactions->successful() ) {
             $data = $responseTransactions->json();
+            
             if ( isset( $data) ) {
+             
                 $transactions = $data;
                 #dd($transactions);
                 // Récupération des cotisations
