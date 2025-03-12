@@ -63,7 +63,11 @@
         <img src="./images/cnss_logo.png" alt="CNSS Logo">
         <img src="./images/african_lease_logo.png"  alt="African Lease Logo">
         </div-->
+        @if ($transaction['type_transaction']['operationMonetique'] == 'OOT')
+        <h2>Reçu Paiement OTR</h2>
+        @elseif ($transaction['type_transaction']['operationMonetique'] == 'OCN')
         <h2>Reçu Paiement Cotisation CNSS</h2>
+        @endif
         <table>
             <tr>
             @if ($transaction['type_transaction']['operationMonetique'] == 'OOT')

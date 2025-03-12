@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Flash;
+use Illuminate\Support\Str;
 
 class MyBordereauController extends AppBaseController
  {
@@ -110,7 +111,6 @@ class MyBordereauController extends AppBaseController
             $cptClient = CptClient::where( 'racine', $racine )->first();
             $comptes = Compte::where( 'racine', $cptClient->racine )->get();
             #dd( $comptes );
-
             $bordereaux = [];
             try {
                 $types = $this->getTypeBordereaux();
@@ -124,7 +124,7 @@ class MyBordereauController extends AppBaseController
                 return redirect()->back()->withErrors( $message );
             }
             #return view( 'home' )->with( 'cptClients', $comptes );
-            
+
         } else {
             Auth::logout();
             return redirect( '/login' );
@@ -143,9 +143,13 @@ class MyBordereauController extends AppBaseController
             $cptClient = CptClient::where( 'racine', $racine )->first();
             $comptes = Compte::where( 'racine', $cptClient->racine )->get();
             $types = $this->getTypeBordereaux();
-            #dd( $types );
+            $dateCommande =  Carbon::now()->format( 'Y-m-d' );
+
+            #$dateCommande =  '13/03/2025';
+
+            #dd( $datecomande );
             #return view( 'home' )->with( 'cptClients', $comptes );
-            return view( 'commandeBordereau.form', compact( 'comptes', 'types' ) ) ;
+            return view( 'commandeBordereau.form' )->with( [ 'dateCommande'=> $dateCommande, 'comptes'=>$comptes, 'types'=>$types ] );
         } else {
             Auth::logout();
             return redirect( '/login' );
@@ -201,10 +205,23 @@ class MyBordereauController extends AppBaseController
         #dd( $data );
         if ( $responseCommand->successful() ) {
             $responseBody = $responseCommand->json();
+
+            if ( isset( $responseBody ) ) {
+                $code = Str::before( $responseBody[ 'code' ], ' ' );
+                #dd( $code );
+                if ( $code == 500 ) {
+                    $msg = html_entity_decode( $responseBody[ 'message' ] );
+                    return redirect()->back()->withErrors( $msg );
+                }
+            }
+
             #dd( $responseBody );
             if ( isset( $responseBody ) ) {
                 $response = $responseBody[ 'body' ];
+                #dd( $response );
                 if ( $response[ 'id' ] != null ) {
+                    #dd( $response[ 'numeroOrdre' ] );
+                    $this->checkBordereauEtat( $response[ 'numeroOrdre' ] );
                     Flash::success( 'Votre commande a été enregistrée avec succès.' );
 
                     $datafilter = [
@@ -281,6 +298,43 @@ class MyBordereauController extends AppBaseController
         }
     }
 
+    public function checkBordereauEtat( $numeroOrdre ) {
+        $dotenv = Dotenv::createImmutable( base_path() );
+        $dotenv->load();
+        $baseUrl = env( 'API_TAX_BASE_URL', 'base_url' );
+        $checkBordereauEndPoint = env( 'BORDEREAU_API_CHECK_BORDEREAU', 'api_check_bordereau_etat' );
+
+        $urlCheckBordereau = $baseUrl . $checkBordereauEndPoint . "{$numeroOrdre}";
+
+        #dd( $urlCheckBordereau );
+        // Authentification pour récupérer le token
+        try {
+            $token = $this->getToken();
+        } catch ( \Exception $e ) {
+            if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            } else {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            }
+            return redirect()->back()->withErrors( $message );
+        }
+
+        // Consommation du Web Service pour les opérations
+        if ( $token != null ) {
+            $responseEtatBordereau = Http::withHeaders( [
+                'Authorization' => "Bearer {$token}",
+            ] )->get( $urlCheckBordereau );
+        } else {
+            return redirect()->back()->withErrors( 'Serveur indisponible.' );
+        }
+        if ( $responseEtatBordereau->successful() ) {
+            $responseBody = $responseEtatBordereau->json();
+            #dd( $responseBody[ 'body' ][ 'etat' ] );
+            return $responseBody[ 'body' ][ 'etat' ] ;
+        }
+        return null;
+    }
+
     public function getBordereaux( $data ) {
         $baseUrl = env( 'API_TAX_BASE_URL', 'base_url' );
         $filterEndpoint = env( 'FILTER_API_POST_BORDEREAU', 'api_post_filterBordereau' );
@@ -315,7 +369,12 @@ class MyBordereauController extends AppBaseController
             $responseBody = $responseCommand->json();
             #dd( $responseBody );
             if ( isset( $responseBody ) ) {
-                return  $response = $responseBody;
+                $response = $responseBody;
+                foreach ( $response as &$bordereau ) {
+                    $etat = $this->checkBordereauEtat( $bordereau[ 'numeroOrdre' ] );
+                    $bordereau[ 'etat' ] = $etat;
+                }
+                return $response;
             }
         }
     }

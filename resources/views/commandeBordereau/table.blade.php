@@ -14,7 +14,7 @@
                     <th>Date de commande</th>
                     <th>Quantité</th>
                     <th>numéro Ordre</th>
-                    <th>Etat</th>
+                    <th>Etat </th>
                 </tr>
             </thead>
             <tbody>
@@ -24,17 +24,27 @@
                         <td>{{ $bordereau['libelleBordereau'] }}</td>
                         <td>{{ $bordereau['dateCommande'] }}</td>
                         <td>{{ $bordereau['quantite'] }}  </td>
-                        <td>{{ $bordereau['numeroOrdre']}} </td>
+                        <td>{{ $bordereau['numeroOrdre']}}</td>
                         <td>
-                        @if($bordereau['etat'] == '0')
-                            <a>
-                                En attente
-                            </a>
-                            <!-- <button class="btn btn-secondary" >Paiement </button> -->
-                        @elseif($bordereau['etat'] == '1')
-                            En cours
-                        @endif
-                    </td>
+    @isset($bordereau['etat'])
+        @switch($bordereau['etat'])
+            @case('0')
+                <a>En attente</a>
+                @break
+            @case('1')
+                <a>En cours</a>
+                @break
+            @case('2')
+                <a>Validé</a>
+                @break
+            @default
+                <a>État inconnu</a>
+        @endswitch
+    @else
+        <a>État non défini</a>
+    @endisset
+</td>
+
                     </tr>
                 @endforeach
             </tbody>

@@ -15,7 +15,7 @@
             @endif
             <div class="mb-3">
                 <label for="dateCommande" class="form-label">Date commande</label>
-                <input type="date" id="dateCommande" name="dateCommande" class="form-control"/>
+                <input type="text" id="dateCommande" name="dateCommande" value="{{$dateCommande}}" class="form-control" readonly/>
             </div>
 
             <div class="mb-3">
