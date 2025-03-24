@@ -273,7 +273,6 @@ public function paiement( Request $request ) {
         return redirect()->back()->withErrors( 'Serveur indisponible.' );
     }
 
-   
     // Vérification de la réponse
     if ( $responsePayment->successful() ) {
         $responseBody = $responsePayment->json();
@@ -302,7 +301,7 @@ public function paiement( Request $request ) {
     if ( $response[ 'success' ] ?? false ) {
         if ( $mail != null ) {
             $data = [ 'others' => $othersInfos ];
-            $pdf = PDF::loadView('cnss.quittance', $data);
+            $pdf = PDF::loadView( 'cnss.quittance', $data );
             $pdfContent = $pdf->output();
             Mail::send( 'cnss.email', [ 'others' => $othersInfos ], function ( $message ) use ( $mail, $othersInfos, $pdfContent ) {
                 $message->to( $mail );
