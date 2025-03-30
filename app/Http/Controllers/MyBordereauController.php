@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Flash;
 
 class MyBordereauController extends AppBaseController
@@ -166,11 +167,11 @@ class MyBordereauController extends AppBaseController
             'quantite' => 'required|integer|min:1',
             'compte' => 'required|string'
         ] );
-        $datec = Carbon::parse($validated['dateCommande'])->format( 'd/m/Y' );
+        $datec = Carbon::parse( $validated[ 'dateCommande' ] )->format( 'd/m/Y' );
 
-        session([
+        session( [
             'dateCommande' => $datec,
-        ]);
+        ] );
         $data = [
             'dateCommande' => $datec,
             'code' =>$validated[ 'code' ],
@@ -223,37 +224,49 @@ class MyBordereauController extends AppBaseController
                         # }
 
                         #dd( $responseBody );
+
                         if ( isset( $responseBody ) ) {
-                            #dd( $responseBody );
-                            $response = $responseBody[ 'body' ];
+                            if (isset( $responseBody[ 'code' ] )) {
+                                
+                                $code = Str::before( $responseBody[ 'code' ], ' ' );
+                                #dd($code);
+                                if ( $code == 500 ) {
+                                    $msg = html_entity_decode( $responseBody[ 'message' ] );
+                                    return redirect()->back()->withErrors( $msg );
+                                }
+                            } else {
 
-                            if ( $response[ 'id' ] != null ) {
-                                Flash::success( 'Votre commande a été enregistrée avec succès.' );
-                                #dd( $response[ 'numeroOrdre' ] );
-                                $this->checkBordereauEtat( $response[ 'numeroOrdre' ] );
-                                $date_Commande= session('dateCommande', $datec);
-                                $datafilter = [
-                                    'comptealt' => $data[ 'compte' ],
-                                    'typebordereau' =>$data[ 'code' ],
-                                    'dateDebut' => $date_Commande ,
-                                    'dateFin' =>$date_Commande
-                                ];
+                                #dd( $responseBody );
+                                $response = $responseBody[ 'body' ];
 
-                                #dd( $datafilter );
-                                $bord = $this->getBordereaux( $datafilter );
-                                #dd( $bord );
-                                if ( Auth::user() != null ) {
-                                    $mail = Auth::user()->email;
-                                    $racine = Auth::user()->racine;
-                                    $cptClient = CptClient::where( 'racine', $racine )->first();
-                                    $comptes = Compte::where( 'racine', $cptClient->racine )->get();
-                                    #dd( $comptes );
+                                if ( $response[ 'id' ] != null ) {
+                                    Flash::success( 'Votre commande a été enregistrée avec succès.' );
+                                    #dd( $response[ 'numeroOrdre' ] );
+                                    $this->checkBordereauEtat( $response[ 'numeroOrdre' ] );
+                                    $date_Commande = session( 'dateCommande', $datec );
+                                    $datafilter = [
+                                        'comptealt' => $data[ 'compte' ],
+                                        'typebordereau' =>$data[ 'code' ],
+                                        'dateDebut' => $date_Commande,
+                                        'dateFin' =>$date_Commande
+                                    ];
 
-                                    $bordereaux =  $bord;
-                                    $types = $this->getTypeBordereaux();
-                                    #dd( $types );
-                                    #return view( 'home' )->with( 'cptClients', $comptes );
-                                    return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
+                                    #dd( $datafilter );
+                                    $bord = $this->getBordereaux( $datafilter );
+                                    #dd( $bord );
+                                    if ( Auth::user() != null ) {
+                                        $mail = Auth::user()->email;
+                                        $racine = Auth::user()->racine;
+                                        $cptClient = CptClient::where( 'racine', $racine )->first();
+                                        $comptes = Compte::where( 'racine', $cptClient->racine )->get();
+                                        #dd( $comptes );
+
+                                        $bordereaux =  $bord;
+                                        $types = $this->getTypeBordereaux();
+                                        #dd( $types );
+                                        #return view( 'home' )->with( 'cptClients', $comptes );
+                                        return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
+                                    }
                                 }
                             }
                         }
@@ -285,8 +298,8 @@ class MyBordereauController extends AppBaseController
                     $data = [
                         'comptealt' =>$compte,
                         'typebordereau' =>$typeBordereau,
-                        'dateDebut' =>  Carbon::parse($dateDebut)->format('d/m/Y'),
-                        'dateFin' => Carbon::parse($dateFin)->format('d/m/Y')
+                        'dateDebut' =>  Carbon::parse( $dateDebut )->format( 'd/m/Y' ),
+                        'dateFin' => Carbon::parse( $dateFin )->format( 'd/m/Y' )
                     ];
                     #dd( $data );
                     $bord = $this->getBordereaux( $data );
