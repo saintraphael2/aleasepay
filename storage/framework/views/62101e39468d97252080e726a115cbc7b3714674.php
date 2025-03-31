@@ -72,9 +72,9 @@
             <tr>
                 <td><?php echo e($deb->format('d-m-Y')); ?></td>
                 <td>Solde initial</td>
-                <td>
+                <td style="text-align:right;">
                     <?php if($soldedeb<=0): ?> <?php echo e(number_format($soldedeb, 0,"", " ")); ?> <?php endif; ?> </td>
-                <td> <?php if($soldedeb>0): ?>
+                <td style="text-align:right;"> <?php if($soldedeb>0): ?>
                     <?php echo e(number_format($soldedeb, 0,"", " ")); ?>
 
                     <?php endif; ?></td>
@@ -100,10 +100,10 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <tr>
                 <td><?php echo e($fin->format('d-m-Y')); ?></td>
-                <td>Solde Final</td>
-                <td>
+                <td >Solde Final</td>
+                <td style="text-align:right;">
                     <?php if($soldefin<=0): ?> <?php echo e(number_format($soldefin, 0,"", " ")); ?> <?php endif; ?> </td>
-                <td> <?php if($soldefin>0): ?>
+                <td style="text-align:right;"> <?php if($soldefin>0): ?>
                     <?php echo e(number_format($soldefin, 0,"", " ")); ?>
 
                     <?php endif; ?></td>

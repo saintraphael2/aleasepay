@@ -67,9 +67,9 @@
             <tr>
                 <td>{{$deb->format('d-m-Y')}}</td>
                 <td>Solde initial</td>
-                <td>
+                <td style="text-align:right;">
                     @if($soldedeb<=0) {{  number_format($soldedeb, 0,"", " ")   }} @endif </td>
-                <td> @if($soldedeb>0)
+                <td style="text-align:right;"> @if($soldedeb>0)
                     {{  number_format($soldedeb, 0,"", " ")   }}
                     @endif</td>
             </tr>
@@ -92,10 +92,10 @@
             @endforeach
             <tr>
                 <td>{{$fin->format('d-m-Y')}}</td>
-                <td>Solde Final</td>
-                <td>
+                <td >Solde Final</td>
+                <td style="text-align:right;">
                     @if($soldefin<=0) {{  number_format($soldefin, 0,"", " ")   }} @endif </td>
-                <td> @if($soldefin>0)
+                <td style="text-align:right;"> @if($soldefin>0)
                     {{  number_format($soldefin, 0,"", " ")   }}
                     @endif</td>
             </tr>
