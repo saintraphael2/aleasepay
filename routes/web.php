@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
+Route::middleware(['web'])->group(function () {
 Auth::routes();
 //Route::middleware(['auth'])->group(function () {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -69,5 +69,5 @@ Route::get('/bordereau/listing', [App\Http\Controllers\MyBordereauController::cl
 Route::get('/bordereau/showCommand', [App\Http\Controllers\MyBordereauController::class, 'command'])->name('commandeBordereau.form');
 Route::post('/bordereau/command', [App\Http\Controllers\MyBordereauController::class, 'docommand'])->name('commandeBordereau.docommand');
 Route::post('/bordereau/checklist', [App\Http\Controllers\MyBordereauController::class, 'filter'])->name('commandeBordereau.filter');
-
+});
 
