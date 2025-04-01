@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 //Route::middleware(['auth'])->group(function () {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/login', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/validationOtp', [App\Http\Controllers\HomeController::class, 'validationOtp'])->name('validationOtp');
 Route::post('/password/update', [App\Http\Controllers\PasswordController::class, 'update'])->name('password.update');
