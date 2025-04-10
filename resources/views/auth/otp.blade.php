@@ -94,8 +94,6 @@
          <section id="loading" >
             <div id="loading-content" ></div>
         </section>
-                <!-- /.login-logo -->
-                <!-- /.login-box-body -->
                 <div class="card logincardctz containerBlock">
                
                     <div class="card-body login-card-body">
