@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="{{ route('home') }}" class="brand-link">
-        <img src="{{asset('images/logoalt.png')}}" alt="ALT Aleasepay" class="brand-image img-circle elevation-3">
+        <img src="{{asset('images/logo.png')}}" alt="ALT Aleasepay" style="background-color: white !important" class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
     </a>
 

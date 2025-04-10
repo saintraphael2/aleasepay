@@ -30,7 +30,7 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown user-menu">
+                <li class="dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                         <img src="<?php echo e(asset('images/logo.png')); ?>" class="user-image img-circle elevation-2"
                             alt="User Image">
@@ -39,7 +39,7 @@
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
                         <li class="user-header bg-primary">
-                            <img src="<?php echo e(asset('images/logoalt.png')); ?>" class="img-circle elevation-2" alt="User Image">
+                            <img src="<?php echo e(asset('images/logo.png')); ?>" class="img-circle elevation-2" alt="User Image">
                             <p>
                                 <?php if(Auth::user()!=null): ?>
                                 <?php echo e(Auth::user()->name); ?>

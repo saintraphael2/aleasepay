@@ -1,44 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }} | Registration Page</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-    .step {
-        display: none;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responsive Fullscreen</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+    crossorigin="anonymous" />
+
+<!--link href="{{ asset('css/app.css') }}" rel="stylesheet"-->
+<link type="text/css" rel="stylesheet" href="{{ asset('css/waitMe.css') }}">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    .full-height {
+      min-height: 100vh;
+    }
+    .iconlogin {
+    font-size: 20px;
+    padding: 5px;
+    color: #fcd931 !important;
+}
+	.bg-secondary {
+    --bs-bg-opacity: 1;
+    background-color: #2e7518 !important;
+}
+
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: white !important;
+}
+.submitbtn{
+    background-color:   #fcd931 !important;
+}
+.disabled-link {
+    pointer-events: none; 
+    opacity: 0.5; 
+}
+
+.loading {
+    z-index: 20;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.loading-content {
+    position: absolute;
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #fcd931;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    top: 40%;
+    left: 48%;
+    animation: spin 2s linear infinite
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
     }
 
-    .active {
-        display: block;
+    100% {
+        transform: rotate(360deg);
     }
-    </style>
+}
+  </style>
 </head>
+<body>
 
-<body class="hold-transition register-page opqone" style="height: 840px !important;padding-bottom: 153px;">
-    <div style="width: 700px; !important; ">
-        <div class="row justify-content-center">
-            <div class="card-body login-card-body">
-                <section id="loading">
-                    <div id="loading-content"></div>
-                </section>
-                <p class="login-box-msg">Mot Passe Perdu
-                </p>
-                <div class="card-header">Réinitialise ton mot de passe</div>
-                <div class="card-body">
-                    @if (Session::has('message'))
-                    <div class="alert alert-success" role="alert">
-                        {{ Session::get('message') }}
-                    </div>
-                    @endif
+  <div class="container-fluid">
+    <div class="row full-height ">
+      <div class="col-12 col-md-6 text-white d-flex align-items-center justify-content-center " 
+      style="background-image: url(../images/bg.jpg);background-size: contain;  
+  background-position: center;  background-repeat: no-repeat;">
+        <div class="text-center p-3" >
+           
+        </div>
+      </div>
+      <div class="col-12 col-md-6 bg-secondary text-white d-flex align-items-center justify-content-center">
+        <div class="text-center p-3">
+         <div class="login-box">
+         <section id="loading" >
+            <div id="loading-content" ></div>
+        </section>
+                <!-- /.login-logo -->
+                <!-- /.login-box-body -->
+                <div class="card logincardctz containerBlock">
+               
+                    <div class="card-body login-card-body">
+                    
+                        <!--p class="login-box-msg">{{ __('auth.login.title') }}</p-->
+							<div><a href="#"><b> <img src="../images/logoalt_new.PNG" style="width:50%"></b></a></div>
+                        <div class="iconlogin">
+                            <h4 class="login-box-msg" style="color:black !important;">Réinitialisez votre mot de passe</h4>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        @if (Session::has('message'))
+                        <div class="alert alert-success" role="alert">
+                            {{ Session::get('message') }}
+                        </div>
+                        @endif
                     <form action="{{ route('forget.password.post') }}" method="POST" id="forgetpwdform">
                         @csrf
-                        <div class="form-group row">
+                        <div class="input-group mb-3">
                             <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail</label>
                             <div class="col-md-6">
                                 <input type="text" id="email_address" class="form-control" name="email" required
@@ -48,25 +123,40 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                Valider
-                            </button>
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" 
+                                 class="btn btn-block submit-color submitbtn">Valider</button>
+                            </div>  
                         </div>
+                        
+                        <!--div class="col-md-6 offset-md-4">
+                            <button type="submit" class="btn btn-primary">
+                                
+                            </button>
+                        </div-->
                     </form>
                     <p class="mt-3 mb-1">
-                        <a href="{{ route('login') }}">Connexion</a>
+                        <a  style="text-decoration: none;" href="{{ route('login') }}">Connexion</a>
                     </p>
+                    </div>
+                    <!-- /.login-card-body -->
                 </div>
-            </div>
         </div>
-
-
-        <!-- /.form-box -->
+      </div>
     </div>
-    <!-- /.register-box -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+ 
+</body>
+
+<script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{{ asset('js/waitMe.js') }}"></script>
 
     <script>
+        
     function showLoading() {
         document.querySelector('#loading').classList.add('loading');
         document.querySelector('#loading-content').classList.add('loading-content');
@@ -82,6 +172,5 @@
         showLoading(); // Affiche le spinner au moment de la soumission du formulaire
     });
     </script>
-</body>
-
 </html>
+  

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-//Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/validationOtp', [App\Http\Controllers\HomeController::class, 'validationOtp'])->name('validationOtp');
@@ -30,18 +30,14 @@ Route::resource('mouvements', App\Http\Controllers\MouvementController::class);
 Route::get('checkemail',['as'=>'checkemail','uses' => 'App\Http\Controllers\CptClientController@checkemail'] );
 Route::get('checkcode',['as'=>'checkcode','uses' => 'App\Http\Controllers\CptClientController@checkcode'] );
 Route::get('releve/{compte}/{deb}/{fin}',['as'=>'releve','uses' => 'App\Http\Controllers\MouvementController@releve'] );
-Route::get('/forget-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
 
-Route::post('forget-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
 
-Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::get('/errorpage', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showErrorpage'])->name('errorpage');
 
 
-Route::post('reset-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 //Route::get('/saisieotp', [App\Http\Controllers\HomeController::class, 'saisieotp'])->name('saisieotp');passwordUpdate
-//});
+
 
 Route::resource('bordereaux', App\Http\Controllers\BordereauController::class);
 Route::resource('type_bordereaus', App\Http\Controllers\Type_bordereauController::class);
@@ -68,3 +64,12 @@ Route::get('/bordereau/listing', [App\Http\Controllers\MyBordereauController::cl
 Route::get('/bordereau/showCommand', [App\Http\Controllers\MyBordereauController::class, 'command'])->name('commandeBordereau.form');
 Route::post('/bordereau/command', [App\Http\Controllers\MyBordereauController::class, 'docommand'])->name('commandeBordereau.docommand');
 Route::post('/bordereau/checklist', [App\Http\Controllers\MyBordereauController::class, 'filter'])->name('commandeBordereau.filter');
+
+
+});
+Route::get('/reset-password-frombackoffice/{token}', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showInitPasswordForm']);
+Route::post('/reset-password-frombackoffice', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'resetPasswordBanckoffice']);
+Route::post('reset-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::get('/forget-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 

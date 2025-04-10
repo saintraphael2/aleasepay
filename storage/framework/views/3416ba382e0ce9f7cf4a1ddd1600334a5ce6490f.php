@@ -28,7 +28,7 @@
         <form method="POST" action="<?php echo e(route('transactions.filter')); ?>" class="mb-4">
         <?php echo csrf_field(); ?>
             <div class="row input-daterange">
-
+           
                 <div class="form-group col-sm-2">
                     <?php echo Form::label('compte', 'Comptes :'); ?>
 
@@ -39,6 +39,8 @@
                     </select>
                     <span class="text-danger font-size-xsmall error_date_debut"></span>
                 </div>
+              
+                <?php if(is_array($types)): ?>
                 <div class="form-group col-sm-2">
                     <?php echo Form::label('type', 'Types :'); ?>
 
@@ -48,6 +50,7 @@
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
+                <?php endif; ?>
                 <!-- Date Signature Field -->
                 <div class="form-group col-sm-3">
                     <?php echo Form::label('date_debut', 'Date début (jj-mm-aaaa) :'); ?>

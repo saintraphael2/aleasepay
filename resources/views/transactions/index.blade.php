@@ -27,7 +27,7 @@
         <form method="POST" action="{{route('transactions.filter')}}" class="mb-4">
         @csrf
             <div class="row input-daterange">
-
+           
                 <div class="form-group col-sm-2">
                     {!! Form::label('compte', 'Comptes :') !!}
                     <select name="compte" id="compte" class='form-control'>
@@ -37,6 +37,8 @@
                     </select>
                     <span class="text-danger font-size-xsmall error_date_debut"></span>
                 </div>
+              
+                @if(is_array($types))
                 <div class="form-group col-sm-2">
                     {!! Form::label('type', 'Types :') !!}
                     <select name="type" id="type" class='form-control'>
@@ -45,6 +47,7 @@
                         @endforeach
                     </select>
                 </div>
+                @endif
                 <!-- Date Signature Field -->
                 <div class="form-group col-sm-3">
                     {!! Form::label('date_debut', 'Date début (jj-mm-aaaa) :') !!}

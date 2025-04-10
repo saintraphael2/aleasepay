@@ -1,48 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?php echo e(config('app.name')); ?></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responsive Fullscreen</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+    crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-        crossorigin="anonymous" />
+<!--link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet"-->
+<link type="text/css" rel="stylesheet" href="<?php echo e(asset('css/waitMe.css')); ?>">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    .full-height {
+      min-height: 100vh;
+    }
+    .iconlogin {
+    font-size: 20px;
+    padding: 5px;
+    color: #fcd931 !important;
+}
+	.bg-secondary {
+    --bs-bg-opacity: 1;
+    background-color: #2e7518 !important;
+}
 
-    <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="<?php echo e(asset('css/waitMe.css')); ?>">
 
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: white !important;
+}
+.submitbtn{
+    background-color:   #fcd931 !important;
+}
+.disabled-link {
+    pointer-events: none; 
+    opacity: 0.5; 
+}
+
+.loading {
+    z-index: 20;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.loading-content {
+    position: absolute;
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #fcd931;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    top: 40%;
+    left: 48%;
+    animation: spin 2s linear infinite
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+  </style>
 </head>
+<body>
 
-<body class="hold-transition login-page loginbodybackg" style="height: 840px !important;padding-bottom: 153px;">
-
-    <div class="row loginbodybackg">
-        <section id="loading">
-            <div id="loading-content"></div>
-        </section>
-        <div class=" logincustomize loginblockone">
-            <div class="">
-                <img class="imgctz" src="../images/logoalt.png" />
-            </div>
+  <div class="container-fluid">
+    <div class="row full-height ">
+      <div class="col-12 col-md-6 text-white d-flex align-items-center justify-content-center " 
+      style="background-image: url(../images/bg.jpg);background-size: contain;  
+  background-position: center;  background-repeat: no-repeat;">
+        <div class="text-center p-3" >
+           
         </div>
-        <div class="logincustomize loginblocktwo" style="">
-            <div class="login-box">
-                <!--div class="login-logo">
-                    <a href="#"><b><?php echo e(config('app.name')); ?></b></a>
-                </div-->
+      </div>
+      <div class="col-12 col-md-6 bg-secondary text-white d-flex align-items-center justify-content-center">
+        <div class="text-center p-3">
+         <div class="login-box">
+         <section id="loading" >
+            <div id="loading-content" ></div>
+        </section>
                 <!-- /.login-logo -->
                 <!-- /.login-box-body -->
                 <div class="card logincardctz containerBlock">
+               
                     <div class="card-body login-card-body">
+                    
                         <!--p class="login-box-msg"><?php echo e(__('auth.login.title')); ?></p-->
-
+							<div><a href="#"><b> <img src="../images/logoalt_new.PNG" style="width:50%"></b></a></div>
                         <div class="iconlogin">
-                            <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur votre banque en
-                                ligne</h4>
+                            <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur AleasePay</h4>
                             <i class="fas fa-user"></i>
                         </div>
                         <?php if(Session::has('message')): ?>
@@ -65,7 +126,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>">
                                 <div class="input-group-append">
-                                    <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                                    <div class="input-group-text" style="font-size: 23px;"><span class="fas fa-envelope"></span></div>
                                 </div>
                                 <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -90,7 +151,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>">
                                 <div class="input-group-append">
-                                    <div class="input-group-text">
+                                    <div class="input-group-text" style="font-size: 23px;">
                                         <span class="fas fa-lock"></span>
                                     </div>
                                 </div>
@@ -114,12 +175,13 @@ unset($__errorArgs, $__bag); ?>
                                 </div-->
                                 <div class="col-12">
                                     <button type="submit" id="waitMe_ex"
-                                        class="btn btn-primary btn-block submit-color">Connexion</button>
+                                        class="btn btn-block submit-color submitbtn">Connexion</button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-7">
-                                    <a href="<?php echo e(route('forget.password.get')); ?>">
+                                    <a href="<?php echo e(route('forget.password.get')); ?>" class="text-center"
+                                     style="text-decoration: none;">
                                         <div class="col-12 iconlogin">
                                             <i class="fas fa fa-key"></i>
                                         </div>
@@ -129,12 +191,12 @@ unset($__errorArgs, $__bag); ?>
                                     </a>
                                 </div>
                                 <div class="col-5">
-                                    <a href="<?php echo e(route('register')); ?>" class="text-center">
+                                    <a href="<?php echo e(route('register')); ?>" style="text-decoration: none;" 
+                                    class="text-center disabled-link">
                                         <div class="col-12 iconlogin">
                                             <i class="fas fa fa-plus-circle"></i>
                                         </div>
                                         <div class="col-12">
-
                                             <span style="font-size: 15px;">S'enregistrer
                                             </span>
                                         </div>
@@ -145,15 +207,21 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                     <!-- /.login-card-body -->
                 </div>
-            </div>
         </div>
+      </div>
     </div>
-    <!-- /.login-box -->
-    <script src="<?php echo e(asset('js/app.js')); ?>"></script>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+ 
+</body>
+
+<script src="<?php echo e(asset('js/app.js')); ?>"></script>
     <script src="https://cdn.jsdelivr.net/jquery/3.2.1/jquery.min.js"></script>
     <script src="<?php echo e(asset('js/waitMe.js')); ?>"></script>
 
     <script>
+        
     function showLoading() {
         document.querySelector('#loading').classList.add('loading');
         document.querySelector('#loading-content').classList.add('loading-content');
@@ -169,6 +237,5 @@ unset($__errorArgs, $__bag); ?>
         showLoading(); // Affiche le spinner au moment de la soumission du formulaire
     });
     </script>
-</body>
-
-</html><?php /**PATH C:\Projets\aleasepay\resources\views/auth/login.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH C:\Projets\aleasepay\resources\views/auth/login.blade.php ENDPATH**/ ?>

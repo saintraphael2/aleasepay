@@ -46,7 +46,7 @@ class LoginController extends Controller
     }
 
     public function passwordUpdate(){
-        dd('dd');
+        #dd('dd');
     }
     public function login(Request $request)
     {

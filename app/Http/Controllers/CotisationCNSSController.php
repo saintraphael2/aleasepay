@@ -81,9 +81,17 @@ class CotisationCNSSController extends Controller {
 
     public function showForm( $reference, $numero_employeur ) {
         // Recherche des informations basées sur la référence
-        $cotisation = $this->getCotisationByReference( $reference );
-        // Méthode fictive à implémenter
-
+        try {
+            $cotisation = $this->getCotisationByReference( $reference );
+        } catch ( \Exception $e ) {
+            // Méthode fictive à implémenter
+            if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            } else {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            }
+            return redirect()->back()->withErrors( $message );
+        }
         if ( !$cotisation ) {
             return redirect()->back()->withErrors( 'Cotisation introuvable.' );
         }
@@ -332,10 +340,23 @@ public function paiement( Request $request ) {
             $mail=Auth::user()->email;
             $racine=Auth::user()->racine;
             $cptClient=CptClient::where('racine',$racine)->first();
+            if (!$cptClient) {
+                return redirect()->back()->withErrors('Aucun compte client trouvé.');
+            }
             $comptes=Compte::where('racine',$cptClient->racine)->get();
             #dd($comptes);
             $transactions=[];
+            try {
             $types = $this->getTypeOperation();
+            } catch ( \Exception $e ) {
+            if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            } else {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            }
+            return redirect()->back()->withErrors( $message );
+        }
+    
             #return view( 'home' )->with( 'cptClients', $comptes );
             return view( 'transactions.index',compact('comptes', 'transactions','types')) ;
         } else {
@@ -367,9 +388,20 @@ public function paiement( Request $request ) {
 
         // Consommation du Web Service pour les opérations
         if ( $token != null ) {
+
+            try {
+
             $responseTypeOperation = Http::withHeaders([
                 'Authorization' => "Bearer {$token}",
             ] )->get($urlTypeOperation);
+        } catch ( \Exception $e ) {
+            if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            } else {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            }
+            return redirect()->back()->withErrors($message);
+        }
         } else {
             return redirect()->back()->withErrors( 'Serveur indisponible.' );
         }
