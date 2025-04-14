@@ -61,10 +61,22 @@ Route::post('/otr/etax/pay', [App\Http\Controllers\OTREtaxController::class, 'pa
 
 #Route::resource('mybordereaux', App\Http\Controllers\MyBordereauController::class);
 Route::get('/bordereau/listing', [App\Http\Controllers\MyBordereauController::class,'index'])->name('commandeBordereau.index');
+Route::get('/bordereau/cancel', [App\Http\Controllers\MyBordereauController::class,'cancel'])->name('commandeBordereau.cancel');
+
 Route::get('/bordereau/showCommand', [App\Http\Controllers\MyBordereauController::class, 'command'])->name('commandeBordereau.form');
 Route::post('/bordereau/command', [App\Http\Controllers\MyBordereauController::class, 'docommand'])->name('commandeBordereau.docommand');
 Route::post('/bordereau/checklist', [App\Http\Controllers\MyBordereauController::class, 'filter'])->name('commandeBordereau.filter');
+Route::post('/bordereau/filterfirst', [App\Http\Controllers\MyBordereauController::class, 'filterfirst'])->name('commandeBordereau.filterfirst');
 
+
+
+Route::get('/pending/index', [App\Http\Controllers\TransactionPendingController::class,'listing'])->name('pending.index');
+Route::post('/pending/search', [App\Http\Controllers\TransactionPendingController::class,'search'])->name('pending.search');
+Route::post('/pending/filter', [App\Http\Controllers\TransactionPendingController::class,'getPendingTransactionsByDate'])->name('pending.filter');
+Route::post('/pending/cancel', [App\Http\Controllers\TransactionPendingController::class,'cancelTransactionPending'])->name('pending.cancel');
+
+
+Route::post('/pending/save', [App\Http\Controllers\TransactionPendingController::class,'saveTransactionPending'])->name('pending.save');
 
 });
 Route::get('/reset-password-frombackoffice/{token}', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showInitPasswordForm']);

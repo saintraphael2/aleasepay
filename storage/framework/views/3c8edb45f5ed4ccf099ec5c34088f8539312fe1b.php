@@ -1,7 +1,7 @@
 <div class="row input-daterange">
 
 <div class="form-group col-sm-2">
-<a  href="{{ route('commandeBordereau.form') }}" type="submit"  id="commander" class="btn btn-primary btnSubmit">Commander</a>
+<a  href="<?php echo e(route('commandeBordereau.form')); ?>" type="submit"  id="commander" class="btn btn-primary btnSubmit">Commander</a>
 </div>
 </div>
         <table class="table table-bordered table-striped" id="bordereauxTable">
@@ -19,4 +19,4 @@
                 
             </tbody>
         </table>
-    
+    <?php /**PATH C:\Projets\aleasepay\resources\views/commandeBordereau/table.blade.php ENDPATH**/ ?>

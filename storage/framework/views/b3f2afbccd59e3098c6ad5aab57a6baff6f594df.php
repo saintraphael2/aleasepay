@@ -1,6 +1,6 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -15,45 +15,52 @@
 </section>
 
 <div class="content px-3">
-    @include('flash::message')
+    <?php echo $__env->make('flash::message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="clearfix"></div>
     <div class="card" style="padding: 15px;">
       
-        @if($errors->any())
+        <?php if($errors->any()): ?>
         <div class="alert alert-danger">
-            {{ $errors->first() }}
+            <?php echo e($errors->first()); ?>
+
         </div>
-        @endif
+        <?php endif; ?>
         <form method="POST" id="bordereauform"  class="mb-4">
-        @csrf
+        <?php echo csrf_field(); ?>
             <div class="row input-daterange">
                 <div class="form-group col-sm-2">
-                    {!! Form::label('compte', 'Comptes :') !!}
+                    <?php echo Form::label('compte', 'Comptes :'); ?>
+
                     <select name="compte" id="compte" class='form-control'>
-                        @foreach($comptes as $compte)
-                        <option value="{{$compte->compte}}">{{$compte->compte}}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $comptes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $compte): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($compte->compte); ?>"><?php echo e($compte->compte); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                     <span class="text-danger font-size-xsmall error_date_debut"></span>
                 </div>
                 <div class="form-group col-sm-2">
-                    {!! Form::label('type', 'Types :') !!}
+                    <?php echo Form::label('type', 'Types :'); ?>
+
                     <select name="typebordereau" id="type" class='form-control'>
-                        @foreach($types as $type)
-                        <option value="{{$type['code']}}">{{$type['libelle']}}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($type['code']); ?>"><?php echo e($type['libelle']); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
                 <!-- Date Signature Field -->
                 <div class="form-group col-sm-3">
-                    {!! Form::label('date_debut', 'Date début (jj-mm-aaaa) :') !!}
-                    {!! Form::text('date_debut', null, ['class' => 'form-control','id'=>'date_debut']) !!}
+                    <?php echo Form::label('date_debut', 'Date début (jj-mm-aaaa) :'); ?>
+
+                    <?php echo Form::text('date_debut', null, ['class' => 'form-control','id'=>'date_debut']); ?>
+
                     <span class="text-danger font-size-xsmall error_date_debut"></span>
                 </div>
                 <!-- Date Debut Field -->
                 <div class="form-group col-sm-3">
-                    {!! Form::label('date_fin', 'Date fin (jj-mm-aaaa) :') !!}
-                    {!! Form::text('date_fin', null, ['class' => 'form-control','id'=>'date_fin']) !!}
+                    <?php echo Form::label('date_fin', 'Date fin (jj-mm-aaaa) :'); ?>
+
+                    <?php echo Form::text('date_fin', null, ['class' => 'form-control','id'=>'date_fin']); ?>
+
                     <span class="text-danger font-size-xsmall error_date_fin"></span>
                 </div>
                 <div class="form-group col-sm-2" style="margin-top: 2rem;">
@@ -61,13 +68,13 @@
                 </div>
             </div>
         </form>
-        @include('commandeBordereau.table')
+        <?php echo $__env->make('commandeBordereau.table', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
 </div>
 <script>
 </script>
-@endsection
-@push('page_scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('page_scripts'); ?>
 <script>
 let today = new Date();
 $('#date_debut').datepicker({
@@ -194,4 +201,5 @@ $('#filter').click(function() {
     window.location.href = redirect_url
 });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Projets\aleasepay\resources\views/commandeBordereau/index.blade.php ENDPATH**/ ?>

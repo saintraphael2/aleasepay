@@ -132,6 +132,10 @@ class MyBordereauController extends AppBaseController
         }
     }
 
+
+    public function cancel(){
+        return redirect('/bordereau/listing');
+    }
     /**
     * Show the form for creating a new Type_bordereau.
     */
@@ -235,7 +239,6 @@ class MyBordereauController extends AppBaseController
                                     return redirect()->back()->withErrors( $msg );
                                 }
                             } else {
-
                                 #dd( $responseBody );
                                 $response = $responseBody[ 'body' ];
 
@@ -272,15 +275,9 @@ class MyBordereauController extends AppBaseController
                         }
                     }
                 }
-                /**
-                *  String comptealt;
-                *  String typebordereau;
-                *   String dateDebut;
-                *  String dateFin;
-                *
-                */
 
-                public function filter( Request $request ) {
+
+                public function filterfirst( Request $request ) {
                     $dotenv = Dotenv::createImmutable( base_path() );
                     $dotenv->load();
 
@@ -290,10 +287,12 @@ class MyBordereauController extends AppBaseController
                     $dateFin = $request->input( 'date_fin' );
 
                     if ( $dateDebut == null ) {
-                        return redirect()->back()->withErrors( 'Date de début est obligatoire' );
+                        return response()->json( [ 'error' => 'Date de début est obligatoire' ], 400 );
+                       // return redirect()->back()->withErrors( 'Date de début est obligatoire' );
                     }
                     if ( $dateFin == null ) {
-                        return redirect()->back()->withErrors( 'Date de fin est obligatoire' );
+                        return response()->json( [ 'error' => 'Date de fin est obligatoire' ], 400 );
+                      //  return redirect()->back()->withErrors( 'Date de fin est obligatoire' );
                     }
                     $data = [
                         'comptealt' =>$compte,
@@ -303,6 +302,8 @@ class MyBordereauController extends AppBaseController
                     ];
                     #dd( $data );
                     $bord = $this->getBordereaux( $data );
+                    //$datajson = $responseTransactions->json();
+                   // return response()->json( [ 'bordereaux' => $bord ], 200 );
                     #dd( $bordereaux );
                     if ( Auth::user() != null ) {
                         $mail = Auth::user()->email;
@@ -317,6 +318,55 @@ class MyBordereauController extends AppBaseController
                         #return view( 'home' )->with( 'cptClients', $comptes );
                         return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
                     }
+                }
+                /**
+                *  String comptealt;
+                *  String typebordereau;
+                *   String dateDebut;
+                *  String dateFin;
+                *
+                */
+                public function filter( Request $request ) {
+                    $dotenv = Dotenv::createImmutable( base_path() );
+                    $dotenv->load();
+
+                    $compte = $request->input( 'compte' );
+                    $typeBordereau = $request->input( 'typebordereau' );
+                    $dateDebut = $request->input( 'date_debut' );
+                    $dateFin = $request->input( 'date_fin' );
+
+                    if ( $dateDebut == null ) {
+                        return response()->json( [ 'error' => 'Date de début est obligatoire' ], 400 );
+                       // return redirect()->back()->withErrors( 'Date de début est obligatoire' );
+                    }
+                    if ( $dateFin == null ) {
+                        return response()->json( [ 'error' => 'Date de fin est obligatoire' ], 400 );
+                      //  return redirect()->back()->withErrors( 'Date de fin est obligatoire' );
+                    }
+                    $data = [
+                        'comptealt' =>$compte,
+                        'typebordereau' =>$typeBordereau,
+                        'dateDebut' =>  Carbon::parse( $dateDebut )->format( 'd/m/Y' ),
+                        'dateFin' => Carbon::parse( $dateFin )->format( 'd/m/Y' )
+                    ];
+                    #dd( $data );
+                    $bord = $this->getBordereaux( $data );
+                    //$datajson = $responseTransactions->json();
+                    return response()->json( [ 'bordereaux' => $bord ], 200 );
+                    #dd( $bordereaux );
+                    /*if ( Auth::user() != null ) {
+                        $mail = Auth::user()->email;
+                        $racine = Auth::user()->racine;
+                        $cptClient = CptClient::where( 'racine', $racine )->first();
+                        $comptes = Compte::where( 'racine', $cptClient->racine )->get();
+                        #dd( $comptes );
+
+                        $bordereaux =  $bord;
+                        $types = $this->getTypeBordereaux();
+                        #dd( $types );
+                        #return view( 'home' )->with( 'cptClients', $comptes );
+                        return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
+                    }*/
                 }
 
                 public function checkBordereauEtat( $numeroOrdre ) {
@@ -405,13 +455,10 @@ class MyBordereauController extends AppBaseController
                 */
 
                 public function store( CreateType_bordereauRequest $request )
- {
+                {
                     $input = $request->all();
-
                     $typeBordereau = $this->typeBordereauRepository->create( $input );
-
                     Flash::success( 'Type Bordereau saved successfully.' );
-
                     return redirect( route( 'typeBordereaus.index' ) );
                 }
 
@@ -420,16 +467,13 @@ class MyBordereauController extends AppBaseController
                 */
 
                 public function show( $id )
- {
-                    $typeBordereau = $this->typeBordereauRepository->find( $id );
-
-                    if ( empty( $typeBordereau ) ) {
-                        Flash::error( 'Type Bordereau not found' );
-
-                        return redirect( route( 'typeBordereaus.index' ) );
-                    }
-
-                    return view( 'type_bordereaus.show' )->with( 'typeBordereau', $typeBordereau );
+                {
+                        $typeBordereau = $this->typeBordereauRepository->find( $id );
+                        if ( empty( $typeBordereau ) ) {
+                            Flash::error( 'Type Bordereau not found' );
+                            return redirect( route( 'typeBordereaus.index' ) );
+                        }
+                        return view( 'type_bordereaus.show' )->with( 'typeBordereau', $typeBordereau );
                 }
 
                 /**
@@ -437,7 +481,7 @@ class MyBordereauController extends AppBaseController
                 */
 
                 public function edit( $id )
- {
+                {  
                     $typeBordereau = $this->typeBordereauRepository->find( $id );
 
                     if ( empty( $typeBordereau ) ) {
@@ -445,7 +489,6 @@ class MyBordereauController extends AppBaseController
 
                         return redirect( route( 'typeBordereaus.index' ) );
                     }
-
                     return view( 'type_bordereaus.edit' )->with( 'typeBordereau', $typeBordereau );
                 }
 
@@ -454,19 +497,15 @@ class MyBordereauController extends AppBaseController
                 */
 
                 public function update( $id, UpdateType_bordereauRequest $request )
- {
+                {  
                     $typeBordereau = $this->typeBordereauRepository->find( $id );
-
                     if ( empty( $typeBordereau ) ) {
                         Flash::error( 'Type Bordereau not found' );
 
                         return redirect( route( 'typeBordereaus.index' ) );
                     }
-
                     $typeBordereau = $this->typeBordereauRepository->update( $request->all(), $id );
-
                     Flash::success( 'Type Bordereau updated successfully.' );
-
                     return redirect( route( 'typeBordereaus.index' ) );
                 }
 
@@ -477,19 +516,16 @@ class MyBordereauController extends AppBaseController
                 */
 
                 public function destroy( $id )
- {
+                {
                     $typeBordereau = $this->typeBordereauRepository->find( $id );
-
                     if ( empty( $typeBordereau ) ) {
                         Flash::error( 'Type Bordereau not found' );
 
                         return redirect( route( 'typeBordereaus.index' ) );
                     }
-
                     $this->typeBordereauRepository->delete( $id );
 
                     Flash::success( 'Type Bordereau deleted successfully.' );
-
                     return redirect( route( 'typeBordereaus.index' ) );
                 }
 

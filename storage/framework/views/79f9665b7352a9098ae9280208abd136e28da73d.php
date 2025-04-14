@@ -9,9 +9,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
         integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
         crossorigin="anonymous" />
-
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('vendor/UIjs/themes/base/jquery-ui.css')); ?>">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+        crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+    <script src="<?php echo e(asset('js/sweetalert.min.js')); ?>"></script>
     <?php echo $__env->yieldPushContent('third_party_stylesheets'); ?>
 
     <?php echo $__env->yieldPushContent('page_css'); ?>
@@ -31,7 +44,7 @@
 
             <ul class="navbar-nav ml-auto">
                 <li class="dropdown user-menu">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="nav-link-user dropdown-toggle" data-toggle="dropdown">
                         <img src="<?php echo e(asset('images/logo.png')); ?>" class="user-image img-circle elevation-2"
                             alt="User Image">
                         <span class="d-none d-md-inline"><?php echo e(Auth::user()->name); ?></span>
@@ -122,7 +135,6 @@
             showLoading();
         });
     });
-   
     </script>
 
 

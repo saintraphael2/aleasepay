@@ -41,7 +41,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-success btnSubmit">Commander</button>
-            <a class="btn btn-danger btnSubmit">
+            <a class="btn btn-danger btnSubmit "onclick="window.location.href='/bordereau/cancel'" id="btnCancel">
                 Annuler
             </a>
         </form>

@@ -94,7 +94,8 @@ class ForgotPasswordController extends Controller{
             // Gérer le cas où le mot de passe ne peut pas être réinitialisé car aucun enregistrement n'est trouvé
             return redirect()->route('errorpage')->with('error', 'Aucun lien de réinitialisation trouvé pour cet email.');
         }
-        if (!$resetPassword || !Hash::check($request->token, $resetPassword->token)) {
+        
+        if ($resetPassword || Hash::check($request->token, $resetPassword->token)) {
             // Si le token existe, afficher le formulaire de réinitialisation
             return view('auth.form_reset_password', ['token' => $token, 'email' => $request->email]);
         } else {

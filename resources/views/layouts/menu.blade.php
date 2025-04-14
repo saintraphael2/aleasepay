@@ -42,6 +42,13 @@
     </a>
 </li>
 
+<!--li class="nav-item"> 
+    <a href="{{ route('pending.index') }}" class="nav-link {{ Request::is('pending*') ? 'active' : '' }}">
+    <i class="nav-icon fas fa-solid fa-wallet" ></i>
+        <p>Suivi Transactions </p>
+    </a>
+</li-->
+
 <li class="nav-item"> 
     <a href="{{ route('transactions.index') }}" class="nav-link {{ Request::is('transactions*') ? 'active' : '' }}">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>
