@@ -9,12 +9,12 @@
       <table class="table table-bordered table-striped" id="transactionsTableOtr">
       <thead>
               <tr>
-                  <th>Reference Transaction</th>
+                  <th style="width: 10px;">Reference Transaction</th>
                   <th>Opération</th>
                   <th>Compte</th>
                   <th>Initiateur</th>
                   <th>Date</th>
-                  <th>Montant</th>
+                  <th>Montant TTC</th>
                   <th>Etat</th>
                   <th>Action</th>
               </tr>

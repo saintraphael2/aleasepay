@@ -27,6 +27,41 @@ class OTREtaxController extends Controller
    }
 
 
+   public function getMontantTTC(string $operation, string $montant){
+    $dotenv = Dotenv::createImmutable(base_path());
+    $dotenv->load();
+
+    $baseUrl=env('API_TAX_BASE_URL', 'base_url');
+    $etaxgetMontantTTCEndPoint=env('GET_MONTANT_TTC', 'api_get_montant_ttc');
+
+    $urlmontantTTC = $baseUrl . $etaxgetMontantTTCEndPoint."{$operation}" ."/"."{$montant}";
+
+    try {
+        $token = $this->getToken();
+     } catch (\Exception $e) {
+         if ($e->getCode() === 0 || explode(':',$e->getMessage())[0] === 'cURL error 7') {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         } else {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         }
+         return redirect()->back()->withErrors($message);
+     }
+
+     if($token!=null){
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$token}",
+         ])->get($urlmontantTTC);
+      }else{
+        return redirect()->back()->withErrors('Erreur Interne.');
+      }
+      // Vérification de la réponse
+      if ($response->successful()) {
+         $data = $response->json();
+        return $data;
+    }
+    return null;
+}
+
     /**
      * 
      */
@@ -65,7 +100,8 @@ class OTREtaxController extends Controller
          $data = $responseCotisations->json();
         #dd($data);
         if (isset($data)) {
-            $etax = $data; // Récupération de la taxe
+            $etax = $data; // Récupération de la taxe {referenceDeclaration: 234616000, referenceTransaction: 'TG2153307TG251059142', montant: 4000, contribuable: 'AMIASE', nif: '1001204867', …}
+            $etax['montantTTC'] = $this->getMontantTTC("OOT", $etax['montant']);
         } else {
             $etax = [];
         }

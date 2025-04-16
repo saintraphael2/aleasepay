@@ -10,7 +10,8 @@ class PendingTransaction extends Model
     protected $table = 'pending_transactions';
     #use HasFactory;
     protected $fillable = [
-        'reference', 'type', 'compte', 'montant', 'etat', 'description', 'initiated_by','date_transaction',
+        'reference', 'type', 'compte', 'montant', 'montant_ttc', 'etat', 'description', 'initiated_by','date_transaction','contribuable'
+        ,'numero_employeur','reference_transac'
     ];
 
     public function user()

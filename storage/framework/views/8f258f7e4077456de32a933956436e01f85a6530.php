@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reçu Paiement Cotisation CNSS</title>
+    <title>Reçu Paiement OTR</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,31 +50,31 @@
 </head>
 <body>
     <div class="container">
-
     <div  class="header" style="display: flex; justify-content: space-between; width: 100%;">
-    <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    <img src="./images/otr_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
     <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;height: 100px;border:1.5px solid black;">
         </div>
-        <h2>Reçu Paiement Cotisation CNSS</h2>
+        <h2>Reçu Paiement OTR</h2>
 
         <table>
             <tr>
-                <th>Référence CNSS</th>
+                <th>Référence OTR</th>
                 <th>Référence de paiement ALT</th>
                 <th>Date de paiement</th>
                 <th>Montant</th>
                 <th>Frais</th>
             </tr>
             <tr>
-                <td>{{ $others['refDecla'] }}</td>
-                <td>{{ $others['referenceTransaction'] }}</td>
-                <td>{{ $others['transBankDate'] }}</td>
-                <td>{{number_format($others['mount'] , 0, ',', ' ')}} FCFA</td>
+                <td><?php echo e($others['refDecla']); ?></td>
+                <td><?php echo e($others['referenceTransaction']); ?></td>
+                <td><?php echo e($others['transBankDate']); ?></td>
+                <td><?php echo e(number_format($others['mount'] , 0, ',', ' ')); ?> FCFA</td>
                 <td>
-                    {{number_format($others['mountTTC'] - $others['mount'], 0, ',', ' ') }} FCFA
+                    <?php echo e(number_format($others['mountTTC'] - $others['mount'], 0, ',', ' ')); ?> FCFA
                 </td>
             </tr>
         </table>
     </div>
 </body>
 </html>
+<?php /**PATH C:\Projets\aleasepay\resources\views/otr/quittance.blade.php ENDPATH**/ ?>

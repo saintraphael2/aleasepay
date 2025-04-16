@@ -65,14 +65,14 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <h1>Transaction enregistrée</h1>
+            <h1>Transaction <?php echo e($titre); ?></h1>
         </div>
         <div class="content">
-            <p>Voici les détails de la transaction :</p>
+            <p><?php echo e($msge); ?>. Voici les détails de la transaction :</p>
             <ul>
                 <li><strong>Transaction Référence:</strong> <?php echo e($data['reference']); ?></li>
                 <li><strong>Date de la Transaction:</strong> <?php echo e($data['date']); ?></li>
-                <li><strong>Montant:</strong> <?php echo e($data['montant']); ?></li>
+                <li><strong>Montant TTC: </strong> <?php echo e($data['montant']); ?></li>
                 <li><strong>Compte:</strong> <?php echo e($data['comptealt']); ?></li>
                 <li><strong>Initiateur:</strong> <?php echo e($data['initiated_name']); ?></li>
             </ul>

@@ -52,29 +52,45 @@
     <div class="container">
 
     <div  class="header" style="display: flex; justify-content: space-between; width: 100%;">
-    <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
-    <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;height: 100px;border:1.5px solid black;">
-        </div>
+    <?php if($transaction['type_transaction']['operationMonetique'] == 'OOT'): ?>
+    <img src="./images/otr_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    <?php elseif($transaction['type_transaction']['operationMonetique'] == 'OCN'): ?>
+    <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px">
+    <?php endif; ?>
+    <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;border:1.5px solid black;">
+   </div>
+        <!--div>
+        <img src="./images/cnss_logo.png" alt="CNSS Logo">
+        <img src="./images/african_lease_logo.png"  alt="African Lease Logo">
+        </div-->
+        <?php if($transaction['type_transaction']['operationMonetique'] == 'OOT'): ?>
+        <h2>Reçu Paiement OTR</h2>
+        <?php elseif($transaction['type_transaction']['operationMonetique'] == 'OCN'): ?>
         <h2>Reçu Paiement Cotisation CNSS</h2>
-
+        <?php endif; ?>
         <table>
             <tr>
+            <?php if($transaction['type_transaction']['operationMonetique'] == 'OOT'): ?>
+                <th>Référence OTR</th>
+                <?php elseif($transaction['type_transaction']['operationMonetique'] == 'OCN'): ?>
                 <th>Référence CNSS</th>
+                <?php endif; ?>
                 <th>Référence de paiement ALT</th>
                 <th>Date de paiement</th>
                 <th>Montant</th>
                 <th>Frais</th>
             </tr>
             <tr>
-                <td>{{ $others['refDecla'] }}</td>
-                <td>{{ $others['referenceTransaction'] }}</td>
-                <td>{{ $others['transBankDate'] }}</td>
-                <td>{{number_format($others['mount'] , 0, ',', ' ')}} FCFA</td>
-                <td>
-                    {{number_format($others['mountTTC'] - $others['mount'], 0, ',', ' ') }} FCFA
+                <td><?php echo e($transaction['refDecla']); ?> </td>
+                <td><?php echo e($transaction['referenceTransaction']); ?></td>
+                <td><?php echo e($transaction['transBankDate']); ?></td>
+                <td><?php echo e(number_format($transaction['mount'] , 0, ',', ' ')); ?> FCFA</td>
+                <td><?php echo e(number_format($transaction['mountTTC'] - $transaction['mount'], 0, ',', ' ')); ?> FCFA
+                    
                 </td>
             </tr>
         </table>
     </div>
 </body>
 </html>
+<?php /**PATH C:\Projets\aleasepay\resources\views/transactions/quittance.blade.php ENDPATH**/ ?>

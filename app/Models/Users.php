@@ -11,6 +11,7 @@ class Users extends Model
     public $fillable = [
         'name',
         'email',
+        'profil',
         'email_verified_at',
         'password',
         'racine',
@@ -22,6 +23,7 @@ class Users extends Model
     protected $casts = [
         'name' => 'string',
         'email' => 'string',
+        'profil'=> 'string',
         'email_verified_at' => 'datetime',
         'password' => 'string',
         'racine' => 'string',
@@ -42,5 +44,8 @@ class Users extends Model
         'validation_code' => 'nullable'
     ];
 
-    
+    public function profil(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Profil::class, 'profil');
+    }
 }

@@ -18,15 +18,15 @@
     <?php echo $__env->make('flash::message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="clearfix"></div>
     <div class="card" style="padding: 15px;">
-      
+
         <?php if($errors->any()): ?>
         <div class="alert alert-danger">
             <?php echo e($errors->first()); ?>
 
         </div>
         <?php endif; ?>
-        <form method="POST" id="bordereauform"  class="mb-4">
-        <?php echo csrf_field(); ?>
+        <form method="POST" id="bordereauform" class="mb-4">
+            <?php echo csrf_field(); ?>
             <div class="row input-daterange">
                 <div class="form-group col-sm-2">
                     <?php echo Form::label('compte', 'Comptes :'); ?>
@@ -64,7 +64,7 @@
                     <span class="text-danger font-size-xsmall error_date_fin"></span>
                 </div>
                 <div class="form-group col-sm-2" style="margin-top: 2rem;">
-                    <button type="submit" id="bordereauformSubmit"  class="btn btn-primary btnSubmit">Filtrer</button>
+                    <button type="submit" id="bordereauformSubmit" class="btn btn-primary btnSubmit">Filtrer</button>
                 </div>
             </div>
         </form>
@@ -91,45 +91,45 @@ $('#date_fin').datepicker({
 }).datepicker("setDate", today);
 
 
-$(document).ready(function () {
+$(document).ready(function() {
     /* Vérifie si la fonction filter a déjà été exécutée dans cette session
     if (!sessionStorage.getItem('filterExecuted')) {
         sessionStorage.setItem('filterExecuted', 'true'); // Marque comme exécuté
         filter(); // Appel de ta fonction
     }*/
     filter();
-    $('#bordereauformSubmit').on('click', function (e) {
+    $('#bordereauformSubmit').on('click', function(e) {
         e.preventDefault(); // Empêche un éventuel submit classique
-       
+
         filter();
         hideLoading();
     })
 });
 
-function cancel(){
+function cancel() {
     $.ajax({
         url: "/bordereau/cancel",
         method: "GET",
-      
+
         contentType: "application/json",
-        data: { 
-         },
-        success: function (response) {
+        data: {},
+        success: function(response) {
 
         },
-        error: function (xhr) {
-            let errorMessage = xhr.responseJSON?.error || "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+        error: function(xhr) {
+            let errorMessage = xhr.responseJSON?.error ||
+                "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
             $("#error-messages").html(errorMessage);
             $("#error-alert").removeClass("d-none");
         }
     });
 }
 
-function filter(){
+function filter() {
     let type = $('#type').val();
-    let date_debut =$('#date_debut').val();
-    let date_fin =$('#date_fin').val();
-    let compte =$('#compte').val();
+    let date_debut = $('#date_debut').val();
+    let date_fin = $('#date_fin').val();
+    let compte = $('#compte').val();
     showLoading();
     $.ajax({
         url: "/bordereau/checklist",
@@ -138,27 +138,31 @@ function filter(){
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
         },
         contentType: "application/json",
-        data: JSON.stringify({ typebordereau: type,
-            compte:compte,
+        data: JSON.stringify({
+            typebordereau: type,
+            compte: compte,
             date_debut: date_debut,
-            date_fin:date_fin
-         }),
-        success: function (response) {
+            date_fin: date_fin
+        }),
+        success: function(response) {
 
             $("#bordereauxTable tbody").empty();
             console.log("Transaction récupérée :", response);
             //$("#reference_declaration").val(response.refDecla);
             //$("#reference").val(response.referenceTransaction);
-        let etat="En attente";
-        if (response.etat=="0") {
-            etat="En attente";
-        }else if (response.etat=="1") {
-            etat=  "En cours";
-        }else if (response.status=="2") {
-            etat=   "Validé";
-        }
+            //alert(response.etat);
+
             response.bordereaux.forEach(bordereau => {
-            let row = `
+                alert(bordereau.etat);
+                let etat = "En attente";
+                if (bordereau.etat == "0") {
+                    etat = "En attente";
+                } else if (bordereau.etat == "1") {
+                    etat = "Validé";
+                } else if (bordereau.status == "2") {
+                    etat = "Commandé";
+                }
+                let row = `
             <tr class="bordereau-row" >
                 <td>${bordereau.compte}</td>
                 <td>${bordereau.libelleBordereau}</td>
@@ -169,11 +173,12 @@ function filter(){
             </tr>`;
                 $("#bordereauxTable tbody").append(row);
             });
-            
+
             hideLoading();
         },
-        error: function (xhr) {
-            let errorMessage = xhr.responseJSON?.error || "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+        error: function(xhr) {
+            let errorMessage = xhr.responseJSON?.error ||
+                "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
             $("#error-messages").html(errorMessage);
             $("#error-alert").removeClass("d-none");
         }
@@ -183,7 +188,8 @@ function filter(){
 $('#filter').click(function() {
     let fromDate = $('#date_debut').val()
     let toDate = $('#date_fin').val()
-    let redirect_url = "transactions/search?comptealt=" + $('#compte option:selected').text() + "&typeTransaction=" + $('#type option:selected').text()
+    let redirect_url = "transactions/search?comptealt=" + $('#compte option:selected').text() +
+        "&typeTransaction=" + $('#type option:selected').text()
 
     if (fromDate != '' && toDate != '') {
 

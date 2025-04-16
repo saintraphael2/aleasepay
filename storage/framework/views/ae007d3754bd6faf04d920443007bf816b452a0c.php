@@ -49,26 +49,5 @@
     </div>
 </div>
 <?php $__env->stopSection(); ?>
-<?php $__env->startPush('page_scripts'); ?>
-<script>
 
-function cancel(){
-    $.ajax({
-        url: "/bordereau/cancel",
-        method: "GET",
-        contentType: "application/json",
-        data: { 
-         },
-        success: function (response) {
-        alert(1);
-        },
-        error: function (xhr) {
-            let errorMessage = xhr.responseJSON?.error || "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
-            $("#error-messages").html(errorMessage);
-            $("#error-alert").removeClass("d-none");
-        }
-    });
-}
-</script>
-<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Projets\aleasepay\resources\views/commandeBordereau/form.blade.php ENDPATH**/ ?>

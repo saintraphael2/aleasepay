@@ -1,20 +1,16 @@
       <!-- Bouton Ajouter -->
       <div class="row">
-          <button  data-bs-toggle="modal" 
-          data-bs-target="#exampleModal" style="margin: 10px;" type="button" class="btn btn-primary mb-3"
-              >
-              <i class="fas fa-plus-circle"></i> Ajouter une transaction
-          </button>
+         
       </div>
       <table class="table table-bordered table-striped" id="transactionsTablePay">
       <thead>
               <tr>
-                  <th>Reference Transaction</th>
+                  <th style="width: 10px;">Reference Transaction</th>
                   <th>Opération</th>
                   <th>Compte</th>
                   <th>Initiateur</th>
                   <th>Date</th>
-                  <th>Montant</th>
+                  <th>Montant TTC</th>
                   <th>Etat</th>
                   <th>Action</th>
               </tr>

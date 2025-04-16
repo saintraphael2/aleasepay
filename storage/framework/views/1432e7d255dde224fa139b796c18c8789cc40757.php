@@ -20,7 +20,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background-color: red;
+            background-color: #4CAF50;
             color: #ffffff;
             text-align: center;
             padding: 20px;
@@ -65,16 +65,17 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <h1>Transaction annulée</h1>
+            <h1>Transaction Réussie</h1>
         </div>
         <div class="content">
-            <p><?php echo e($msge); ?>. Voici les détails de la transaction :</p>
+            <p>Voici les détails de la transaction :</p>
             <ul>
-                <li><strong>Transaction Référence:</strong> <?php echo e($data['reference']); ?></li>
-                <li><strong>Date de la Transaction:</strong> <?php echo e($data['date']); ?></li>
-                <li><strong>Montant TTC:</strong> <?php echo e($data['montant']); ?></li>
-                <li><strong>Compte:</strong> <?php echo e($data['comptealt']); ?></li>
-                <li><strong>Initiateur:</strong> <?php echo e($data['initiated_name']); ?></li>
+                <li><strong>Transaction Référence:</strong> <?php echo e($others['referenceTransaction']); ?></li>
+                <li><strong>Date de la Transaction:</strong> <?php echo e($others['transBankDate']); ?></li>
+                <li><strong>Référence Déclaration:</strong> <?php echo e($others['refDecla']); ?></li>
+                <li><strong>Contribuable:</strong> <?php echo e($others['contribuable']); ?></li>
+                <li><strong>Montant:</strong> <?php echo e($others['mount']); ?></li>
+                <li><strong>Compte:</strong> <?php echo e($others['comptealt']); ?></li>
             </ul>
         </div>
         <div class="footer">
@@ -85,4 +86,4 @@
     </div>
 </body>
 </html>
-<?php /**PATH C:\Projets\aleasepay\resources\views/transactions_pending/email_cancel.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Projets\aleasepay\resources\views/cnss/email.blade.php ENDPATH**/ ?>

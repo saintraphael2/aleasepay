@@ -55,9 +55,9 @@
     @if ($transaction['type_transaction']['operationMonetique'] == 'OOT')
     <img src="./images/otr_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
     @elseif ($transaction['type_transaction']['operationMonetique'] == 'OCN')
-    <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
+    <img src="./images/cnss_logo.png" alt="CNSS" style="width: 250px; height: 100px">
     @endif
-    <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;">
+    <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;border:1.5px solid black;">
    </div>
         <!--div>
         <img src="./images/cnss_logo.png" alt="CNSS Logo">

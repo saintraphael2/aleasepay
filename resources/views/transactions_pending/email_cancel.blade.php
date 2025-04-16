@@ -72,7 +72,7 @@
             <ul>
                 <li><strong>Transaction Référence:</strong> {{ $data['reference'] }}</li>
                 <li><strong>Date de la Transaction:</strong> {{ $data['date'] }}</li>
-                <li><strong>Montant:</strong> {{ $data['montant'] }}</li>
+                <li><strong>Montant TTC:</strong> {{ $data['montant'] }}</li>
                 <li><strong>Compte:</strong> {{ $data['comptealt'] }}</li>
                 <li><strong>Initiateur:</strong> {{ $data['initiated_name'] }}</li>
             </ul>

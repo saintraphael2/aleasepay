@@ -20,7 +20,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background-color: red;
+            background-color:rgb(255, 69, 0);
             color: #ffffff;
             text-align: center;
             padding: 20px;
@@ -65,17 +65,10 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <h1>Transaction annulée</h1>
+            <h1>Notification</h1>
         </div>
         <div class="content">
-            <p><?php echo e($msge); ?>. Voici les détails de la transaction :</p>
-            <ul>
-                <li><strong>Transaction Référence:</strong> <?php echo e($data['reference']); ?></li>
-                <li><strong>Date de la Transaction:</strong> <?php echo e($data['date']); ?></li>
-                <li><strong>Montant TTC:</strong> <?php echo e($data['montant']); ?></li>
-                <li><strong>Compte:</strong> <?php echo e($data['comptealt']); ?></li>
-                <li><strong>Initiateur:</strong> <?php echo e($data['initiated_name']); ?></li>
-            </ul>
+            <p> <?php echo e($msge); ?></p>
         </div>
         <div class="footer">
             <p>Merci pour votre confiance.</p>
@@ -85,4 +78,4 @@
     </div>
 </body>
 </html>
-<?php /**PATH C:\Projets\aleasepay\resources\views/transactions_pending/email_cancel.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Projets\aleasepay\resources\views/notifications/index.blade.php ENDPATH**/ ?>

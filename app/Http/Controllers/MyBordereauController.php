@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Flash;
 
 class MyBordereauController extends AppBaseController
@@ -370,6 +371,7 @@ class MyBordereauController extends AppBaseController
                 }
 
                 public function checkBordereauEtat( $numeroOrdre ) {
+                    $status="";
                     $dotenv = Dotenv::createImmutable( base_path() );
                     $dotenv->load();
                     $baseUrl = env( 'API_TAX_BASE_URL', 'base_url' );
@@ -391,6 +393,7 @@ class MyBordereauController extends AppBaseController
                     }
 
                     // Consommation du Web Service pour les opérations
+                    try {
                     if ( $token != null ) {
                         $responseEtatBordereau = Http::withHeaders( [
                             'Authorization' => "Bearer {$token}",
@@ -398,13 +401,19 @@ class MyBordereauController extends AppBaseController
                     } else {
                         return redirect()->back()->withErrors( 'Serveur indisponible.' );
                     }
+                    Log::info( $responseEtatBordereau);
                     if ( $responseEtatBordereau->successful() ) {
                         $responseBody = $responseEtatBordereau->json();
-                        #dd( $responseBody[ 'body' ][ 'etat' ] );
-                        return $responseBody[ 'body' ][ 'etat' ] ;
+                        //Log::error(dd( $responseBody ));
+                        //dd( $responseBody );
+                        $status= $responseBody['body']['etat'] ;
                     }
+                } catch ( \Exception $e ) {
+                    Log::error('COMMAND ETAT TREAD: ' . $e->getMessage());
                     return null;
                 }
+                return  $status;
+            }
 
                 public function getBordereaux( $data ) {
                     $baseUrl = env( 'API_TAX_BASE_URL', 'base_url' );
@@ -442,8 +451,8 @@ class MyBordereauController extends AppBaseController
                         if ( isset( $responseBody ) ) {
                             $response = $responseBody;
                             foreach ( $response as &$bordereau ) {
-                                $etat = $this->checkBordereauEtat( $bordereau[ 'numeroOrdre' ] );
-                                $bordereau[ 'etat' ] = $etat;
+                                $etat = $this->checkBordereauEtat( $bordereau['numeroOrdre'] );
+                                $bordereau['etat' ] = $etat;
                             }
                             return $response;
                         }

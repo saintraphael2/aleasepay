@@ -72,11 +72,21 @@ Route::post('/bordereau/filterfirst', [App\Http\Controllers\MyBordereauControlle
 
 Route::get('/pending/index', [App\Http\Controllers\TransactionPendingController::class,'listing'])->name('pending.index');
 Route::post('/pending/search', [App\Http\Controllers\TransactionPendingController::class,'search'])->name('pending.search');
+Route::post('/pending/searchotr', [App\Http\Controllers\TransactionPendingController::class,'searchByReferenceTaxe'])->name('pending.searchotr');
+Route::post('/pending/getmontantttc', [App\Http\Controllers\TransactionPendingController::class,'getMontantTTC'])->name('pending.getmontantttc');
+
+
+
 Route::post('/pending/filter', [App\Http\Controllers\TransactionPendingController::class,'getPendingTransactionsByDate'])->name('pending.filter');
 Route::post('/pending/cancel', [App\Http\Controllers\TransactionPendingController::class,'cancelTransactionPending'])->name('pending.cancel');
+Route::post('/pending/paiementcss', [App\Http\Controllers\TransactionPendingController::class,'paiement'])->name('pending.paiementcnss');
+Route::post('/pending/paiementotr', [App\Http\Controllers\TransactionPendingController::class,'paiementOTR'])->name('pending.paiementotr');
+
 
 
 Route::post('/pending/save', [App\Http\Controllers\TransactionPendingController::class,'saveTransactionPending'])->name('pending.save');
+Route::post('/pending/otr/save', [App\Http\Controllers\TransactionPendingController::class,'saveTransactionPendingOTR'])->name('pending.otr.save');
+
 
 });
 Route::get('/reset-password-frombackoffice/{token}', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showInitPasswordForm']);

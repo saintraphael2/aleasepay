@@ -27,7 +27,7 @@
         <p>Bordereaux</p>
     </a>
 </li>
-
+@if($profil==$autonome )
 <li class="nav-item"> 
     <a href="{{ route('cnss.cotisations') }}" class="nav-link {{ Request::is('cnss*') ? 'active' : ''}} ">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>
@@ -41,14 +41,15 @@
         <p>Etax OTR </p>
     </a>
 </li>
-
-<!--li class="nav-item"> 
+@endif
+@if($profil==$initiateur ||  $profil==$validateur)
+<li class="nav-item"> 
     <a href="{{ route('pending.index') }}" class="nav-link {{ Request::is('pending*') ? 'active' : '' }}">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>
-        <p>Suivi Transactions </p>
+        <p>Mes Transactions </p>
     </a>
-</li-->
-
+</li>
+@endif
 <li class="nav-item"> 
     <a href="{{ route('transactions.index') }}" class="nav-link {{ Request::is('transactions*') ? 'active' : '' }}">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>

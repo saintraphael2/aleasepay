@@ -5513,7 +5513,8 @@ a.badge-dark:focus {
     border-radius: .25rem;
     margin-bottom: 1rem;
     padding: .75rem 1.25rem;
-    position: relative
+    position: relative;
+   
 }
 
 .alert-heading {
@@ -50547,3 +50548,107 @@ footer {
     display: block;
     padding: .5rem 1rem;
 }
+
+
+
+.swal-button {
+    background-color:  #2e7518 !important;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 24px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.swal-button:not([disabled]):hover {
+    background-color: #2e7518 !important;
+}
+button.swal-button.swal-button--confirm.swal-button--danger{
+    background-color: #2e7518 !important;
+}
+button.swal-button.swal-button--cancel{
+    background-color: black !important;
+}
+
+button.swal-button.swal-button--cancel:hover{
+    background-color: black !important;
+}
+
+div.swal-icon.swal-icon--warning{
+    background-color: #f17304; 
+    border-color: #f17304; 
+}
+
+.swal-text {
+    font-size: 18px;
+    position: relative;
+    float: none;
+    line-height: normal;
+    vertical-align: top;
+    text-align: left;
+    display: inline-block;
+    margin: 0;
+    padding: 0 10px;
+    font-weight: 400;
+    color: black;
+    max-width: calc(100% - 20px);
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+}
+
+.alert-success {
+    background-color: #155724 !important;
+    border-color: #155724 !important;
+    color: #fff !important;
+}
+
+.nav-tabs .nav-item.show .nav-link-tab, .nav-tabs .nav-link-tab.active {
+    background-color: #2e7518 !important;
+    border-color: #2e7518 !important;
+    color: #fff;
+    font-weight: 700 !important;
+}
+
+.nav-tabs .nav-link-tab {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    margin-bottom: -1px;
+    width: 375px;
+}
+
+.nav-link-tab {
+    display: block;
+    padding: .5rem 1rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    text-transform: capitalize;
+  }
+  
+  /* En attente : fond jaune pâle, texte doré */
+  .status-en_attente {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  
+  /* Validé : fond vert pâle, texte vert foncé */
+  .status-validé {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  /* Annulé : fond rouge pâle, texte rouge foncé */
+  .status-annulé {
+    background-color: #f8d7da;
+    color: #721c24;
+  }

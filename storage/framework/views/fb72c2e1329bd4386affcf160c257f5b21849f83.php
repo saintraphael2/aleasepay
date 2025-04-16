@@ -27,7 +27,7 @@
         <p>Bordereaux</p>
     </a>
 </li>
-
+<?php if($profil==$autonome ): ?>
 <li class="nav-item"> 
     <a href="<?php echo e(route('cnss.cotisations')); ?>" class="nav-link <?php echo e(Request::is('cnss*') ? 'active' : ''); ?> ">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>
@@ -41,14 +41,15 @@
         <p>Etax OTR </p>
     </a>
 </li>
-
-<!--li class="nav-item"> 
+<?php endif; ?>
+<?php if($profil==$initiateur ||  $profil==$validateur): ?>
+<li class="nav-item"> 
     <a href="<?php echo e(route('pending.index')); ?>" class="nav-link <?php echo e(Request::is('pending*') ? 'active' : ''); ?>">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>
-        <p>Suivi Transactions </p>
+        <p>Mes Transactions </p>
     </a>
-</li-->
-
+</li>
+<?php endif; ?>
 <li class="nav-item"> 
     <a href="<?php echo e(route('transactions.index')); ?>" class="nav-link <?php echo e(Request::is('transactions*') ? 'active' : ''); ?>">
     <i class="nav-icon fas fa-solid fa-wallet" ></i>

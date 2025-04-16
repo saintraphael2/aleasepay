@@ -20,8 +20,8 @@
         <tr style='border: 1px solid'>
             <td style='border: 1px solid black; height:40px'>TG215</td>
             <td style='border: 1px solid black'>01001</td>
-            <td style='border: 1px solid black'>{{ $cptClient->compte }}</td>
-            <td style='border: 1px solid black'>{{ $cptClient->cle }}</td>
+            <td style='border: 1px solid black'><?php echo e($cptClient->compte); ?></td>
+            <td style='border: 1px solid black'><?php echo e($cptClient->cle); ?></td>
         </tr>
         <tr style='border: 1px solid'>
             <th style='border: 1px solid; height:40px' colspan='3'>CODE IBAN</th>
@@ -29,19 +29,19 @@
             <th style='border: 1px solid'>CODE BIC</th>
         </tr>
         <tr style='border: 1px solid'>
-            <td style='border: 1px solid; height:40px' colspan='3'>TG53TG21501001{{ $cptClient->compte }}{{ $cptClient->cle }}</td>
+            <td style='border: 1px solid; height:40px' colspan='3'>TG53TG21501001<?php echo e($cptClient->compte); ?><?php echo e($cptClient->cle); ?></td>
             <td style='border: 1px solid black'>ALTBTGTG</td>
             
         </tr>
         <tr  >
             
             <td style=" text-align:left; height:40px; padding-left:10px">Intitulé du compte</td>
-            <td colspan='3' style=" text-align:left;font-weight:bold; padding-left:10px">{{ $cptClient->intitule }}</td>
+            <td colspan='3' style=" text-align:left;font-weight:bold; padding-left:10px"><?php echo e($cptClient->intitule); ?></td>
         </tr>
         <tr  >
             
             <td style=" text-align:left; height:40px; padding-left:10px; padding-left:10px">Devise</td>
-            <td colspan='3' style=" text-align:left;font-weight:bold; padding-left:10px">{{ $cptClient->devise_code }}  {{ $cptClient->devise_libelle }}</td>
+            <td colspan='3' style=" text-align:left;font-weight:bold; padding-left:10px"><?php echo e($cptClient->devise_code); ?>  <?php echo e($cptClient->devise_libelle); ?></td>
         </tr>
         <tr  >
             
@@ -53,4 +53,4 @@
             A remettre à tout organisme demandant vos références bancaires
         </div>
     </body>
-</html>
+</html><?php /**PATH C:\Projets\aleasepay\resources\views/cpt_clients/attestation.blade.php ENDPATH**/ ?>

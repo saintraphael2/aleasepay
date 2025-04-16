@@ -66,15 +66,16 @@
                 <th>Frais</th>
             </tr>
             <tr>
-                <td>{{ $others['refDecla'] }}</td>
-                <td>{{ $others['referenceTransaction'] }}</td>
-                <td>{{ $others['transBankDate'] }}</td>
-                <td>{{number_format($others['mount'] , 0, ',', ' ')}} FCFA</td>
+                <td><?php echo e($others['refDecla']); ?></td>
+                <td><?php echo e($others['referenceTransaction']); ?></td>
+                <td><?php echo e($others['transBankDate']); ?></td>
+                <td><?php echo e(number_format($others['mount'] , 0, ',', ' ')); ?> FCFA</td>
                 <td>
-                    {{number_format($others['mountTTC'] - $others['mount'], 0, ',', ' ') }} FCFA
+                    <?php echo e(number_format($others['mountTTC'] - $others['mount'], 0, ',', ' ')); ?> FCFA
                 </td>
             </tr>
         </table>
     </div>
 </body>
 </html>
+<?php /**PATH C:\Projets\aleasepay\resources\views/cnss/quittance.blade.php ENDPATH**/ ?>
