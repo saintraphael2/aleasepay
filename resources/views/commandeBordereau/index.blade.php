@@ -17,6 +17,13 @@
 <div class="content px-3">
     @include('flash::message')
     <div class="clearfix"></div>
+
+    <div id="error-alert" class="alert alert-danger d-none">
+        <p id="error-messages"> </p>
+    </div>
+    <div id="success-alert" class="alert alert-success d-none">
+        <p id="success-messages"></p>
+    </div>
     <div class="card" style="padding: 15px;">
 
         @if($errors->any())
@@ -63,6 +70,57 @@
         </form>
         @include('commandeBordereau.table')
     </div>
+    <div class="modal fade" id="modalForCompte" tabindex="-1" aria-labelledby="modalForCompte" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalForCompte"></h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        @csrf
+                        @if($errors->any())
+                        <div class="alert alert-danger">
+                            {{ $errors->first() }}
+                        </div>
+                        @endif
+                        <div class="mb-3">
+                            <label for="dateCommande" class="form-label">Date commande</label>
+                            <input type="text" id="dateCommande" name="dateCommande" value="{{$dateCommande}}"
+                                class="form-control" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="code" class="form-label">Type de bordereau</label>
+                            <select name="code" id="code" class='form-control' required>
+                                @foreach($types as $type)
+                                <option value="{{$type['code']}}">{{$type['libelle']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantite" class="form-label">Quantité</label>
+                            <input type="int" id="quantite" name="quantite" class="form-control" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="compte" class="form-label">Compte</label>
+                            <select id="compteModal" name="compteModal" class="form-select form-control" required>
+                                <option value="">-- Sélectionnez un compte --</option>
+                                @foreach($comptes as $compte)
+                                <option value="{{$compte->compte}}">{{$compte->compte}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeForModalCmpte">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="commander()"
+                        id="secondBtnValidation">Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
 </script>
@@ -84,6 +142,109 @@ $('#date_fin').datepicker({
 }).datepicker("setDate", today);
 
 
+function showLoadingOverlay() {
+    const loading = document.querySelector('#loading');
+    const loadingContent = document.querySelector('#loading-content');
+    loading.classList.add('loading');
+    loadingContent.classList.add('loading-content');
+    loading.style.zIndex = "1100";
+}
+
+function hideLoadingOverlay() {
+    const loading = document.querySelector('#loading');
+    const loadingContent = document.querySelector('#loading-content');
+    loading.classList.remove('loading');
+    loadingContent.classList.remove('loading-content');
+    loading.style.zIndex = "";
+}
+
+
+function commander() {
+
+    let compte = $('#compteModal').val();
+    let quantite = $('#quantite').val();
+    let code = $('#code').val();
+    let dateCommande = $('#dateCommande').val();
+    console.log("compte", compte);
+    console.log("quantite", quantite);
+    console.log("code", code);
+    console.log("dateCommande", dateCommande);
+
+    //let concat =compte, " - " , quantite, " - ",code, " - ", dateCommande;
+    showLoadingOverlay();
+    //{{ route('cptClients.create') }}
+    return $.ajax({
+        url: "{{ route('commandeBordereau.docommand') }}",
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+        contentType: "application/json",
+        data: JSON.stringify({
+            compte: compte,
+            quantite: quantite,
+            code: code,
+            dateCommande: dateCommande
+        }),
+        success: function(response) {
+            let errorMessage = response.success;
+            $("#success-alert").removeClass("d-none").css("z-index", "2000");
+            $("#success-messages").html(errorMessage);
+            setTimeout(function() {
+                $("#success-alert").addClass("d-none");
+            }, 30000);
+            filter();
+            hideLoadingOverlay();
+            document.getElementById("closeForModalCmpte").click();
+        },
+        error: function(xhr) {
+            let errorMessage = xhr.responseJSON.error ||
+                "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+            $("#error-messages").html(errorMessage);
+            $("#error-alert").removeClass("d-none").css("z-index", "2000");
+            setTimeout(function() {
+                $("#error-alert").addClass("d-none");
+            }, 30000);
+            hideLoadingOverlay();
+        }
+    });
+}
+var modalForCompte = document.getElementById('modalForCompte')
+modalForCompte.addEventListener('show.bs.modal', function(event) {
+    // Button that triggered the modal
+    var button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    var recipient = button.getAttribute('data-bs-whatever')
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+    // Update the modal's content.
+    var modalTitle = modalForCompte.querySelector('.modal-title')
+    var modalBodyInput = modalForCompte.querySelector('.modal-body input')
+
+    //modalTitle.textContent = 'New message to ' + recipient
+    //modalBodyInput.value = recipient
+
+
+
+
+});
+
+
+
+document.getElementById("closeForModalCmpte").addEventListener("click", function() {
+    const modalElement = document.getElementById("modalForCompte");
+
+    document.getElementById("quantite").value = "";
+    document.getElementById("code").value = "";
+    document.getElementById("compteModal").value = "";
+
+    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+    if (modalInstance) {
+        modalInstance.hide();
+    }
+});
+
 $(document).ready(function() {
     /* Vérifie si la fonction filter a déjà été exécutée dans cette session
     if (!sessionStorage.getItem('filterExecuted')) {
@@ -93,7 +254,6 @@ $(document).ready(function() {
     filter();
     $('#bordereauformSubmit').on('click', function(e) {
         e.preventDefault(); // Empêche un éventuel submit classique
-
         filter();
         hideLoading();
     })
@@ -138,7 +298,6 @@ function filter() {
             date_fin: date_fin
         }),
         success: function(response) {
-
             $("#bordereauxTable tbody").empty();
             console.log("Transaction récupérée :", response);
             //$("#reference_declaration").val(response.refDecla);
@@ -146,7 +305,7 @@ function filter() {
             //alert(response.etat);
 
             response.bordereaux.forEach(bordereau => {
-                alert(bordereau.etat);
+                //  alert(bordereau.etat);
                 let etat = "En attente";
                 if (bordereau.etat == "0") {
                     etat = "En attente";

@@ -531,7 +531,7 @@ function validatePendingTransac(id, type) {
                 $("#success-messages").html(errorMessage);
                 setTimeout(function() {
                     $("#success-alert").addClass("d-none");
-                }, 300000);
+                }, 30000);
                 hideLoading();
                 filter();
 
@@ -545,7 +545,7 @@ function validatePendingTransac(id, type) {
                         "</p>");
                     setTimeout(function() {
                         $("#error-alert").addClass("d-none");
-                    }, 300000);
+                    }, 30000);
                     hideLoading();
                 }
                 hideLoading();
@@ -573,7 +573,7 @@ function validatePendingTransac(id, type) {
                 $("#success-messages").html(errorMessage);
                 setTimeout(function() {
                     $("#success-alert").addClass("d-none");
-                }, 300000);
+                }, 30000);
                 hideLoading();
                 filter();
             },
@@ -586,7 +586,7 @@ function validatePendingTransac(id, type) {
                         "</p>");
                     setTimeout(function() {
                         $("#error-alert").addClass("d-none");
-                    }, 300000);
+                    }, 30000);
                     hideLoading();
                 }
                 hideLoading();
@@ -616,7 +616,7 @@ function cancelPendingTransac(id) {
             $("#success-messages").html(errorMessage);
             setTimeout(function() {
                 $("#success-alert").addClass("d-none");
-            }, 300000);
+            }, 30000);
             hideLoading();
             filter();
         },
@@ -627,7 +627,7 @@ function cancelPendingTransac(id) {
             $("#error-alert").removeClass("d-none");
             setTimeout(function() {
                 $("#error-alert").addClass("d-none");
-            }, 300000);
+            }, 30000);
         }
     });
 }
@@ -918,7 +918,7 @@ function validationPending() {
             $("#success-messages").html(errorMessage);
             setTimeout(function() {
                 $("#success-alert").addClass("d-none");
-            }, 300000);
+            }, 30000);
             hideLoading();
             document.getElementById("closeForModalCmpte").click();
         },
@@ -929,7 +929,7 @@ function validationPending() {
                 "</p>");
             setTimeout(function() {
                 $("#error-alert").addClass("d-none");
-            }, 300000);
+            }, 30000);
             hideLoading();
         }
     });
@@ -1147,7 +1147,7 @@ function validationPendingOTR() {
             $("#success-messages").html(errorMessage);
             setTimeout(function() {
                 $("#success-alert").addClass("d-none");
-            }, 300000);
+            }, 30000);
             document.getElementById("closeexampleModal").click();
             hideLoadingOverlay();
             filter();
@@ -1159,7 +1159,7 @@ function validationPendingOTR() {
                 "</p>");
             setTimeout(function() {
                 $("#error-alert").addClass("d-none");
-            }, 300000);
+            }, 30000);
             hideLoadingOverlay();
         }
     });

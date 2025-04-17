@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use App\Models\PendingTransaction;
 use Flash;
 use PDF;
 
@@ -80,6 +81,11 @@ class CotisationCNSSController extends Controller {
     */
 
     public function showForm( $reference, $numero_employeur ) {
+
+        if (PendingTransaction::where('reference',  $reference)
+        ->where('etat', 'en_attente') ->exists()) {
+            return redirect()->back()->withErrors( 'Ce paiement est déjà en cours de traitement, en attente de validation.' );
+        }
         // Recherche des informations basées sur la référence
         try {
             $cotisation = $this->getCotisationByReference( $reference );
@@ -238,6 +244,8 @@ public function paiement( Request $request ) {
             'comptealt' => $validated['comptealt'],
             'email' => $mail,
         ];
+
+       
         $numEmp = $validated['numero_employeur'];
 
         $amount = $validated['amount'];

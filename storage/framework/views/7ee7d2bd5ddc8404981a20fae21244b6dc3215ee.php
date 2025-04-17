@@ -649,10 +649,8 @@ var typeActif = "OCN";
 function filter() {
     let type = $('#type').val();
     if (tabPaneactive == 'tab_pai_step1') {
-        alert("tab_pai_step1");
         type = 'OCN';
     } else if (tabPaneactive == 'tab_pai_step2') {
-        alert("tab_pai_step2");
         type = 'OOT';
     }
     if (tabPaneactive == 'tab_pai_step3') {

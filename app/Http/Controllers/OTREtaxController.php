@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use App\Models\PendingTransaction;
 use Flash;
 use PDF;
 
@@ -69,6 +70,13 @@ class OTREtaxController extends Controller
       $reference_taxe = $request->input('reference_taxe');
       $dotenv = Dotenv::createImmutable(base_path());
       $dotenv->load();
+
+      if (PendingTransaction::where('reference',  $reference_taxe)
+      ->where('etat', 'en_attente') ->exists()) {
+        Flash::error('Ce paiement est déjà en cours de traitement, en attente de validation.');
+         return view('otr.etax');
+        //return redirect()->back()->withErrors( 'Ce paiement est déjà en cours de traitement, en attente de validation.' );
+      }
 
       $baseUrl=env('API_TAX_BASE_URL', 'base_url');
       $etaxgetEndPoint=env('OTR_API_GET_TAX', 'api_get_etax');

@@ -104,7 +104,7 @@ class TransactionPendingController extends Controller {
                     'initiated_name'=> $initiated_name,
                 ];
                 $validateursEmails=$this->getValidateurEmails();
-                $msg="Un paiement a été annulée.";
+                $msg="Un paiement a été annulé.";
                 Mail::send('transactions_pending.email_cancel', ['msge' => $msg, 'data' => $data], function ($message) use ($email, $msg, $data, $validateursEmails) {
                     $message->to($email)
                             ->subject('Notification');
@@ -114,7 +114,7 @@ class TransactionPendingController extends Controller {
                     }
                 });
     
-                return response()->json(['success' => "La transaction a été annulée avec succès. un mail d'annulation vous a été envoyé."], 200);
+           return response()->json(['success' => "La transaction a été annulée avec succès. un mail d'annulation vous a été envoyé."], 200);
          }catch ( \Exception $e ) {
             Log::error('UPDAT : ' . $e->getMessage());
             return response()->json(['error' => 'Transaction introuvable.'], 404);

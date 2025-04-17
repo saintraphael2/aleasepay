@@ -113,10 +113,11 @@ class MyBordereauController extends AppBaseController
             $cptClient = CptClient::where( 'racine', $racine )->first();
             $comptes = Compte::where( 'racine', $cptClient->racine )->get();
             #dd( $comptes );
+            $dateCommande =  Carbon::now()->format( 'Y-m-d' );
             $bordereaux = [];
             try {
                 $types = $this->getTypeBordereaux();
-                return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
+                return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types', 'dateCommande' ) ) ;
             } catch ( \Exception $e ) {
                 if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
                     $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
@@ -166,28 +167,46 @@ class MyBordereauController extends AppBaseController
         $dotenv = Dotenv::createImmutable( base_path() );
         $dotenv->load();
 
-        $validated = $request->validate( [
-            'dateCommande' => 'required|string',
-            'code' => 'required|string',
-            'quantite' => 'required|integer|min:1',
-            'compte' => 'required|string'
-        ] );
-        $datec = Carbon::parse( $validated[ 'dateCommande' ] )->format( 'd/m/Y' );
+        $compte = $request->input( 'compte' );
+        $quantite = $request->input( 'quantite' );
+        $code = $request->input( 'code' );
+        $dateCommande = $request->input( 'dateCommande' );
+
+        if($compte==null){
+            return response()->json( [ 'error' => 'Le compte est obligatoire' ], 400 );
+        }
+        if($quantite==null){
+            return response()->json( [ 'error' => 'La quantité est obligatoire' ], 400 );
+        }
+        if($code==null){
+            return response()->json( [ 'error' => 'Le type de chèque est obligatoire' ], 400 );
+        }
+        if($dateCommande==null){
+            return response()->json( [ 'error' => 'La date du commande est obligatoire' ], 400 );
+        }
+       
+        $datec = Carbon::parse( $dateCommande )->format( 'd/m/Y' );
+        $email=  Auth::user()->email;
+        $initiateur_name=  Auth::user()->name;
 
         session( [
             'dateCommande' => $datec,
         ] );
         $data = [
             'dateCommande' => $datec,
-            'code' =>$validated[ 'code' ],
-            'quantite' => $validated[ 'quantite' ],
-            'compte' => $validated[ 'compte' ]
+            'code' =>$code,
+            'quantite' => $quantite,
+            'compte' => $compte,
+            'initiateur'=> $initiateur_name,
+            'initiateur_email'=> $email
         ];
 
         $baseUrl = env( 'API_TAX_BASE_URL', 'base_url' );
         $commandEndpoint = env( 'BORDEREAU_API_POST_BORDEREAU', 'api_post_commandeBordereau' );
         $urlCommand = $baseUrl . $commandEndpoint;
 
+
+        $mail_diffusion = env( 'BORDERAU_DIFFUSION_MAILADDRESS', 'mail_diffusion' );
         // Authentification pour récupérer le token
         $tokenEndpoint = env( 'API_GET_TOKEN', 'token_api' );
         $urlAuthenticate = $baseUrl . $tokenEndpoint;
@@ -202,7 +221,7 @@ class MyBordereauController extends AppBaseController
             } else {
                 $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
             }
-            return redirect()->back()->withErrors( $message );
+            return response()->json(['error' => $message]);
         }
 
         if ( $token != null ) {
@@ -210,70 +229,41 @@ class MyBordereauController extends AppBaseController
                 'Authorization' => "Bearer {$token}",
             ] )->post( $urlCommand, $data );
         } else {
-            return redirect()->back()->withErrors( 'Serveur indisponible.' );
+            return response()->json(['error' => 'Serveur indisponible.']);
         }
         #dd( $data );
         if ( $responseCommand->successful() ) {
-            $responseBody = $responseCommand->json();
-
-            #if ( isset( $responseBody ) ) {
-                #    if ( isset( $responseBody[ 'code' ] ) ) {
-                    #      $code = Str::before( $responseBody[ 'code' ], ' ' );
-                    #     #dd( $code );
-                    #    if ( $code == 500 ) {
-                        #        $msg = html_entity_decode( $responseBody[ 'message' ] );
-                        #        return redirect()->back()->withErrors( $msg );
-                        #    }
-                        # }
-
-                        # }
-
-                        #dd( $responseBody );
-
-                        if ( isset( $responseBody ) ) {
-                            if (isset( $responseBody[ 'code' ] )) {
-                                
-                                $code = Str::before( $responseBody[ 'code' ], ' ' );
-                                #dd($code);
-                                if ( $code == 500 ) {
-                                    $msg = html_entity_decode( $responseBody[ 'message' ] );
-                                    return redirect()->back()->withErrors( $msg );
-                                }
-                            } else {
-                                #dd( $responseBody );
-                                $response = $responseBody[ 'body' ];
-
-                                if ( $response[ 'id' ] != null ) {
-                                    Flash::success( 'Votre commande a été enregistrée avec succès.' );
-                                    #dd( $response[ 'numeroOrdre' ] );
-                                    $this->checkBordereauEtat( $response[ 'numeroOrdre' ] );
-                                    $date_Commande = session( 'dateCommande', $datec );
-                                    $datafilter = [
-                                        'comptealt' => $data[ 'compte' ],
-                                        'typebordereau' =>$data[ 'code' ],
-                                        'dateDebut' => $date_Commande,
-                                        'dateFin' =>$date_Commande
-                                    ];
-
-                                    #dd( $datafilter );
-                                    $bord = $this->getBordereaux( $datafilter );
-                                    #dd( $bord );
-                                    if ( Auth::user() != null ) {
-                                        $mail = Auth::user()->email;
-                                        $racine = Auth::user()->racine;
-                                        $cptClient = CptClient::where( 'racine', $racine )->first();
-                                        $comptes = Compte::where( 'racine', $cptClient->racine )->get();
-                                        #dd( $comptes );
-
-                                        $bordereaux =  $bord;
-                                        $types = $this->getTypeBordereaux();
-                                        #dd( $types );
-                                        #return view( 'home' )->with( 'cptClients', $comptes );
-                                        return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types' ) ) ;
+                $responseBody = $responseCommand->json();
+                if (isset($responseBody)) {
+                    Log::info($responseBody);
+                    if ( isset($responseBody["code"])) {
+                        $code = Str::before($responseBody["code"], " ");// => "500"
+                        Log::info("Code extrait : " . $code);
+                        $msg = html_entity_decode($responseBody['message'] ?? 'Une erreur est survenue.');
+                        return response()->json(['error' => $msg],500);
+                    }
+                
+                    // Suite du traitement si tout va bien
+                    if (!empty($responseBody['body']) && !empty($responseBody['body']['id'])) {
+                    
+                    $bordereau = $responseBody['body'];
+                    $data=$bordereau;
+                    $diffusionsEmails=[$mail_diffusion];
+                    Mail::send('commandeBordereau.email', [ 'data' => $data], function ($message) use ($email, $data,$diffusionsEmails) {
+                            $message->to($email)
+                                    ->subject('Notification');
+                                    if (!empty($diffusionsEmails) && is_array($diffusionsEmails)) {
+                                        $message->cc($diffusionsEmails);
                                     }
-                                }
-                            }
-                        }
+                    });
+                     
+
+                    Flash::success('Votre commande a été enregistrée avec succès.');
+                       // $this->checkBordereauEtat($responseBody['body']['numeroOrdre']);
+                        return response()->json(['success' => 'Votre commande a été enregistrée avec succès.'], 200);
+                    }
+                
+                     }
                     }
                 }
 
@@ -391,7 +381,8 @@ class MyBordereauController extends AppBaseController
                         }
                         return redirect()->back()->withErrors( $message );
                     }
-
+                    //Log::info( $numeroOrdre);
+                    //Log::info( $urlCheckBordereau);
                     // Consommation du Web Service pour les opérations
                     try {
                     if ( $token != null ) {
@@ -401,8 +392,8 @@ class MyBordereauController extends AppBaseController
                     } else {
                         return redirect()->back()->withErrors( 'Serveur indisponible.' );
                     }
-                    Log::info( $responseEtatBordereau);
-                    if ( $responseEtatBordereau->successful() ) {
+                    //Log::info( $responseEtatBordereau);
+                    if ($responseEtatBordereau->successful() ) {
                         $responseBody = $responseEtatBordereau->json();
                         //Log::error(dd( $responseBody ));
                         //dd( $responseBody );
@@ -452,7 +443,7 @@ class MyBordereauController extends AppBaseController
                             $response = $responseBody;
                             foreach ( $response as &$bordereau ) {
                                 $etat = $this->checkBordereauEtat( $bordereau['numeroOrdre'] );
-                                $bordereau['etat' ] = $etat;
+                                $bordereau['etat'] = $etat;
                             }
                             return $response;
                         }
