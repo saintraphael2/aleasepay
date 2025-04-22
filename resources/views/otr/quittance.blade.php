@@ -52,7 +52,7 @@
     <div class="container">
     <div  class="header" style="display: flex; justify-content: space-between; width: 100%;">
     <img src="./images/otr_logo.png" alt="CNSS" style="width: 250px; height: 100px;">
-    <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 250px; height: 100px;height: 100px;border:1.5px solid black;">
+    <img src="./images/african_lease_logo.png" alt="African Lease" style="width: 320px; height: 100px;border:1.5px solid black;">
         </div>
         <h2>Reçu Paiement OTR</h2>
 
