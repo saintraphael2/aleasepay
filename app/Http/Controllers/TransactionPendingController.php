@@ -183,7 +183,7 @@ class TransactionPendingController extends Controller {
         $email=  Auth::user()->email;
         $data=[
             'comptealt' =>  $compte,
-            'montant'=> $montant,
+            'montant'=> $amount_ttc,
             'reference'=> $reference,
             'etat'=> $etat,
             'date'=> $date,
@@ -202,7 +202,7 @@ class TransactionPendingController extends Controller {
         return response()->json(['success' => 'Votre paiement a été soumis avec succès. Un e-mail vous a été envoyé.'], 200);
         }catch ( \Exception $e ) {
             Log::error('Erreur lors de l’enregistrement du paiement : ' . $e->getMessage());
-            return response()->json(['error' => 'Une erreur est survenue lors de l’enregistrement du paiement OK TETT :'], 500); 
+            return response()->json(['error' => 'Une erreur est survenue lors de l’enregistrement du paiement :'], 500); 
         }
     }
 
@@ -264,7 +264,7 @@ class TransactionPendingController extends Controller {
         $email=  Auth::user()->email;
         $data=[
             'comptealt' =>  $compte,
-            'montant'=> $montant,
+            'montant'=> $amount_ttc,
             'reference'=> $reference,
             'etat'=> $etat,
             'date'=> $date,
@@ -676,9 +676,9 @@ public function paiement( Request $request ) {
                 // Joindre le PDF sans l'enregistrer sur le disque
                 });
                     //return response()->json(['success' => $response['body']['message'] . ' . Un email de notification vous sera envoyé.'], 200);
-                    Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.');
+                    Flash::success('Opération réussie' . ' . Un email de notification vous sera envoyé.');
                 } else {
-                    Flash::success($response['body']['message']);
+                    Flash::success("Opération réussie");
                 }
                 $referenceTransaction = $othersInfos['referenceTransaction'];
                 $pendingTransac->etat = 'validé';

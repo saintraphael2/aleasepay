@@ -327,9 +327,11 @@ public function paiement( Request $request ) {
                 ] );
                 // Joindre le PDF sans l'enregistrer sur le disque
                 });
-                    Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.');
+                    // Flash::success($response['body']['message'] . ' . Un email de notification vous sera envoyé.');
+
+                    Flash::success('Opération réussie' . ' . Un email de notification vous sera envoyé.');
                 } else {
-                    Flash::success($response['body']['message']);
+                    Flash::success("Opération réussie");
                 }
                 $referenceTransaction = $othersInfos['referenceTransaction'];
                 return $this->rappelSearch($numEmp);
