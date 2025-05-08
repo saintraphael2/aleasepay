@@ -1,15 +1,15 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-9">
-                <h4>Mouvements du compte {{$compte}} -- {{$deb->format('d-m-Y')}} au {{$fin->format('d-m-Y')}}</h4>
+                <h4>Mouvements du compte <?php echo e($compte); ?> -- <?php echo e($deb->format('d-m-Y')); ?> au <?php echo e($fin->format('d-m-Y')); ?></h4>
             </div>
             <div class="col-sm-3">
                 <a class="btn btn-primary float-right"
-                    href="{{ route('releve',[$compte,$deb->format('Y-m-d'),$fin->format('Y-m-d')]) }}" target="_blank">
+                    href="<?php echo e(route('releve',[$compte,$deb->format('Y-m-d'),$fin->format('Y-m-d')])); ?>" target="_blank">
                     Export PDF
                 </a>
             </div>
@@ -17,33 +17,38 @@
     </div>
 </section>
 <div class="content px-3">
-    @include('flash::message')
+    <?php echo $__env->make('flash::message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="clearfix"></div>
     <div class="card" style="padding: 15px;">
 
         <div class="row input-daterange">
 
             <div class="form-group col-sm-3">
-                {!! Form::label('compte', 'Comptes :') !!}
+                <?php echo Form::label('compte', 'Comptes :'); ?>
+
                 <select name="compte" id="compte" class='form-control'>
-                    @foreach($comptes as $compte)
-                    <option value="{{$compte->id}}">{{$compte->compte}}</option>
-                    @endforeach
+                    <?php $__currentLoopData = $comptes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $compte): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($compte->id); ?>"><?php echo e($compte->compte); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
 
                 <span class="text-danger font-size-xsmall error_date_debut"></span>
             </div>
             <!-- Date Signature Field -->
             <div class="form-group col-sm-3">
-                {!! Form::label('date_debut', 'Date début (jj-mm-aaaa) :') !!}
-                {!! Form::text('date_debut', null, ['class' => 'form-control','id'=>'date_debut']) !!}
+                <?php echo Form::label('date_debut', 'Date début (jj-mm-aaaa) :'); ?>
+
+                <?php echo Form::text('date_debut', null, ['class' => 'form-control','id'=>'date_debut']); ?>
+
                 <span class="text-danger font-size-xsmall error_date_debut"></span>
             </div>
 
             <!-- Date Debut Field -->
             <div class="form-group col-sm-3">
-                {!! Form::label('date_fin', 'Date fin (jj-mm-aaaa) :') !!}
-                {!! Form::text('date_fin', null, ['class' => 'form-control','id'=>'date_fin']) !!}
+                <?php echo Form::label('date_fin', 'Date fin (jj-mm-aaaa) :'); ?>
+
+                <?php echo Form::text('date_fin', null, ['class' => 'form-control','id'=>'date_fin']); ?>
+
                 <span class="text-danger font-size-xsmall error_date_fin"></span>
             </div>
 
@@ -65,56 +70,60 @@
                 <th>Crédit</th>
             </tr>
             <tr>
-                <td>{{$deb->format('d-m-Y')}}</td>
+                <td><?php echo e($deb->format('d-m-Y')); ?></td>
                 <td>Solde initial</td>
                 <td style="text-align:right;">
-                    @if($soldedeb<=0) {{  number_format($soldedeb, 0,"", " ")   }} @endif </td>
-                <td style="text-align:right;"> @if($soldedeb>0)
-                    {{  number_format($soldedeb, 0,"", " ")   }}
-                    @endif</td>
+                    <?php if($soldedeb<=0): ?> <?php echo e(number_format($soldedeb, 0,"", " ")); ?> <?php endif; ?> </td>
+                <td style="text-align:right;"> <?php if($soldedeb>0): ?>
+                    <?php echo e(number_format($soldedeb, 0,"", " ")); ?>
+
+                    <?php endif; ?></td>
             </tr>
            <?php 
             $compteur=0;
            // var_dump($mouvements[0]);exit;
            ?>
-            @foreach($mouvements as $mouvement)
+            <?php $__currentLoopData = $mouvements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mouvement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <?php
 //var_dump($mouvement );exit;
             ?>
             <tr>
-                <td>{{\Carbon\Carbon::parse($mouvement["lot_DATE"])->format('d-m-Y')}}</td>
-                <td>{{$mouvement["ecrcpt_LIBELLE"] }} {{$mouvement["ecrcpt_LIBCOMP"]}}</td>
+                <td><?php echo e(\Carbon\Carbon::parse($mouvement["lot_DATE"])->format('d-m-Y')); ?></td>
+                <td><?php echo e($mouvement["ecrcpt_LIBELLE"]); ?> <?php echo e($mouvement["ecrcpt_LIBCOMP"]); ?></td>
                 <td style="text-align:right">
-                    @if($mouvement["ecrcpt_SENS"]=='D')
-                    {{number_format($mouvement["ecrcpt_MONTANT"], 0,"", " ") }}
-                    @endif
+                    <?php if($mouvement["ecrcpt_SENS"]=='D'): ?>
+                    <?php echo e(number_format($mouvement["ecrcpt_MONTANT"], 0,"", " ")); ?>
+
+                    <?php endif; ?>
                 </td>
                 <td style="text-align:right">
 
-                    @if($mouvement["ecrcpt_SENS"]=='C')
-                    {{number_format($mouvement["ecrcpt_MONTANT"], 0,"", " ") }}
-                    @endif
+                    <?php if($mouvement["ecrcpt_SENS"]=='C'): ?>
+                    <?php echo e(number_format($mouvement["ecrcpt_MONTANT"], 0,"", " ")); ?>
+
+                    <?php endif; ?>
                 </td>
             </tr>
             <?php
             $compteur++;
             ?>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <tr>
-                <td>{{$fin->format('d-m-Y')}}</td>
+                <td><?php echo e($fin->format('d-m-Y')); ?></td>
                 <td >Solde Final</td>
                 <td style="text-align:right;">
-                    @if($soldefin<=0) {{  number_format($soldefin, 0,"", " ")   }} @endif </td>
-                <td style="text-align:right;"> @if($soldefin>0)
-                    {{  number_format($soldefin, 0,"", " ")   }}
-                    @endif</td>
+                    <?php if($soldefin<=0): ?> <?php echo e(number_format($soldefin, 0,"", " ")); ?> <?php endif; ?> </td>
+                <td style="text-align:right;"> <?php if($soldefin>0): ?>
+                    <?php echo e(number_format($soldefin, 0,"", " ")); ?>
+
+                    <?php endif; ?></td>
             </tr>
         </table>
     </div>
 </div>
 
-@endsection
-@push('page_scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('page_scripts'); ?>
 <script>
 $('#date_debut').datepicker({
     minDate: -90,
@@ -172,4 +181,5 @@ var getUrlParameter = function getUrlParameter(sParam) {
     return false;
 };
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Projet_dev\Laravel\aleasepay\resources\views/mouvements/index.blade.php ENDPATH**/ ?>

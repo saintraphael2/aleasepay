@@ -50,7 +50,19 @@ class MouvementController extends AppBaseController
         }
       
         $compte=($request->compte !== null)?$request->compte:$comptes[0]->compte;
-        $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
+        //$mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
+      // $mouvements= Http::post('http://localhost:8082/api/myalt_v1/mouvements', [
+            $mouvements= Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/mouvements', [   
+            'compte' => $compte,
+            'date_deb' => $deb->format('d/m/Y'),
+            'date_fin' => $fin->format('d/m/Y'),
+            
+        ]); 
+        
+       // $array = json_decode($res->getBody(), true);
+       // dd(json_decode($mouvements->getBody(), true));
+      //  echo "<pre>";
+       // var_dump($mouvements[0]);exit;
         //$soldedeb = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
         
         $soldedeb = Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/soldeDate', [
@@ -68,7 +80,7 @@ class MouvementController extends AppBaseController
         ]); 
        // echo'<pre>';
     #dd($soldedeb);exit;
-        return view('mouvements.index')->with(['mouvements'=>$mouvements,'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes,
+        return view('mouvements.index')->with(['mouvements'=>json_decode($mouvements->getBody(), true),'deb'=>$deb,'fin'=>$fin,'comptes'=>$comptes,
         'compte'=> $compte,'soldedeb'=>($soldedeb!=null)?$soldedeb['solde']:0,'soldefin'=>($soldefin!=null)?$soldefin['solde']:0]);
     }else{
         Auth::logout();
@@ -95,8 +107,16 @@ class MouvementController extends AppBaseController
         ]);//var_dump($soldedeb['solde']);exit;
        // $soldedeb =$soldedeb['solde'];
        $comptes=Compte::where('compte',$compte)->first();
-        $mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
-       /* $data=['mouvements'=>$mouvements,'compte'=>$compte,'deb' => Carbon::parse($deb)->format('d-m-Y'),'fin'=>Carbon::parse($fin)->format('d-m-Y')];
+        //$mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
+        $mouvements= Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/mouvements', [   
+           // $mouvements= Http::post('http://localhost:8082/api/myalt_v1/mouvements', [
+            'compte' => $compte,
+            'date_deb' => $deb->format('d/m/Y'),
+            'date_fin' => $fin->format('d/m/Y')
+            
+        ]); 
+        $mouvements=json_decode($mouvements->getBody(), true);
+        /* $data=['mouvements'=>$mouvements,'compte'=>$compte,'deb' => Carbon::parse($deb)->format('d-m-Y'),'fin'=>Carbon::parse($fin)->format('d-m-Y')];
         $pdf= PDF::loadView('mouvements.releve',$data);
         return $pdf->download('releve.pdf');*/
          $fpdf= new Fpdf();
@@ -121,19 +141,19 @@ class MouvementController extends AppBaseController
     $total_debit=0;
     $total_credit=0;
     foreach($mouvements as $mouvement){
-        $solde=($mouvement->ECRCPT_SENS=='D')? ($solde-$mouvement->ECRCPT_MONTANT) :($solde+$mouvement->ECRCPT_MONTANT) ;
-        $total_debit=($mouvement->ECRCPT_SENS=='D')? ($total_debit+$mouvement->ECRCPT_MONTANT) :($total_debit+0);
-        $total_credit=($mouvement->ECRCPT_SENS=='C')? ($total_credit+$mouvement->ECRCPT_MONTANT) :($total_credit+0);;
+        $solde=($mouvement["ecrcpt_SENS"]=='D')? ($solde-$mouvement["ecrcpt_MONTANT"]) :($solde+$mouvement["ecrcpt_MONTANT"]) ;
+        $total_debit=($mouvement["ecrcpt_SENS"]=='D')? ($total_debit+$mouvement["ecrcpt_MONTANT"]) :($total_debit+0);
+        $total_credit=($mouvement["ecrcpt_SENS"]=='C')? ($total_credit+$mouvement["ecrcpt_MONTANT"]) :($total_credit+0);;
         $fpdf->SetXY(10,$y);
         $fpdf->Line(10,$y,10,$y+5);
         $fpdf->Line(200,$y,200,$y+5);
         $fpdf->Line(30,$y,30,$y+5);
         $fpdf->Line(100,$y,100,$y+5);
         $fpdf->Line(150,$y,150,$y+5);
-        $fpdf->Cell(20, 5, $mouvement->LOT_DATE->format('d-m-Y'),0,0,'C',false);
-        $fpdf->Cell(70, 5, utf8_decode($mouvement->ECRCPT_LIBELLE),0,0,'L',false);
-        $fpdf->Cell(25, 5, ($mouvement->ECRCPT_SENS=='D')? number_format($mouvement->ECRCPT_MONTANT, 0,"", " ") :'',0,0,'R',false);
-        $fpdf->Cell(25, 5, ($mouvement->ECRCPT_SENS=='C')? number_format($mouvement->ECRCPT_MONTANT, 0,"", " ") :'',0,0,'R',false);
+        $fpdf->Cell(20, 5, \Carbon\Carbon::parse($mouvement["lot_DATE"])->format('d-m-Y'),0,0,'C',false);
+        $fpdf->Cell(70, 5, utf8_decode($mouvement["ecrcpt_LIBELLE"]),0,0,'L',false);
+        $fpdf->Cell(25, 5, ($mouvement["ecrcpt_SENS"]=='D')? number_format($mouvement["ecrcpt_MONTANT"], 0,"", " ") :'',0,0,'R',false);
+        $fpdf->Cell(25, 5, ($mouvement["ecrcpt_SENS"]=='C')? number_format($mouvement["ecrcpt_MONTANT"], 0,"", " ") :'',0,0,'R',false);
         
         $fpdf->Cell(25, 5,( $solde<=0)? number_format($solde, 0,"", " "):'',0,0,'C',false);
         $fpdf->Cell(25, 5, ( $solde>0)? number_format($solde, 0,"", " "):'',0,1,'C',false);
