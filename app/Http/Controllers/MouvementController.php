@@ -111,8 +111,8 @@ class MouvementController extends AppBaseController
         $mouvements= Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/mouvements', [   
            // $mouvements= Http::post('http://localhost:8082/api/myalt_v1/mouvements', [
             'compte' => $compte,
-            'date_deb' => $deb->format('d/m/Y'),
-            'date_fin' => $fin->format('d/m/Y')
+            'date_deb' => Carbon::parse($deb)->format('d/m/Y'),
+            'date_fin' => Carbon::parse($fin)->format('d/m/Y')
             
         ]); 
         $mouvements=json_decode($mouvements->getBody(), true);
