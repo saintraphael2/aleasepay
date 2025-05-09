@@ -925,7 +925,7 @@ public function paiement( Request $request ) {
             if (!$cptClient) {
                 return redirect()->back()->withErrors('Aucun compte client trouvé.');
             }
-            $comptes=Compte::where('racine',$cptClient->racine)->get();
+             $comptes=Compte::where('racine',$cptClient->racine)->orderBy('compte')->get();
             #dd($comptes);
             $transactions=[];
             try {
@@ -1087,7 +1087,7 @@ public function paiement( Request $request ) {
             $mail=Auth::user()->email;
             $racine=Auth::user()->racine;
             $cptClient=CptClient::where('racine',$racine)->first();
-            $comptes=Compte::where('racine',$cptClient->racine)->get();
+             $comptes=Compte::where('racine',$cptClient->racine)->orderBy('compte')->get();
             #dd($comptes);
             $types = $this->getTypeOperation();
             return view( 'transactions.index',compact('comptes', 'transactions','types')) ;

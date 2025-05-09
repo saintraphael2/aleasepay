@@ -19,12 +19,14 @@
             </div>
 
             <div class="mb-3">
+            @if(is_array($types))
                 <label for="reference" class="form-label">Type de bordereau</label>
                 <select name="code" id="code" class='form-control'>
                         @foreach($types as $type)
                         <option value="{{$type['code']}}">{{$type['libelle']}}</option>
                         @endforeach
                     </select>
+            @endif
             </div>
             <div class="mb-3">
                 <label for="quantite" class="form-label">Quantité</label>

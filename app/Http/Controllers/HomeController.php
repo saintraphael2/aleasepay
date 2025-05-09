@@ -41,7 +41,7 @@ class HomeController extends Controller
             $mail=Auth::user()->email;
             $racine=Auth::user()->racine;
             $cptClient=CptClient::where('racine',$racine)->first();
-            $comptes=Compte::where('racine',$cptClient->racine)->get();
+            $comptes=Compte::where('racine',$cptClient->racine)->orderBy('compte')->get();
             return view('home')->with('cptClients',$comptes);
         }else{
             Auth::logout();

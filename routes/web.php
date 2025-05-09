@@ -67,7 +67,7 @@ Route::get('/bordereau/showCommand', [App\Http\Controllers\MyBordereauController
 Route::post('/bordereau/command', [App\Http\Controllers\MyBordereauController::class, 'docommand'])->name('commandeBordereau.docommand');
 Route::post('/bordereau/checklist', [App\Http\Controllers\MyBordereauController::class, 'filter'])->name('commandeBordereau.filter');
 Route::post('/bordereau/filterfirst', [App\Http\Controllers\MyBordereauController::class, 'filterfirst'])->name('commandeBordereau.filterfirst');
-
+Route::get('/autocomp-matricule', [App\Http\Controllers\MyBordereauController::class, 'getCompteLibelle'])->name('bordereau.getCompteLibelle');
 
 
 Route::get('/pending/index', [App\Http\Controllers\TransactionPendingController::class,'listing'])->name('pending.index');

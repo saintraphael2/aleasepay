@@ -26,7 +26,7 @@ class MyBordereauController extends AppBaseController
     private $typeBordereauRepository;
 
     public function __construct( Type_bordereauRepository $typeBordereauRepo )
- {
+    {
         $this->typeBordereauRepository = $typeBordereauRepo;
     }
 
@@ -52,7 +52,27 @@ class MyBordereauController extends AppBaseController
         return $token;
     }
 
-    private function getTypeBordereaux() {
+
+    public function getCompteLibelle(Request $request)
+{
+    
+    $compte = $request->input('compte');
+    $compted = Compte::where('compte', $compte)->first();
+    Log::info($compted); 
+
+    if ($compted) {
+        //$data = $responseTypeBordereau->json();
+        return response()->json([
+            'id' => $compted->id,
+            'intitule' => $compted->intitule,
+            'racine' => $compted->racine,
+        ]);
+    }
+
+    return response()->json([], 404);
+}
+
+ private function getTypeBordereaux() {
         $dotenv = Dotenv::createImmutable( base_path() );
         $dotenv->load();
 
@@ -102,21 +122,71 @@ class MyBordereauController extends AppBaseController
         return null;
     }
 
+
+/*
+    private function getTypeBordereaux() {
+        $dotenv = Dotenv::createImmutable(base_path());
+        $dotenv->load();
+    
+        $baseUrl = env('API_TAX_BASE_URL', 'base_url');
+        $typeBordereauEndPoint = env('BORDEREAU_API_GET_TYPE_BORDEREAU', 'api_get_typebordereau');
+        $urlTypeBordereau = $baseUrl . $typeBordereauEndPoint;
+    
+        try {
+            $token = $this->getToken();
+        } catch (\Exception $e) {
+            if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            } else {
+                $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
+            }
+            return redirect()->back()->withErrors($message);
+        }
+    
+        try {
+            if ($token != null) {
+                $responseTypeBordereau = Http::withHeaders([
+                    'Authorization' => "Bearer {$token}",
+                ])->get($urlTypeBordereau);
+            } else {
+                \Log::error('Token null pour la requête des types de bordereaux.');
+                return null;
+            }
+    
+            if ($responseTypeBordereau->successful()) {
+                $data = $responseTypeBordereau->json();
+                if (isset($data['body'])) {
+                    return $data['body'];
+                }
+            }
+    
+            \Log::warning('Réponse inattendue du service des types de bordereaux.');
+            return null;
+    
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de l\'appel à l\'API des types de bordereaux : ' . $e->getMessage());
+            return null;
+        }
+    }
+    */
+
     /**
     * Display a listing of the Type_bordereau.
     */
-
     public function index() {
         if ( Auth::user() != null ) {
             $mail = Auth::user()->email;
             $racine = Auth::user()->racine;
             $cptClient = CptClient::where( 'racine', $racine )->first();
-            $comptes = Compte::where( 'racine', $cptClient->racine )->get();
+            $comptes = Compte::where( 'racine', $cptClient->racine )->orderBy('compte')->get();
             #dd( $comptes );
             $dateCommande =  Carbon::now()->format( 'Y-m-d' );
             $bordereaux = [];
             try {
                 $types = $this->getTypeBordereaux();
+                if ($types === null) {
+                    return  redirect()->back()->withErrors('Service indisponible');
+                }
                 return view( 'commandeBordereau.index', compact( 'comptes', 'bordereaux', 'types', 'dateCommande' ) ) ;
             } catch ( \Exception $e ) {
                 if ( $e->getCode() === 0 || explode( ':', $e->getMessage() )[ 0 ] === 'cURL error 7' ) {
@@ -187,7 +257,9 @@ class MyBordereauController extends AppBaseController
        
         $datec = Carbon::parse( $dateCommande )->format( 'd/m/Y' );
         $email=  Auth::user()->email;
-        $initiateur_name=  Auth::user()->name;
+
+        $compteFind=Compte::where('compte',$compte)->first();
+        $initiateur_name=  $compteFind->intitule;
 
         session( [
             'dateCommande' => $datec,

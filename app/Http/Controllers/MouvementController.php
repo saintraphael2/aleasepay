@@ -37,7 +37,7 @@ class MouvementController extends AppBaseController
         $mail=Auth::user()->email;
         $racine=Auth::user()->racine;
         $cptClient=CptClient::where('racine',$racine)->first();
-        $comptes=Compte::where('racine',$cptClient->racine)->get();
+         $comptes=Compte::where('racine',$cptClient->racine)->orderBy('compte')->get();
         //dd($comptes);
         if($request->deb == null){
              $fin= Carbon::now();

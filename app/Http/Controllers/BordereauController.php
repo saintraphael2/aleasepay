@@ -49,8 +49,7 @@ class BordereauController extends AppBaseController
     /**
      * Store a newly created Bordereau in storage.
      */
-    public function store(CreateBordereauRequest $request)
-    {
+    public function store(CreateBordereauRequest $request){
         $input = $request->all();
 
         $bordereau = $this->bordereauRepository->create($input);

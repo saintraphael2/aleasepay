@@ -45,6 +45,12 @@
                     </select>
                     <span class="text-danger font-size-xsmall error_date_debut"></span>
                 </div>
+                    <div class="form-group col-sm-3">
+                    <?php echo Form::label('libelle', 'Libellé du compte :'); ?>
+
+                    <input type="text" id="libelleCompte" class="form-control" readonly>
+                            </div>      
+                <?php if(is_array($types)): ?>
                 <div class="form-group col-sm-2">
                     <?php echo Form::label('type', 'Types :'); ?>
 
@@ -54,23 +60,24 @@
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
+                <?php endif; ?>
                 <!-- Date Signature Field -->
-                <div class="form-group col-sm-3">
-                    <?php echo Form::label('date_debut', 'Date début (jj-mm-aaaa) :'); ?>
+                <div class="form-group col-sm-2">
+                    <?php echo Form::label('date_debut', 'Date début :'); ?>
 
                     <?php echo Form::text('date_debut', null, ['class' => 'form-control','id'=>'date_debut']); ?>
 
                     <span class="text-danger font-size-xsmall error_date_debut"></span>
                 </div>
                 <!-- Date Debut Field -->
-                <div class="form-group col-sm-3">
-                    <?php echo Form::label('date_fin', 'Date fin (jj-mm-aaaa) :'); ?>
+                <div class="form-group col-sm-2">
+                    <?php echo Form::label('date_fin', 'Date fin  :'); ?>
 
                     <?php echo Form::text('date_fin', null, ['class' => 'form-control','id'=>'date_fin']); ?>
 
                     <span class="text-danger font-size-xsmall error_date_fin"></span>
                 </div>
-                <div class="form-group col-sm-2" style="margin-top: 2rem;">
+                <div class="form-group col-sm-1" style="margin-top: 2rem;">
                     <button type="submit" id="bordereauformSubmit" class="btn btn-primary btnSubmit">Filtrer</button>
                 </div>
             </div>
@@ -99,12 +106,14 @@
                         </div>
 
                         <div class="mb-3">
+                        <?php if(is_array($types)): ?>
                             <label for="code" class="form-label">Type de bordereau</label>
                             <select name="code" id="code" class='form-control' required>
                                 <?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <option value="<?php echo e($type['code']); ?>"><?php echo e($type['libelle']); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
+                        <?php endif; ?>
                         </div>
                         <div class="mb-3">
                             <label for="quantite" class="form-label">Quantité</label>
@@ -119,10 +128,15 @@
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <?php echo Form::label('libelle', 'Libellé du compte :'); ?>
+
+                            <input type="text" id="libelleCompteModal" class="form-control" readonly>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="closeForModalCmpte">Close</button>
+                    <button type="button" class="btn btn-secondary" id="closeForModalCmpte">Fermer</button>
                     <button type="button" class="btn btn-primary" onclick="commander()"
                         id="secondBtnValidation">Valider</button>
                 </div>
@@ -149,7 +163,33 @@ $('#date_fin').datepicker({
     defaultDate: today
 }).datepicker("setDate", today);
 
-
+$(document).ready(function () {
+    $('#compte').on('change', function () {
+        var compte = $(this).val();
+        if (compte) {
+            $.ajax({
+                url:"<?php echo e(route('bordereau.getCompteLibelle')); ?>",
+                method: 'GET',
+                data: { compte: compte },
+                success: function (data) {
+                    console.log("DATA " + data);
+                    if (data && data.intitule) {
+                       // console.log("Transaction récupérée :", response);
+                      
+                        $('#libelleCompte').val(data.intitule);
+                    } else {
+                        $('#libelleCompte').val('Libellé non trouvé');
+                    }
+                },
+                error: function () {
+                    $('#libelleCompte').val('Erreur serveur');
+                }
+            });
+        } else {
+            $('#libelleCompte').val('');
+        }
+    });
+});
 function showLoadingOverlay() {
     const loading = document.querySelector('#loading');
     const loadingContent = document.querySelector('#loading-content');
@@ -234,7 +274,31 @@ modalForCompte.addEventListener('show.bs.modal', function(event) {
     //modalTitle.textContent = 'New message to ' + recipient
     //modalBodyInput.value = recipient
 
-
+    $('#compteModal').on('change', function () {
+        var compte = $(this).val();
+        if (compte) {
+            $.ajax({
+                url:"<?php echo e(route('bordereau.getCompteLibelle')); ?>",
+                method: 'GET',
+                data: { compte: compte },
+                success: function (data) {
+                    console.log("DATA " + data);
+                    if (data && data.intitule) {
+                       // console.log("Transaction récupérée :", response);
+                      
+                        $('#libelleCompteModal').val(data.intitule);
+                    } else {
+                        $('#libelleCompteModal').val('Libellé non trouvé');
+                    }
+                },
+                error: function () {
+                    $('#libelleCompteModal').val('Erreur serveur');
+                }
+            });
+        } else {
+            $('#libelleCompteModal').val('');
+        }
+    });
 
 
 });
@@ -247,6 +311,8 @@ document.getElementById("closeForModalCmpte").addEventListener("click", function
     document.getElementById("quantite").value = "";
     document.getElementById("code").value = "";
     document.getElementById("compteModal").value = "";
+
+    document.getElementById("libelleCompteModal").value = "";
 
     const modalInstance = bootstrap.Modal.getInstance(modalElement);
     if (modalInstance) {
@@ -320,7 +386,7 @@ function filter() {
                     etat = "En attente";
                 } else if (bordereau.etat == "1") {
                     etat = "Validé";
-                } else if (bordereau.status == "2") {
+                } else if (bordereau.etat == "2") {
                     etat = "Commandé";
                 }
                 let row = `

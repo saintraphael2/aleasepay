@@ -78,7 +78,7 @@ class CptClientController extends AppBaseController
         $mail=Auth::user()->email;
         $racine=Auth::user()->racine;
         $cptClient=CptClient::where('racine',$racine)->first();
-        $comptes=Compte::where('racine',$cptClient->racine)->get();
+         $comptes=Compte::where('racine',$cptClient->racine)->orderBy('compte')->get();
         //$cptClient = $this->cptClientRepository->find($id);
 
         if (empty($cptClient)) {
