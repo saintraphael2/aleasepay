@@ -1,6 +1,6 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     
     <br><br>
@@ -11,9 +11,9 @@
                     <div class="inner" style='font-size:14px; min-height:175px'>
                         <h3>Compte 1</h3>
                         <p></p><br>
-                        Intitulé: <b>{{$cptClients[0]->intitule}}</b> <br>
-                        N&deg; de compte: <b>{{$cptClients[0]->compte}}</b> <br>
-                        Solde: <b>{{number_format($cptClients[0]->solde, 0,"", " ")}}</b> <br>
+                        Intitulé: <b><?php echo e($cptClients[0]->intitule); ?></b> <br>
+                        N&deg; de compte: <b><?php echo e($cptClients[0]->compte); ?></b> <br>
+                        Solde: <b><?php echo e(number_format($cptClients[0]->solde, 0,"", " ")); ?></b> <br>
                     </div>
                     <div class="icon">
                         <i class="fas fa fa-wallet"></i>
@@ -28,13 +28,13 @@
                     <div class="inner" style='font-size:14px; min-height:175px'>
                         <h3> Compte 2</h3>
                         <p></p><br>
-                        @if(isset($cptClients[1]))
-                        Intitulé: <b>{{$cptClients[1]->intitule}}</b> <br>
-                        N&deg; de compte: <b>{{$cptClients[1]->compte}}</b> <br>
-                        Solde: <b>{{number_format($cptClients[1]->solde, 0,"", " ")}}</b> <br>
-                        @else
+                        <?php if(isset($cptClients[1])): ?>
+                        Intitulé: <b><?php echo e($cptClients[1]->intitule); ?></b> <br>
+                        N&deg; de compte: <b><?php echo e($cptClients[1]->compte); ?></b> <br>
+                        Solde: <b><?php echo e(number_format($cptClients[1]->solde, 0,"", " ")); ?></b> <br>
+                        <?php else: ?>
                         <br><br><br>
-                        @endif
+                        <?php endif; ?>
                     </div>
                     <div class="icon">
                         <i class="fas fa fa-wallet"></i>
@@ -49,13 +49,13 @@
                     <div class="inner" style='font-size:14px; min-height:175px'>
                         <h3> Compte 3</h3>
                         <p></p><br>
-                        @if(isset($cptClients[2]))
-                        Intitulé: <b>{{$cptClients[2]->intitule}}</b> <br>
-                        N&deg; de compte: <b>{{$cptClients[2]->compte}}</b> <br>
-                        Solde: <b>{{number_format($cptClients[2]->solde, 0,"", " ")}}</b> <br>
-                        @else
+                        <?php if(isset($cptClients[2])): ?>
+                        Intitulé: <b><?php echo e($cptClients[2]->intitule); ?></b> <br>
+                        N&deg; de compte: <b><?php echo e($cptClients[2]->compte); ?></b> <br>
+                        Solde: <b><?php echo e(number_format($cptClients[2]->solde, 0,"", " ")); ?></b> <br>
+                        <?php else: ?>
                         <br><br><br>
-                        @endif
+                        <?php endif; ?>
                     </div>
                     <div class="icon">
                         <i class="fas fa fa-wallet"></i>
@@ -70,13 +70,13 @@
                     <div class="inner" style='font-size:14px; min-height:175px'>
                         <h3> Compte 4</h3>
                         <p></p><br>
-                        @if(isset($cptClients[3]))
-                        Intitulé: <b>{{$cptClients[3]->intitule}}</b> <br>
-                        N&deg; de compte: <b>{{$cptClients[3]->compte}}</b> <br>
-                        Solde: <b>{{number_format($cptClients[3]->solde, 0,"", " ")}}</b> <br>
-                        @else
+                        <?php if(isset($cptClients[3])): ?>
+                        Intitulé: <b><?php echo e($cptClients[3]->intitule); ?></b> <br>
+                        N&deg; de compte: <b><?php echo e($cptClients[3]->compte); ?></b> <br>
+                        Solde: <b><?php echo e(number_format($cptClients[3]->solde, 0,"", " ")); ?></b> <br>
+                        <?php else: ?>
                         <br><br><br>
-                        @endif
+                        <?php endif; ?>
                     </div>
                     <div class="icon">
                         <i class="fas fa fa-wallet"></i>
@@ -93,4 +93,5 @@
     </div>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Projet_dev\Laravel\aleasepay\resources\views/home.blade.php ENDPATH**/ ?>
