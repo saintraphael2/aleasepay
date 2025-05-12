@@ -367,6 +367,7 @@ function filter() {
             //$("#reference_declaration").val(response.refDecla);
             //$("#reference").val(response.referenceTransaction);
             //alert(response.etat);
+      if (response != null && Array.isArray(response.bordereaux)) {
 
             response.bordereaux.forEach(bordereau => {
                 //  alert(bordereau.etat);
@@ -389,7 +390,7 @@ function filter() {
             </tr>`;
                 $("#bordereauxTable tbody").append(row);
             });
-
+}
             hideLoading();
         },
         error: function(xhr) {
