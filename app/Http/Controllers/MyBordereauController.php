@@ -264,11 +264,13 @@ class MyBordereauController extends AppBaseController
         session( [
             'dateCommande' => $datec,
         ] );
+        $compted = Compte::where('compte', $compte)->first();
         $data = [
             'dateCommande' => $datec,
             'code' =>$code,
             'quantite' => $quantite,
             'compte' => $compte,
+            'compteLabel' =>  $compted->intitule,
             'initiateur'=> $initiateur_name,
             'initiateur_email'=> $email
         ];
@@ -276,7 +278,7 @@ class MyBordereauController extends AppBaseController
         $baseUrl = env( 'API_TAX_BASE_URL', 'base_url' );
         $commandEndpoint = env( 'BORDEREAU_API_POST_BORDEREAU', 'api_post_commandeBordereau' );
         $urlCommand = $baseUrl . $commandEndpoint;
-
+       
 
         $mail_diffusion = env( 'BORDERAU_DIFFUSION_MAILADDRESS', 'mail_diffusion' );
         // Authentification pour récupérer le token

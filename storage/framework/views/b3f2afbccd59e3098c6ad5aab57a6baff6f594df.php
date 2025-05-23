@@ -39,6 +39,7 @@
                     <?php echo Form::label('compte', 'Comptes :'); ?>
 
                     <select name="compte" id="compte" class='form-control'>
+                        <!--option value="">Selectionnez votre compte</option-->
                         <?php $__currentLoopData = $comptes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $compte): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($compte->compte); ?>"><?php echo e($compte->compte); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -55,6 +56,7 @@
                     <?php echo Form::label('type', 'Types :'); ?>
 
                     <select name="typebordereau" id="type" class='form-control'>
+                        <!--option value="">Selectionnez</option-->
                         <?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($type['code']); ?>"><?php echo e($type['libelle']); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -393,6 +395,7 @@ function filter() {
                 let row = `
             <tr class="bordereau-row" >
                 <td>${bordereau.compte}</td>
+                <td>${bordereau.compteLabel}</td>
                 <td>${bordereau.libelleBordereau}</td>
                 <td>${bordereau.dateCommande}</td>
                 <td>${bordereau.quantite}</td>

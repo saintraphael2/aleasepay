@@ -82,8 +82,8 @@ class CotisationCNSSController extends Controller {
 
     public function showForm( $reference, $numero_employeur ) {
 
-        if (PendingTransaction::where('reference',  $reference)
-        ->where('etat', 'en_attente') ->exists()) {
+        if ( PendingTransaction::where( 'reference',  $reference )
+        ->where( 'etat', 'en_attente' ) ->exists() ) {
             return redirect()->back()->withErrors( 'Ce paiement est déjà en cours de traitement, en attente de validation.' );
         }
         // Recherche des informations basées sur la référence
@@ -225,6 +225,10 @@ public function paiement( Request $request ) {
     // Nettoyer le champ 'amount' pour extraire uniquement le montant numérique
     $validated[ 'amount' ] = ( float ) str_replace( ' ', '', preg_replace( '/[^0-9]/', '', $validated[ 'amount' ] ) );
     $transactionDate = now()->format( 'Y-m-d H:i:s' );
+
+    $compted = Compte::where( 'compte', $validated[ 'comptealt' ] )->first();
+
+
     if ( Auth::user() != null ) {
         $mail = Auth::user()->email;
     }
@@ -242,6 +246,7 @@ public function paiement( Request $request ) {
             'requester' => $validated['requester'],
             'numeroEmployeur' => $validated['numero_employeur'],
             'comptealt' => $validated['comptealt'],
+            'comptelabel' => $compted->intitule,
             'email' => $mail,
         ];
 

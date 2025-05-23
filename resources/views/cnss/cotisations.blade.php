@@ -43,8 +43,5 @@
         @include('cnss.table')
     </div>
 </div>
-<script>
 
-
-</script>
 @endsection

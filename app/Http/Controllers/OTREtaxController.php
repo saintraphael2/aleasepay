@@ -172,6 +172,7 @@ class OTREtaxController extends Controller
             'comptealt' => 'required|string',
         ]);
         $validated['montant'] = (float) str_replace(' ', '', preg_replace('/[^0-9]/', '', $validated['montant']));
+        $compted = Compte::where( 'compte', $validated[ 'comptealt' ] )->first();
 
         if (Auth::user() != null) {
             $mail = Auth::user()->email;
@@ -184,6 +185,7 @@ class OTREtaxController extends Controller
             'contribuable' => $validated['contribuable'],
             'nif' => $validated['nif'],
             'comptealt' => $validated['comptealt'],
+            'comptelabel' => $compted->intitule,
             'email' =>  $mail,
         ];
        

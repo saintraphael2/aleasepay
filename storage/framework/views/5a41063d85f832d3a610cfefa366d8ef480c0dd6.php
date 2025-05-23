@@ -59,7 +59,10 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
-
+             <!--div class="mb-3">
+                <label for="amount" class="form-label">Libellé du compte</label>
+                 <input type="text" id="libelleCompte" class="form-control" readonly>
+            </div-->
             <button type="submit" class="btn btn-success btnSubmit">Effectuer le Paiement</button>
             <a href="<?php echo e(route('cnss.cotisations.search', ['numero_employeur' => $numero_employeur])); ?>" class="btn btn-danger btnSubmit">
                 Annuler
@@ -67,5 +70,40 @@
         </form>
     </div>
 </div>
+
 <?php $__env->stopSection(); ?>
+
+<!--script>
+<?php $__env->startPush('scripts'); ?>
+$(document).ready(function () {
+    $('#compte').on('change', function () {
+        var compte = $(this).val();
+        if (compte) {
+            $.ajax({
+                url: "<?php echo e(route('bordereau.getCompteLibelle')); ?>",
+                method: 'GET',
+                data: { compte: compte },
+                success: function (data) {
+                    if (data && data.intitule) {
+                        $('#libelleCompte').val(data.intitule);
+                    } else {
+                        $('#libelleCompte').val('Libellé non trouvé');
+                    }
+                },
+                error: function () {
+                    $('#libelleCompte').val('Erreur serveur');
+                }
+            });
+        } else {
+            $('#libelleCompte').val('');
+        }
+    });
+});
+<?php $__env->stopPush(); ?>
+</script-->
+
+
+
+
+
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Projets\aleasepay\resources\views/cnss/form.blade.php ENDPATH**/ ?>

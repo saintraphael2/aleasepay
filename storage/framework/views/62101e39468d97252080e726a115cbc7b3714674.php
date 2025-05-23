@@ -79,24 +79,34 @@
 
                     <?php endif; ?></td>
             </tr>
+           <?php 
+            $compteur=0;
+           // var_dump($mouvements[0]);exit;
+           ?>
             <?php $__currentLoopData = $mouvements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mouvement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php
+//var_dump($mouvement );exit;
+            ?>
             <tr>
-                <td><?php echo e($mouvement->LOT_DATE->format('d-m-Y')); ?></td>
-                <td><?php echo e($mouvement->ECRCPT_LIBELLE); ?> <?php echo e($mouvement->ECRCPT_LIBCOMP); ?></td>
+                <td><?php echo e(\Carbon\Carbon::parse($mouvement["lot_DATE"])->format('d-m-Y')); ?></td>
+                <td><?php echo e($mouvement["ecrcpt_LIBELLE"]); ?> <?php echo e($mouvement["ecrcpt_LIBCOMP"]); ?></td>
                 <td style="text-align:right">
-                    <?php if($mouvement->ECRCPT_SENS=='D'): ?>
-                    <?php echo e(number_format($mouvement->ECRCPT_MONTANT, 0,"", " ")); ?>
+                    <?php if($mouvement["ecrcpt_SENS"]=='D'): ?>
+                    <?php echo e(number_format($mouvement["ecrcpt_MONTANT"], 0,"", " ")); ?>
 
                     <?php endif; ?>
                 </td>
                 <td style="text-align:right">
 
-                    <?php if($mouvement->ECRCPT_SENS=='C'): ?>
-                    <?php echo e(number_format($mouvement->ECRCPT_MONTANT, 0,"", " ")); ?>
+                    <?php if($mouvement["ecrcpt_SENS"]=='C'): ?>
+                    <?php echo e(number_format($mouvement["ecrcpt_MONTANT"], 0,"", " ")); ?>
 
                     <?php endif; ?>
                 </td>
             </tr>
+            <?php
+            $compteur++;
+            ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <tr>
                 <td><?php echo e($fin->format('d-m-Y')); ?></td>

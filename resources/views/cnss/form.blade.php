@@ -58,7 +58,10 @@
                     @endforeach
                 </select>
             </div>
-
+             <!--div class="mb-3">  
+                <label for="amount" class="form-label">Libellé du compte</label>
+                 <input type="text" id="libelleCompte" class="form-control" readonly>
+            </div-->
             <button type="submit" class="btn btn-success btnSubmit">Effectuer le Paiement</button>
             <a href="{{ route('cnss.cotisations.search', ['numero_employeur' => $numero_employeur]) }}" class="btn btn-danger btnSubmit">
                 Annuler
@@ -66,4 +69,38 @@
         </form>
     </div>
 </div>
+
 @endsection
+
+<!--script>
+@push('scripts')
+$(document).ready(function () {
+    $('#compte').on('change', function () {
+        var compte = $(this).val();
+        if (compte) {
+            $.ajax({
+                url: "{{ route('bordereau.getCompteLibelle') }}",
+                method: 'GET',
+                data: { compte: compte },
+                success: function (data) {
+                    if (data && data.intitule) {
+                        $('#libelleCompte').val(data.intitule);
+                    } else {
+                        $('#libelleCompte').val('Libellé non trouvé');
+                    }
+                },
+                error: function () {
+                    $('#libelleCompte').val('Erreur serveur');
+                }
+            });
+        } else {
+            $('#libelleCompte').val('');
+        }
+    });
+});
+@endpush
+</script-->
+
+
+
+

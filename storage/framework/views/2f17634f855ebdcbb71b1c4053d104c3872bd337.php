@@ -44,9 +44,6 @@
         <?php echo $__env->make('cnss.table', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
 </div>
-<script>
 
-
-</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Projets\aleasepay\resources\views/cnss/cotisations.blade.php ENDPATH**/ ?>

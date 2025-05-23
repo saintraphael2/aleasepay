@@ -37,6 +37,7 @@
                 <div class="form-group col-sm-2">
                     {!! Form::label('compte', 'Comptes :') !!}
                     <select name="compte" id="compte" class='form-control'>
+                        <!--option value="">Selectionnez votre compte</option-->
                         @foreach($comptes as $compte)
                         <option value="{{$compte->compte}}">{{$compte->compte}}</option>
                         @endforeach
@@ -51,6 +52,7 @@
                 <div class="form-group col-sm-2">
                     {!! Form::label('type', 'Types :') !!}
                     <select name="typebordereau" id="type" class='form-control'>
+                        <!--option value="">Selectionnez</option-->
                         @foreach($types as $type)
                         <option value="{{$type['code']}}">{{$type['libelle']}}</option>
                         @endforeach
@@ -382,6 +384,7 @@ function filter() {
                 let row = `
             <tr class="bordereau-row" >
                 <td>${bordereau.compte}</td>
+                <td>${bordereau.compteLabel}</td>
                 <td>${bordereau.libelleBordereau}</td>
                 <td>${bordereau.dateCommande}</td>
                 <td>${bordereau.quantite}</td>

@@ -12,6 +12,7 @@
             <thead>
                 <tr>
                     <th>Compte</th>
+                    <th>Compte Libellé</th>
                     <th>Type Bordereau</th>
                     <th>Date de commande</th>
                     <th>Quantité</th>
