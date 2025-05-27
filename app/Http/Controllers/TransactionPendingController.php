@@ -37,7 +37,7 @@ class TransactionPendingController extends Controller {
             $profilEntitie = Profil::where('id',$profilId)->first();
             //dd( $profil->libelle);
             $profil = $profilEntitie->libelle;
-            dd($profil);
+           
             $initiateur="INITATEUR";
             $validateur="VALIDATEUR";
             $autonome="AUTONOME";
