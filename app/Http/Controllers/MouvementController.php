@@ -52,7 +52,7 @@ class MouvementController extends AppBaseController
         $compte=($request->compte !== null)?$request->compte:$comptes[0]->compte;
         //$mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
       // $mouvements= Http::post('http://localhost:8082/api/myalt_v1/mouvements', [
-            $mouvements= Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/mouvements', [   
+            $mouvements= Http::post('http://testwin.aleaseapi.com/api/myalt_v1/mouvements', [   
             'compte' => $compte,
             'date_deb' => $deb->format('d/m/Y'),
             'date_fin' => $fin->format('d/m/Y'),
@@ -65,7 +65,7 @@ class MouvementController extends AppBaseController
        // var_dump($mouvements[0]);exit;
         //$soldedeb = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
         
-        $soldedeb = Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/soldeDate', [
+        $soldedeb = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => $deb->format('d/m/Y'),
             'compte' => $compte,
             
@@ -73,7 +73,7 @@ class MouvementController extends AppBaseController
 
        // $soldefin = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
 
-       $soldefin = Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/soldeDate', [
+       $soldefin = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => $fin->format('d/m/Y'),
             'compte' => $compte,
             
@@ -100,7 +100,7 @@ class MouvementController extends AppBaseController
         ini_set('max_execution_time', 500);
        // $soldedeb = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
 
-        $soldedeb = Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/soldeDate', [
+        $soldedeb = Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
             'dateSolde' => Carbon::parse($deb)->addDays(-1)->format('d/m/Y'),
             'compte' => $compte,
             
@@ -108,7 +108,7 @@ class MouvementController extends AppBaseController
        // $soldedeb =$soldedeb['solde'];
        $comptes=Compte::where('compte',$compte)->first();
         //$mouvements=Mouvement::where('ECRCPT_NUMCPTE', $compte)->whereBetween('LOT_DATE', [$deb,$fin])->orderby('LOT_DATE','asc')->get();
-        $mouvements= Http::post('http://prodwin.aleaseapi.com/api/myalt_v1/mouvements', [   
+        $mouvements= Http::post('http://testwin.aleaseapi.com/api/myalt_v1/mouvements', [   
            // $mouvements= Http::post('http://localhost:8082/api/myalt_v1/mouvements', [
             'compte' => $compte,
             'date_deb' => Carbon::parse($deb)->format('d/m/Y'),

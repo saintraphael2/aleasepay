@@ -162,7 +162,7 @@
                                     </a>
                                 </div>
                                 <div class="col-5">
-                                    <a href="{{ route('register') }}" style="text-decoration: none;" 
+                                    <a style="text-decoration: none;" 
                                     class="text-center disabled-link">
                                         <div class="col-12 iconlogin">
                                             <i class="fas fa fa-plus-circle"></i>

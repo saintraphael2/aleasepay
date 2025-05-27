@@ -166,15 +166,11 @@ $('#date_fin').datepicker({
 }).datepicker("setDate", today);
 
 $(document).ready(function () {
-
-
     $('#compte').on('change', function () {
         var compte = $(this).val();
         initLibelleCompte(compte);
     });
-
     var compterecup = $('#compte').val();
-    alert(compterecup);
     initLibelleCompte(compterecup);
 });
 
