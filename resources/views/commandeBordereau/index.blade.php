@@ -47,7 +47,7 @@
                     <div class="form-group col-sm-3">
                     {!! Form::label('libelle', 'Libellé du compte :') !!}
                     <input type="text" id="libelleCompte" class="form-control" readonly>
-                            </div>      
+                    </div>      
                 @if(is_array($types))
                 <div class="form-group col-sm-2">
                     {!! Form::label('type', 'Types :') !!}
@@ -158,7 +158,14 @@ $('#date_fin').datepicker({
 $(document).ready(function () {
     $('#compte').on('change', function () {
         var compte = $(this).val();
-        if (compte) {
+        initLibelleCompte(compte);
+    });
+    var compterecup = $('#compte').val();
+    initLibelleCompte(compterecup);
+});
+
+function initLibelleCompte (compte){
+    if (compte) {
             $.ajax({
                 url:"{{route('bordereau.getCompteLibelle')}}",
                 method: 'GET',
@@ -180,8 +187,7 @@ $(document).ready(function () {
         } else {
             $('#libelleCompte').val('');
         }
-    });
-});
+}
 function showLoadingOverlay() {
     const loading = document.querySelector('#loading');
     const loadingContent = document.querySelector('#loading-content');
@@ -382,7 +388,7 @@ function filter() {
                     etat = "Commandé";
                 }
                 let row = `
-            <tr class="bordereau-row" >
+            <tr class="bordereau-row">
                 <td>${bordereau.compte}</td>
                 <td>${bordereau.compteLabel}</td>
                 <td>${bordereau.libelleBordereau}</td>
