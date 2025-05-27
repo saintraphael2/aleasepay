@@ -67,9 +67,12 @@
                         value="{{ $etax['nif'] }}" readonly>
                 </div>
                 <div class="mb-3">
-                    <label for="montant" class="form-label">Montant</label>
-                    <input type="text" id="montant" name="montant" class="form-control"
+                    <label for="montant" class="form-label">Montant TTC</label>
+                    <input type="hidden" id="montant" name="montant" class="form-control"
                         value="{{ number_format($etax['montant'], 0, ',', ' ') }} FCFA" readonly>
+                        
+                    <input type="text" id="montantttc" name="montantttc" class="form-control"
+                        value="{{ number_format($etax['montantTTC'], 0, ',', ' ') }} FCFA" readonly>
                 </div>
 
                 <div class="mb-3">

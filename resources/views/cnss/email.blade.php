@@ -74,7 +74,7 @@
                 <li><strong>Date de la Transaction:</strong> {{ $others['transBankDate'] }}</li>
                 <li><strong>Référence Déclaration:</strong> {{ $others['refDecla'] }}</li>
                 <li><strong>Contribuable:</strong> {{ $others['contribuable'] }}</li>
-                <li><strong>Montant:</strong> {{ $others['mount'] }}</li>
+                <li><strong>Montant TTC:</strong> {{ $others['mount'] }}</li>
                 <li><strong>Compte:</strong> {{ $others['comptealt'] }}</li>
             </ul>
         </div>

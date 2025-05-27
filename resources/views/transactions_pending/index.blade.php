@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (!hasActive && tabButtons.length > 0) {
         const firstVisibleTab = tabButtons[0];
-        const targetSelector = firstVisibleTab.getAttribute('data-bs-target'); // ex: "#home"
+        const targetSelector = firstVisibleTab.getAttribute('data-bs-target');
         const targetElement = document.querySelector(targetSelector);
 
         if (targetElement) {
@@ -1050,6 +1050,7 @@ $("#searchForm").on("click", async function() {
             error: function(xhr) {
                 let message = xhr.responseJSON?.error ||
                     "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+                alert(message);
                 $("#error-messages").html(message);
                 $("#error-alert").removeClass("d-none");
                 hideLoadingOverlay();
@@ -1153,8 +1154,10 @@ function validationPendingOTR() {
             filter();
         },
         error: function(xhr) {
+            
             let errorMessage = xhr.responseJSON.error ||
                 "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+
             $("#error-alert").removeClass("d-none").css("z-index", "2000").html("<p>" + errorMessage +
                 "</p>");
             setTimeout(function() {

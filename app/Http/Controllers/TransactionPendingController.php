@@ -397,6 +397,7 @@ class TransactionPendingController extends Controller {
            } else {
                $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
            }
+           #return response()->json(['error' =>   $message], 500);
            return redirect()->back()->withErrors($message);
        }
   

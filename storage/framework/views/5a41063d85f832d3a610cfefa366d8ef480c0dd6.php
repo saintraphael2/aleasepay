@@ -45,7 +45,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="amount" class="form-label">Montant</label>
+                <label for="amount" class="form-label">Montant TTC</label>
                 <input type="text" id="amount" name="amount" class="form-control"
                     value="<?php echo e(number_format($cotisation['amount'], 0, ',', ' ')); ?> FCFA" readonly>
             </div>
@@ -59,7 +59,7 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
-             <!--div class="mb-3">
+             <!--div class="mb-3">  
                 <label for="amount" class="form-label">Libellé du compte</label>
                  <input type="text" id="libelleCompte" class="form-control" readonly>
             </div-->

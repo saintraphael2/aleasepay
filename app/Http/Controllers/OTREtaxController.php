@@ -40,12 +40,14 @@ class OTREtaxController extends Controller
     try {
         $token = $this->getToken();
      } catch (\Exception $e) {
+        $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
          if ($e->getCode() === 0 || explode(':',$e->getMessage())[0] === 'cURL error 7') {
              $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
          } else {
              $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
          }
-         return redirect()->back()->withErrors($message);
+        Flash::error($message);
+        return redirect()->back()->withErrors($message);
      }
 
      if($token!=null){
@@ -74,42 +76,65 @@ class OTREtaxController extends Controller
       if (PendingTransaction::where('reference',  $reference_taxe)
       ->where('etat', 'en_attente') ->exists()) {
         Flash::error('Ce paiement est déjà en cours de traitement, en attente de validation.');
-         return view('otr.etax');
+        return view('otr.etax');
         //return redirect()->back()->withErrors( 'Ce paiement est déjà en cours de traitement, en attente de validation.' );
       }
 
       $baseUrl=env('API_TAX_BASE_URL', 'base_url');
       $etaxgetEndPoint=env('OTR_API_GET_TAX', 'api_get_etax');
-
-      $urlCotisations = $baseUrl . $etaxgetEndPoint."{$reference_taxe}";
+//
+      $urlCotisations = $baseUrl . $etaxgetEndPoint ."{$reference_taxe}";
 
       try {
         $token = $this->getToken();
-     } catch (\Exception $e) {
+        } catch (\Exception $e) {
+        $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
          if ($e->getCode() === 0 || explode(':',$e->getMessage())[0] === 'cURL error 7') {
              $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
          } else {
              $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
          }
-         return redirect()->back()->withErrors($message);
+        Flash::error($message);
+        return redirect()->back()->withErrors($message);
      }
 
       // Consommation du Web Service pour les cotisations
       if($token!=null){
-        $responseCotisations = Http::withHeaders([
-            'Authorization' => "Bearer {$token}",
-         ])->get($urlCotisations);
+        try {
+                $responseCotisations = Http::withHeaders([
+                 'Authorization' => "Bearer {$token}",
+                 ])->get($urlCotisations);
+             } catch (\Exception $e) {
+               ## dd($e);
+         if ($e->getCode() === 0 || explode(':',$e->getMessage())[0] === 'cURL error 7') {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         } else {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         }
+        Flash::error($message);
+     return redirect()->back()->withErrors($message);
+     }
       }else{
         return redirect()->back()->withErrors('Erreur Interne.');
       }
-
       // Vérification de la réponse
       if ($responseCotisations->successful()) {
          $data = $responseCotisations->json();
         #dd($data);
         if (isset($data)) {
-            $etax = $data; // Récupération de la taxe {referenceDeclaration: 234616000, referenceTransaction: 'TG2153307TG251059142', montant: 4000, contribuable: 'AMIASE', nif: '1001204867', …}
-            $etax['montantTTC'] = $this->getMontantTTC("OOT", $etax['montant']);
+            $etax = $data; 
+        try{
+           $etax['montantTTC'] = $this->getMontantTTC("OOT", $etax['montant']);
+        } catch (\Exception $e) {
+               ## dd($e);
+         if ($e->getCode() === 0 || explode(':',$e->getMessage())[0] === 'cURL error 7') {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         } else {
+             $message = "Serveur temporairement indisponible. Veuillez réessayer plus tard.";
+         }
+            Flash::error($message);
+            return redirect()->back()->withErrors($message);
+        }
         } else {
             $etax = [];
         }
@@ -176,7 +201,7 @@ class OTREtaxController extends Controller
 
         if (Auth::user() != null) {
             $mail = Auth::user()->email;
-            }
+        }
         // Construire l'objet $data
         $data = [
             'referenceDeclaration' => $validated['referenceDeclaration'],

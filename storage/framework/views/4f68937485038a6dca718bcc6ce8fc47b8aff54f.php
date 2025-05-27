@@ -86,7 +86,7 @@
                 <li><strong>Référence Déclaration:</strong> <?php echo e($others['refDecla']); ?></li>
                 <li><strong>Contribuable:</strong> <?php echo e($others['contribuable']); ?></li>
                 <li><strong>Nif:</strong> <?php echo e($others['nif']); ?></li>
-                <li><strong>Montant:</strong> <?php echo e($others['mount']); ?></li>
+                <li><strong>Montant TTC:</strong> <?php echo e($others['mountTTC']); ?></li>
                 <li><strong>Compte:</strong> <?php echo e($others['comptealt']); ?></li>
             </ul>
         </div>

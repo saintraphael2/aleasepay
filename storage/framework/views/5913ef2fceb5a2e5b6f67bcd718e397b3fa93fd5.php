@@ -6,7 +6,7 @@
                     <th>Désignation</th>
                     <th>Demandeur</th>
                     <th>Date</th>
-                    <th>Montant</th>
+                    <th>Montant TTC</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -17,7 +17,7 @@
                         <td><?php echo e($transaction['contribuable']); ?></td>
                         <td><?php echo e($transaction['nif']); ?></td>
                         <td><?php echo e($transaction['transBankDate']); ?>  </td>
-                        <td><?php echo e(number_format($transaction['mount'], 0, ',', ' ')); ?> FCFA</td>
+                        <td><?php echo e(number_format($transaction['mountTTC'], 0, ',', ' ')); ?> FCFA</td>
                         <td> 
                             <a class="btn btn-primary"
                              href="<?php echo e(route('transaction.quittance', ['transaction' => $transaction['referenceTransaction']])); ?>" target="_blank">

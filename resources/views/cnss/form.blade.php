@@ -44,7 +44,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="amount" class="form-label">Montant</label>
+                <label for="amount" class="form-label">Montant TTC</label>
                 <input type="text" id="amount" name="amount" class="form-control"
                     value="{{ number_format($cotisation['amount'], 0, ',', ' ') }} FCFA" readonly>
             </div>

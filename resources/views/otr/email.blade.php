@@ -86,7 +86,7 @@
                 <li><strong>Référence Déclaration:</strong> {{ $others['refDecla'] }}</li>
                 <li><strong>Contribuable:</strong> {{ $others['contribuable'] }}</li>
                 <li><strong>Nif:</strong> {{ $others['nif'] }}</li>
-                <li><strong>Montant:</strong> {{ $others['mount'] }}</li>
+                <li><strong>Montant TTC:</strong> {{ $others['mountTTC'] }}</li>
                 <li><strong>Compte:</strong> {{ $others['comptealt'] }}</li>
             </ul>
         </div>
