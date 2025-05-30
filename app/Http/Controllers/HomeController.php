@@ -13,6 +13,8 @@ use App\Repositories\UserRepository;
 use App\Models\Connexion;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Carbon;
 class HomeController extends Controller
 {
 
@@ -42,7 +44,19 @@ class HomeController extends Controller
             $racine=Auth::user()->racine;
             $cptClient=CptClient::where('racine',$racine)->first();
             $comptes=Compte::where('racine',$cptClient->racine)->orderBy('compte')->get();
-            return view('home')->with('cptClients',$comptes);
+            foreach($comptes as $compte){
+                //dd($compte);
+                $solde= Http::post('http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
+                'dateSolde' => Carbon::now()->format('d/m/Y'),
+                'compte' => $compte->compte,
+                ]);
+
+               $compte->solde=json_decode($solde->getBody(), true)['solde'];
+               //dd(json_decode($solde->getBody(), true)['solde']);
+            }
+
+            
+            return view('home')->with(['cptClients'=>$comptes, 'solde'=>$solde]);
         }else{
             Auth::logout();
             return redirect('/login');

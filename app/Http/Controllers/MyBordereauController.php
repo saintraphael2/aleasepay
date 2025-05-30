@@ -295,7 +295,7 @@ class MyBordereauController extends AppBaseController
             } else {
                 $message = 'Serveur temporairement indisponible. Veuillez réessayer plus tard.';
             }
-            return response()->json(['error' => $message]);
+            return response()->json( [ 'error' => $message ], 400 );
         }
 
         if ( $token != null ) {
@@ -316,7 +316,7 @@ class MyBordereauController extends AppBaseController
                         $msg = html_entity_decode($responseBody['message'] ?? 'Une erreur est survenue.');
                         return response()->json(['error' => $msg],500);
                     }
-                
+                    Log::info("Code responseBody : " . empty($responseBody['body']));
                     // Suite du traitement si tout va bien
                     if (!empty($responseBody['body']) && !empty($responseBody['body']['id'])) {
                     
