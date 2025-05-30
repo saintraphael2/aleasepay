@@ -102,8 +102,7 @@
                         <!--p class="login-box-msg">{{ __('auth.login.title') }}</p-->
 							<div><a href="#"><b> <img src="../images/logoalt_new.PNG" style="width:50%"></b></a></div>
                         <div class="iconlogin">
-                            <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur AleasePay
-                            Votre application est en maintenance
+                            <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur AleasePay. Chargement en cours, merci de votre patience...
                             </h4>
                         </div>
                         </form>
@@ -136,8 +135,6 @@
         document.querySelector('#loading-content').classList.remove('loading-content');
     }
 
-    document.getElementById("loginform").addEventListener("submit", function(event) {
         showLoading(); // Affiche le spinner au moment de la soumission du formulaire
-    });
     </script>
 </html>

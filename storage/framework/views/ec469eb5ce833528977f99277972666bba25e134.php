@@ -6,7 +6,6 @@
   <title>Bienvenue sur AleasePay</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
     integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
     crossorigin="anonymous" />
@@ -103,11 +102,8 @@
                         <!--p class="login-box-msg"><?php echo e(__('auth.login.title')); ?></p-->
 							<div><a href="#"><b> <img src="../images/logoalt_new.PNG" style="width:50%"></b></a></div>
                         <div class="iconlogin">
-                            <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur AleasePay
-
-                            Votre application est en maintenance
+                            <h4 class="login-box-msg" style="color:black !important;">Bienvenue sur AleasePay. Chargement en cours, merci de votre patience...
                             </h4>
-                            <i class="fas fa-user"></i>
                         </div>
                         </form>
                     </div>
@@ -139,9 +135,7 @@
         document.querySelector('#loading-content').classList.remove('loading-content');
     }
 
-    document.getElementById("loginform").addEventListener("submit", function(event) {
         showLoading(); // Affiche le spinner au moment de la soumission du formulaire
-    });
     </script>
 </html>
 <?php /**PATH C:\Projets\aleasepay\resources\views/maintenance.blade.php ENDPATH**/ ?>
