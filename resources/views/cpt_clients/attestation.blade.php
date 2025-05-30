@@ -6,9 +6,7 @@
         
     <table style='font-family:Verdana;width:700px; text-align:center; border: 1px solid' cellspacing=0 cellpadding=0>
     <tr >
-            
-           
-            <td  ><img style="margin:5px;" src="./images/logoalt.png" width='250' height='100'></td>
+            <td  ><img style="margin:5px;width:300px" src="./images/logoalt.png"></td>
             <td colspan='3' style=" text-align:center;font-weight:bold; padding-left:10px; height:100px">ATTESTATION D'IDENTITE BANCAIRE</td>
         </tr>
         <tr style='border: 1px solid black'>
