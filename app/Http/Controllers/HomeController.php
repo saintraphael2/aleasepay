@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Carbon;
+use Dotenv\Dotenv;
 
 class HomeController extends Controller
  {
@@ -40,7 +41,11 @@ class HomeController extends Controller
 
     public function index()
  {
+        $dotenv = Dotenv::createImmutable( base_path() );
+        $dotenv->load();
         $connexion = Connexion::where( [ 'identifier'=>Auth::user()->email ] )->first();
+
+        $soldeUrl= env('ALEASEPAY_SOLDE_URL', 'aleasepay_solde');
 
         if ( $connexion != null && $connexion->validity == 1 ) {
             $mail = Auth::user()->email;
@@ -50,7 +55,7 @@ class HomeController extends Controller
             try {
                 foreach ( $comptes as $compte ) {
                     //dd( $compte );
-                    $solde = Http::post( 'http://testwin.aleaseapi.com/api/myalt_v1/soldeDate', [
+                    $solde = Http::post($soldeUrl, [
                         'dateSolde' => Carbon::now()->format( 'd/m/Y' ),
                         'compte' => $compte->compte,
                     ] );
