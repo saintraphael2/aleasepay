@@ -27,6 +27,8 @@ Route::get('/rib', [App\Http\Controllers\CptClientController::class, 'rib'])->na
 Route::resource('cptClients', App\Http\Controllers\CptClientController::class);
 Route::get('attestation/{id}',['as'=>'attestation','uses' => 'App\Http\Controllers\CptClientController@attestation'] );
 Route::resource('mouvements', App\Http\Controllers\MouvementController::class);
+Route::resource('avisTransfert', App\Http\Controllers\AvisTransfertController::class);
+Route::get('editAvis/{releve}/{sens}',['as'=>'editAvis','uses' => 'App\Http\Controllers\AvisTransfertController@editAvis'] );
 Route::get('checkemail',['as'=>'checkemail','uses' => 'App\Http\Controllers\CptClientController@checkemail'] );
 Route::get('checkcode',['as'=>'checkcode','uses' => 'App\Http\Controllers\CptClientController@checkcode'] );
 Route::get('releve/{compte}/{deb}/{fin}',['as'=>'releve','uses' => 'App\Http\Controllers\MouvementController@releve'] );

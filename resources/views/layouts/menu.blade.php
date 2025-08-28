@@ -20,7 +20,12 @@
         <p>Mouvements</p>
     </a>
 </li>
-
+<li class="nav-item">
+    <a href="{{ route('avisTransfert.index') }}" class="nav-link {{ Request::is('avisTransfert*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa fa-exchange-alt"></i>
+        <p>Avis de Transferts</p>
+    </a>
+</li>
 <li class="nav-item">
     <a href="{{ route('commandeBordereau.index') }}" class="nav-link {{ Request::is('bordereau*') ? 'active' : '' }}">
     <i class="nav-icon fas fa-solid fa-money-check"></i>

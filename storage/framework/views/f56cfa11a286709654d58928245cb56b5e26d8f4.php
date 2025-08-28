@@ -191,7 +191,7 @@ unset($__errorArgs, $__bag); ?>
                                     </a>
                                 </div>
                                 <div class="col-5">
-                                    <a href="<?php echo e(route('register')); ?>" style="text-decoration: none;" 
+                                    <a style="text-decoration: none;" 
                                     class="text-center disabled-link">
                                         <div class="col-12 iconlogin">
                                             <i class="fas fa fa-plus-circle"></i>
