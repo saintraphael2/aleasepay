@@ -21,13 +21,8 @@
         <div class="row input-daterange">
 
             <div class="form-group col-sm-3">
-                <?php echo Form::label('compte', 'Type Avis :'); ?>
-
-                 
-                <select name="avis" id="avis" class="form-control">
-                    <option value="D">Débit</option>
-                    <option value="C">Crédit</option>
-                </select>
+                <input type="hidden" name="avis" id="avis" value="D">
+                
                 <span class="text-danger font-size-xsmall error_date_debut"></span>
             </div>
             <!-- Date Signature Field -->
@@ -119,7 +114,7 @@ $('#date_fin').datepicker({
 $('#filter').click(function() {
     let fromDate = $('#date_debut').val()
     let toDate = $('#date_fin').val()
-    let redirect_url = "avisTransfert?sens=" + $('#avis option:selected').val()
+    let redirect_url = "avisTransfert?sens=" + $('#avis').val()
 
     if (fromDate != '' && toDate != '') {
 

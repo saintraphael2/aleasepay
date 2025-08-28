@@ -23,7 +23,7 @@
 <li class="nav-item">
     <a href="<?php echo e(route('avisTransfert.index')); ?>" class="nav-link <?php echo e(Request::is('avisTransfert*') ? 'active' : ''); ?>">
         <i class="nav-icon fas fa fa-exchange-alt"></i>
-        <p>Avis de Transferts</p>
+        <p>Avis de Débit</p>
     </a>
 </li>
 <li class="nav-item">
