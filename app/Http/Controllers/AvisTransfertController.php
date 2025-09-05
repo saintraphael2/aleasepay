@@ -96,7 +96,7 @@ class AvisTransfertController extends AppBaseController
        
        
         $avis= Http::post($avisUrl, [   
-           // $mouvements= Http::post('http://localhost:8082/api/myalt_v1/mouvements', [
+          
             'reference' => $reference,
             'sens' => $sens
             
@@ -131,7 +131,7 @@ class AvisTransfertController extends AppBaseController
     $fpdf->Cell(70, 5, ': '. $avis[0]['compte'],0,0,'L',false);
     $fpdf->SetXY(10,95);
     $fpdf->Cell(50, 5, utf8_decode('Devise'),0,0,'L',false);
-    $fpdf->Cell(70, 5, ': FRANC CFA BCEAO',0,0,'L',false);
+    $fpdf->Cell(70, 5, ': '.$avis[0]['devise'],0,0,'L',false);
     $fpdf->SetXY(10,100);
     $fpdf->Cell(50, 5, utf8_decode('Service'),0,0,'L',false);
     $fpdf->Cell(70, 5, ': OPERATIONS',0,0,'L',false);
