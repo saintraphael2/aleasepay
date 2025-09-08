@@ -153,7 +153,7 @@ class AvisTransfertController extends AppBaseController
         $motif=str_replace('reglement fa','Règlement Facture',$avis[0]['ecrcptLibcomp']);
     }
     if(preg_match('/\breglement facture\b/', $motif)){
-        $motif=str_replace('reglement fa','Règlement Facture',$avis[0]['ecrcptLibcomp']);
+        $motif=str_replace('reglement facture','Règlement Facture',$avis[0]['ecrcptLibcomp']);
     }
     $fpdf->Rect(10,150,45,50);$fpdf->SetXY(12,157);$fpdf->MultiCell(40, 10, utf8_decode($motif), 0, 'L');// $fpdf->Cell(45, 10, utf8_decode('FRAIS SUR TRANSFERT'),0,1,'C',false);
     $fpdf->Rect(55,150,95,50);
