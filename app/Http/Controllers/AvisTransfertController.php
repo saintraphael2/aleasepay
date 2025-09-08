@@ -137,7 +137,8 @@ class AvisTransfertController extends AppBaseController
     $fpdf->Cell(70, 5, ': OPERATIONS',0,0,'L',false);
     $fpdf->SetXY(10,105);
     $fpdf->Cell(50, 5, utf8_decode('Type Opération'),0,0,'L',false);
-    $fpdf->Cell(70, 5, ': TRANSFERT',0,0,'L',false);
+    $type_operation=(stripos($avis[0]['ecrcptLibcomp'], "VIREMENT") !== false)?"VIREMENT":"TRANSFERT";
+    $fpdf->Cell(70, 5, ': '.$type_operation,0,0,'L',false);
     $fpdf->SetFont('Courier', 'B', 12);
     $fpdf->SetXY(10,120);
     $fpdf->Cell(200, 5, utf8_decode('NOUS VOUS INFORMONS AVOIR DEBITE VOTRE COMPTE DE'),0,0,'C',false);
@@ -147,12 +148,19 @@ class AvisTransfertController extends AppBaseController
     $fpdf->Rect(10,140,45,10);$fpdf->SetXY(10,143); $fpdf->Cell(45, 5, utf8_decode('MOTIF'),0,0,'C',false);
     $fpdf->Rect(55,140,95,10);$fpdf->SetXY(55,143); $fpdf->Cell(95, 5, utf8_decode('FRAIS'),0,0,'C',false);
     $fpdf->Rect(150,140,45,10);$fpdf->SetXY(150,143); $fpdf->Cell(45, 5, utf8_decode('MONTANT'),0,0,'C',false);
-    $fpdf->Rect(10,150,45,50);$fpdf->SetXY(12,157);$fpdf->MultiCell(40, 10, $avis[0]['ecrcptLibcomp'], 0, 'L');// $fpdf->Cell(45, 10, utf8_decode('FRAIS SUR TRANSFERT'),0,1,'C',false);
+    $fpdf->Rect(10,150,45,50);$fpdf->SetXY(12,157);$fpdf->MultiCell(40, 10, utf8_decode(str_replace('reglement fa','Règlement Facture',$avis[0]['ecrcptLibcomp'])), 0, 'L');// $fpdf->Cell(45, 10, utf8_decode('FRAIS SUR TRANSFERT'),0,1,'C',false);
     $fpdf->Rect(55,150,95,50);
     $y=157;
     foreach($avis[0]['ligneTransferts'] as $detail){ 
         $fpdf->SetXY(57,$y);
-        $fpdf->Cell(20, 5, substr(trim(utf8_decode($detail['libelle'])),0,36),0,0,'L',false);
+        $libelle=substr(trim(utf8_decode(ucfirst(strtolower($detail['libelle'])))),0,36);
+        if(trim($detail['compte'])=="000073010246"){
+            $libelle="Montant Virement";
+        }
+        if(trim($detail['compte'])=="9970290080" || trim($detail['compte'])=="9970290070"){
+            $libelle="Frais";
+        }
+        $fpdf->Cell(20, 5, $libelle,0,0,'L',false);
         $y+=5;
     }
     
@@ -169,7 +177,7 @@ class AvisTransfertController extends AppBaseController
     $fpdf->Rect(150,200,45,20);$fpdf->SetXY(55,205); $fpdf->Cell(95, 5, utf8_decode('Total à votre débit XOF'),0,0,'C',false);
     $fpdf->Rect(55,220,95,20);$fpdf->SetXY(55,225); $fpdf->Cell(95, 5, utf8_decode('Date Valeur'),0,0,'C',false);
     $fpdf->Rect(150,220,45,20);
-    $fpdf->SetXY(152,225); $fpdf->Cell(40, 5,  $avis[0]['datVal'],0,0,'C',false);
+    $fpdf->SetXY(152,225); $fpdf->Cell(40, 5,  $avis[0]['lotDate'],0,0,'C',false);
     $fpdf->Output();//'D'
     exit;
     }
