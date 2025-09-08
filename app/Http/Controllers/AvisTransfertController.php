@@ -148,7 +148,11 @@ class AvisTransfertController extends AppBaseController
     $fpdf->Rect(10,140,45,10);$fpdf->SetXY(10,143); $fpdf->Cell(45, 5, utf8_decode('MOTIF'),0,0,'C',false);
     $fpdf->Rect(55,140,95,10);$fpdf->SetXY(55,143); $fpdf->Cell(95, 5, utf8_decode('FRAIS'),0,0,'C',false);
     $fpdf->Rect(150,140,45,10);$fpdf->SetXY(150,143); $fpdf->Cell(45, 5, utf8_decode('MONTANT'),0,0,'C',false);
-    $fpdf->Rect(10,150,45,50);$fpdf->SetXY(12,157);$fpdf->MultiCell(40, 10, utf8_decode(str_replace('reglement fa','Règlement Facture',$avis[0]['ecrcptLibcomp'])), 0, 'L');// $fpdf->Cell(45, 10, utf8_decode('FRAIS SUR TRANSFERT'),0,1,'C',false);
+    $motif=$avis[0]['ecrcptLibcomp'];
+    if(preg_match('/\breglement fa\b/', $motif)){
+        $motif=str_replace('reglement fa','Règlement Facture',$avis[0]['ecrcptLibcomp']);
+    }
+    $fpdf->Rect(10,150,45,50);$fpdf->SetXY(12,157);$fpdf->MultiCell(40, 10, utf8_decode($motif), 0, 'L');// $fpdf->Cell(45, 10, utf8_decode('FRAIS SUR TRANSFERT'),0,1,'C',false);
     $fpdf->Rect(55,150,95,50);
     $y=157;
     foreach($avis[0]['ligneTransferts'] as $detail){ 
