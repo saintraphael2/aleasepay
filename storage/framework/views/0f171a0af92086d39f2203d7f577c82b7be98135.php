@@ -87,9 +87,9 @@
                 </div>
             </div>
         </div>
-		   <div style="float:down">
-<img src="./images/footer.png" alt="" style="width:100%">
-        </div>
+		   <div style="float:down">    
+                <img src="./images/footer.png" alt="" style="width:100%">
+            </div>
     </div>
 </div>
 

@@ -197,12 +197,12 @@ class MouvementController extends AppBaseController
         
         $fpdf->Cell(25, 5, ( $solde<=0)? number_format($solde, 0,"", " "):'',0,0,'C',false);
         $fpdf->Cell(25, 5, ( $solde>0)? number_format($solde, 0,"", " "):'',0,1,'C',false);
-        $fpdf->Cell(40, 5, utf8_decode('Solde PrÃ©cÃ©dent'),0,0,'C',false);
-        $fpdf->Cell(50, 5, utf8_decode('Total DÃ©bit'),0,0,'C',false);
-        $fpdf->Cell(35, 5, utf8_decode('Total CrÃ©dit'),0,0,'C',false);
-        $fpdf->Cell(35, 5, utf8_decode('Solde DÃ©bit'),0,0,'C',false);
+        $fpdf->Cell(40, 5, utf8_decode('Solde Précédent'),0,0,'C',false);
+        $fpdf->Cell(50, 5, utf8_decode('Total Débit'),0,0,'C',false);
+        $fpdf->Cell(35, 5, utf8_decode('Total Crédit'),0,0,'C',false);
+        $fpdf->Cell(35, 5, utf8_decode('Solde Débit'),0,0,'C',false);
         
-        $fpdf->Cell(25, 5, utf8_decode('Solde CrÃ©dit'),0,0,'C',false);
+        $fpdf->Cell(25, 5, utf8_decode('Solde Crédit'),0,0,'C',false);
         
    
     
